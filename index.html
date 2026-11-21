@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Dashboard Progres & Persentase Entri SPDT NTP - Jawa Tengah [33]</title>
+    <title>Dashboard Progres & Histori Entri SPDT NTP - Jawa Tengah [33]</title>
     
     <!-- Google Fonts: Inter -->
     <link rel="preconnect" href="https://fonts.googleapis.com">
@@ -16,9 +16,7 @@
         tailwind.config = {
             theme: {
                 extend: {
-                    fontFamily: {
-                        sans: ['Inter', 'sans-serif'],
-                    }
+                    fontFamily: { sans: ['Inter', 'sans-serif'] }
                 }
             }
         }
@@ -42,90 +40,45 @@
     <script src="https://unpkg.com/lucide@latest"></script>
 
     <style>
-        body {
-            background-color: #f8fafc;
-            color: #0f172a;
-        }
+        body { background-color: #f8fafc; color: #0f172a; }
         .dataTables_wrapper .dataTables_filter input {
-            border: 1px solid #cbd5e1;
-            border-radius: 0.5rem;
-            padding: 0.4rem 0.75rem;
-            font-size: 0.875rem;
-            outline: none;
-            transition: all 0.2s;
-            margin-left: 0.5rem;
-            background-color: #ffffff;
+            border: 1px solid #cbd5e1; border-radius: 0.5rem; padding: 0.4rem 0.75rem;
+            font-size: 0.875rem; outline: none; transition: all 0.2s; margin-left: 0.5rem; background-color: #ffffff;
         }
         .dataTables_wrapper .dataTables_filter input:focus {
-            border-color: #2563eb;
-            box-shadow: 0 0 0 3px rgba(37, 99, 235, 0.15);
+            border-color: #2563eb; box-shadow: 0 0 0 3px rgba(37, 99, 235, 0.15);
         }
         .dataTables_wrapper .dataTables_length select {
-            border: 1px solid #cbd5e1;
-            border-radius: 0.5rem;
-            padding: 0.35rem 1.75rem 0.35rem 0.65rem;
-            font-size: 0.875rem;
-            background-color: #ffffff;
-            outline: none;
+            border: 1px solid #cbd5e1; border-radius: 0.5rem; padding: 0.35rem 1.75rem 0.35rem 0.65rem;
+            font-size: 0.875rem; background-color: #ffffff; outline: none;
         }
         .dataTables_wrapper .dataTables_info,
-        .dataTables_wrapper .dataTables_paginate {
-            font-size: 0.875rem;
-            color: #475569;
-            margin-top: 1rem;
-        }
+        .dataTables_wrapper .dataTables_paginate { font-size: 0.875rem; color: #475569; margin-top: 1rem; }
         .dataTables_wrapper .dataTables_paginate .paginate_button {
-            border-radius: 0.375rem !important;
-            padding: 0.3rem 0.7rem !important;
-            border: 1px solid transparent !important;
+            border-radius: 0.375rem !important; padding: 0.3rem 0.7rem !important; border: 1px solid transparent !important;
         }
         .dataTables_wrapper .dataTables_paginate .paginate_button.current {
-            background: #2563eb !important;
-            color: #ffffff !important;
-            border-color: #2563eb !important;
+            background: #2563eb !important; color: #ffffff !important; border-color: #2563eb !important;
         }
         .dataTables_wrapper .dataTables_paginate .paginate_button:hover:not(.current) {
-            background: #e2e8f0 !important;
-            color: #0f172a !important;
+            background: #e2e8f0 !important; color: #0f172a !important;
         }
         table.dataTable thead th {
-            border-bottom: 1px solid #e2e8f0 !important;
-            background-color: #f1f5f9;
-            color: #334155;
-            font-weight: 600;
-            font-size: 0.75rem;
-            text-transform: uppercase;
-            letter-spacing: 0.04em;
-            padding: 0.85rem 0.85rem !important;
-            white-space: nowrap;
+            border-bottom: 1px solid #e2e8f0 !important; background-color: #f1f5f9; color: #334155;
+            font-weight: 600; font-size: 0.75rem; text-transform: uppercase; letter-spacing: 0.04em;
+            padding: 0.85rem 0.85rem !important; white-space: nowrap;
         }
         table.dataTable tbody td {
-            border-bottom: 1px solid #f1f5f9 !important;
-            padding: 0.8rem 0.85rem !important;
-            font-size: 0.875rem;
+            border-bottom: 1px solid #f1f5f9 !important; padding: 0.8rem 0.85rem !important; font-size: 0.875rem;
         }
-        table.dataTable tbody tr.kab-row {
-            cursor: pointer;
-            transition: background-color 0.15s ease;
-        }
-        table.dataTable tbody tr.kab-row:hover {
-            background-color: #eff6ff !important;
-        }
+        table.dataTable tbody tr.kab-row { cursor: pointer; transition: background-color 0.15s ease; }
+        table.dataTable tbody tr.kab-row:hover { background-color: #eff6ff !important; }
         .dt-buttons .dt-button {
-            background: #ffffff !important;
-            border: 1px solid #cbd5e1 !important;
-            color: #334155 !important;
-            border-radius: 0.5rem !important;
-            padding: 0.4rem 0.85rem !important;
-            font-size: 0.8125rem !important;
-            font-weight: 500 !important;
-            transition: all 0.15s;
-            margin-bottom: 0.5rem;
+            background: #ffffff !important; border: 1px solid #cbd5e1 !important; color: #334155 !important;
+            border-radius: 0.5rem !important; padding: 0.4rem 0.85rem !important; font-size: 0.8125rem !important;
+            font-weight: 500 !important; transition: all 0.15s; margin-bottom: 0.5rem;
         }
-        .dt-buttons .dt-button:hover {
-            background: #f1f5f9 !important;
-            border-color: #94a3b8 !important;
-        }
+        .dt-buttons .dt-button:hover { background: #f1f5f9 !important; border-color: #94a3b8 !important; }
         .modal-backdrop { transition: opacity 0.2s ease; }
         .modal-panel { transition: transform 0.25s cubic-bezier(0.16, 1, 0.3, 1), opacity 0.2s ease; }
     </style>
@@ -140,9 +93,9 @@
         </div>
     </div>
 
-    <!-- Navbar / Header (Murni Visualisasi) -->
+    <!-- Navbar / Header dengan Pemilih Histori -->
     <header class="bg-white border-b border-slate-200 sticky top-0 z-30">
-        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-4 flex flex-col sm:flex-row sm:items-center sm:justify-between gap-3">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-4 flex flex-col lg:flex-row lg:items-center lg:justify-between gap-4">
             <div class="flex items-center gap-3">
                 <div class="bg-blue-600 text-white p-2.5 rounded-xl shadow-sm">
                     <i data-lucide="bar-chart-3" class="w-6 h-6"></i>
@@ -152,32 +105,44 @@
                         <h1 class="text-lg sm:text-xl font-bold text-slate-900 tracking-tight" id="app-title">Monitoring Progres Entri SPDT NTP</h1>
                         <span class="inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-semibold bg-blue-50 text-blue-700 border border-blue-200" id="badge-provinsi">[33] JAWA TENGAH</span>
                     </div>
-                    <p class="text-xs sm:text-sm text-slate-500 mt-0.5" id="subtitle-info">Memuat data visualisasi...</p>
+                    <div class="flex flex-wrap items-center gap-2 mt-1">
+                        <span id="status-periode-badge" class="inline-flex items-center gap-1 px-2 py-0.5 rounded-md text-[11px] font-semibold bg-emerald-50 text-emerald-700 border border-emerald-200">
+                            <span class="w-1.5 h-1.5 rounded-full bg-emerald-500"></span>
+                            Kondisi Terbaru
+                        </span>
+                        <p class="text-xs sm:text-sm text-slate-500" id="subtitle-info">Memuat daftar histori progres...</p>
+                    </div>
                 </div>
             </div>
 
-            <div class="flex items-center gap-2 text-xs text-slate-500 bg-slate-50 px-3 py-1.5 rounded-lg border border-slate-200 self-start sm:self-auto">
-                <span class="w-2 h-2 rounded-full bg-emerald-500"></span>
-                <span>Klik baris Kabupaten untuk rincian petugas</span>
+            <!-- Dropdown Histori Progres -->
+            <div class="flex flex-col sm:flex-row sm:items-center gap-2 bg-slate-50 p-2.5 rounded-xl border border-slate-200">
+                <div class="flex items-center gap-1.5 text-xs font-semibold text-slate-600 px-1">
+                    <i data-lucide="history" class="w-4 h-4 text-blue-600"></i>
+                    <span>Histori Progres:</span>
+                </div>
+                <select id="history-select" class="text-xs sm:text-sm border border-slate-300 rounded-lg px-3 py-1.5 bg-white text-slate-800 font-semibold focus:outline-none focus:border-blue-500 min-w-[250px]">
+                    <option value="">Memuat daftar periode...</option>
+                </select>
             </div>
         </div>
     </header>
 
-    <!-- Alert Banner jika dibuka lewat file:// lokal tanpa web server -->
+    <!-- Banner Peringatan jika dibuka via file:// tanpa web server -->
     <div id="local-file-alert" class="hidden max-w-7xl w-full mx-auto px-4 sm:px-6 lg:px-8 pt-5">
         <div class="bg-amber-50 border border-amber-300 rounded-xl p-4 flex flex-col sm:flex-row sm:items-center justify-between gap-4">
             <div class="flex items-start gap-3">
                 <i data-lucide="alert-triangle" class="w-5 h-5 text-amber-600 shrink-0 mt-0.5"></i>
                 <div class="text-xs sm:text-sm text-amber-900">
-                    <p class="font-semibold">File JSON belum termuat otomatis (Mode File Lokal)</p>
-                    <p class="mt-0.5 text-amber-800">Saat diakses melalui web server (<code class="font-mono">http/https</code>), file <code class="font-mono">data-progres.json</code> akan dimuat otomatis. Untuk pratinjau lokal, pilih file <code class="font-mono">data-progres.json</code> secara manual.</p>
+                    <p class="font-semibold">Mode File Lokal Terdeteksi (Bukan Web Server)</p>
+                    <p class="mt-0.5 text-amber-800">Saat diakses melalui web server (<code class="font-mono">http/https</code>), file <code class="font-mono">manifest.json</code> dan file histori terbaru akan dimuat otomatis. Untuk pengujian lokal, pilih beberapa file JSON histori sekaligus di tombol samping.</p>
                 </div>
             </div>
             <label for="json-manual-upload" class="cursor-pointer shrink-0 inline-flex items-center gap-2 px-4 py-2 rounded-lg text-xs font-semibold bg-amber-600 text-white hover:bg-amber-700 transition">
                 <i data-lucide="folder-open" class="w-4 h-4"></i>
-                <span>Pilih data-progres.json</span>
+                <span>Pilih File JSON Histori</span>
             </label>
-            <input type="file" id="json-manual-upload" accept=".json" class="hidden" />
+            <input type="file" id="json-manual-upload" accept=".json" multiple class="hidden" />
         </div>
     </div>
 
@@ -252,7 +217,7 @@
             <div class="bg-white rounded-xl border border-slate-200 p-5 shadow-2xs flex flex-col justify-between">
                 <div class="flex items-start justify-between">
                     <div>
-                        <p class="text-xs font-semibold uppercase tracking-wider text-slate-500">Kabupaten Tuntas (≥100%)</p>
+                        <p class="text-xs font-semibold uppercase tracking-wider text-slate-500">Kab/Kota Tuntas (≥100%)</p>
                         <div class="flex items-baseline gap-2 mt-1">
                             <p class="text-2xl sm:text-3xl font-bold text-slate-900"><span id="kpi-kab-tuntas">0</span> <span class="text-base font-medium text-slate-500">/ <span id="kpi-kabupaten">0</span></span></p>
                         </div>
@@ -274,7 +239,7 @@
             <div class="lg:col-span-2 bg-white rounded-xl border border-slate-200 p-5 shadow-2xs flex flex-col">
                 <div class="flex flex-col sm:flex-row sm:items-center justify-between gap-3 mb-4">
                     <div>
-                        <h2 class="text-base font-bold text-slate-900">Capaian per Kabupaten</h2>
+                        <h2 class="text-base font-bold text-slate-900">Capaian per Kabupaten/Kota</h2>
                         <p class="text-xs text-slate-500">Klik batang grafik untuk membuka daftar petugas</p>
                     </div>
                     <div class="flex flex-wrap items-center gap-2">
@@ -288,8 +253,7 @@
                             <option value="total_desc">Urut: Dokumen Terbanyak</option>
                             <option value="kode_asc">Urut: Kode Wilayah (01–29)</option>
                         </select>
-                        <!-- Tombol Copy Image -->
-                        <button type="button" onclick="copyChartImage('kabupatenChart', 'Capaian_Per_Kabupaten_Jateng')" class="inline-flex items-center gap-1.5 px-2.5 py-1.5 rounded-lg text-xs font-medium bg-slate-100 hover:bg-blue-50 text-slate-700 hover:text-blue-700 border border-slate-200 hover:border-blue-200 transition" title="Salin gambar grafik ke clipboard (bisa langsung Ctrl+V di WhatsApp / Word / PPT)">
+                        <button type="button" onclick="copyChartImage('kabupatenChart', 'Capaian_Per_Kabupaten_Jateng')" class="inline-flex items-center gap-1.5 px-2.5 py-1.5 rounded-lg text-xs font-medium bg-slate-100 hover:bg-blue-50 text-slate-700 hover:text-blue-700 border border-slate-200 hover:border-blue-200 transition" title="Salin gambar grafik ke clipboard">
                             <i data-lucide="copy" class="w-3.5 h-3.5"></i>
                             <span>Copy Image</span>
                         </button>
@@ -306,9 +270,8 @@
                     <div class="flex items-start justify-between gap-2 mb-3">
                         <div>
                             <h2 class="text-base font-bold text-slate-900">Distribusi Status Capaian</h2>
-                            <p class="text-xs text-slate-500">Berdasarkan % target Kabupaten</p>
+                            <p class="text-xs text-slate-500">Berdasarkan % target Kab/Kota</p>
                         </div>
-                        <!-- Tombol Copy Image -->
                         <button type="button" onclick="copyChartImage('statusChart', 'Distribusi_Status_Capaian')" class="inline-flex items-center gap-1 px-2.5 py-1.5 rounded-lg text-xs font-medium bg-slate-100 hover:bg-blue-50 text-slate-700 hover:text-blue-700 border border-slate-200 hover:border-blue-200 transition shrink-0" title="Salin gambar grafik ke clipboard">
                             <i data-lucide="copy" class="w-3.5 h-3.5"></i>
                             <span>Copy Image</span>
@@ -321,9 +284,7 @@
                 
                 <div class="pt-4 border-t border-slate-100">
                     <h3 class="text-xs font-semibold uppercase tracking-wider text-slate-500 mb-2">Perlu Perhatian (% Terendah)</h3>
-                    <div id="bottom-kabupaten-list" class="space-y-1.5">
-                        <!-- Diisi otomatis via JS -->
-                    </div>
+                    <div id="bottom-kabupaten-list" class="space-y-1.5"></div>
                 </div>
             </div>
         </section>
@@ -332,7 +293,7 @@
         <section class="bg-white rounded-xl border border-slate-200 shadow-2xs overflow-hidden">
             <div class="p-5 border-b border-slate-200 flex flex-col sm:flex-row sm:items-center justify-between gap-3">
                 <div>
-                    <h2 class="text-base font-bold text-slate-900">Rekapitulasi Target, Realisasi & Persentase per Kabupaten</h2>
+                    <h2 class="text-base font-bold text-slate-900">Rekapitulasi Target, Realisasi & Persentase per Kabupaten/Kota</h2>
                     <p class="text-xs text-slate-500 mt-0.5">Klik pada baris kabupaten untuk melihat rincian capaian per petugas</p>
                 </div>
                 <div class="inline-flex items-center gap-1.5 text-xs text-blue-700 bg-blue-50 px-3 py-1.5 rounded-lg border border-blue-100">
@@ -346,7 +307,7 @@
                     <thead>
                         <tr>
                             <th>Kode</th>
-                            <th>Kabupaten</th>
+                            <th>Kabupaten/Kota</th>
                             <th class="text-center">Petugas</th>
                             <th class="text-right">Target Sampel</th>
                             <th class="text-right">Produksi (%)</th>
@@ -356,9 +317,7 @@
                             <th class="text-center">Aksi</th>
                         </tr>
                     </thead>
-                    <tbody>
-                        <!-- Diisi oleh DataTables -->
-                    </tbody>
+                    <tbody></tbody>
                 </table>
             </div>
         </section>
@@ -368,7 +327,7 @@
     <!-- Footer -->
     <footer class="bg-white border-t border-slate-200 mt-10 py-4">
         <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 flex flex-col sm:flex-row items-center justify-between text-xs text-slate-500 gap-2">
-            <p>Dashboard Monitoring SPDT NTP • <span id="footer-updated">-</span></p>
+            <p>Sumber File Aktif: <code id="footer-filename" class="font-mono text-slate-700">-</code></p>
             <p>Target SPDT NTP: 1 Dokumen Produksi + 1 Dokumen Konsumsi per Sampel</p>
         </div>
     </footer>
@@ -380,7 +339,6 @@
         <div class="flex min-h-full items-center justify-center p-4 text-center sm:p-6">
             <div id="modal-panel" class="relative transform overflow-hidden rounded-2xl bg-white text-left shadow-2xl border border-slate-200 w-full max-w-4xl modal-panel opacity-0 scale-95">
                 
-                <!-- Modal Header -->
                 <div class="bg-slate-900 text-white px-6 py-4 flex items-center justify-between">
                     <div class="flex items-center gap-3">
                         <span id="modal-kode-badge" class="px-2.5 py-1 rounded-md bg-blue-600 text-white font-mono text-xs font-bold">33.01</span>
@@ -394,7 +352,6 @@
                     </button>
                 </div>
 
-                <!-- Modal Mini KPIs -->
                 <div class="grid grid-cols-2 sm:grid-cols-4 gap-3 px-6 py-4 bg-slate-50 border-b border-slate-200">
                     <div class="bg-white p-3 rounded-xl border border-slate-200">
                         <p class="text-[11px] font-semibold uppercase text-slate-500">Target Sampel</p>
@@ -418,12 +375,11 @@
                     </div>
                 </div>
 
-                <!-- Modal Body: Chart Petugas + Tabel Petugas -->
                 <div class="p-6 space-y-6 max-h-[72vh] overflow-y-auto">
                     <div class="bg-slate-50/70 rounded-xl border border-slate-200 p-4">
                         <div class="flex items-center justify-between mb-3">
                             <h4 class="text-xs font-bold uppercase tracking-wider text-slate-600">Visualisasi Capaian per Petugas</h4>
-                            <button type="button" id="btn-copy-petugas-chart" class="inline-flex items-center gap-1 px-2.5 py-1 rounded-lg text-xs font-medium bg-white hover:bg-blue-50 text-slate-700 hover:text-blue-700 border border-slate-200 hover:border-blue-200 transition" title="Salin gambar grafik petugas ke clipboard">
+                            <button type="button" id="btn-copy-petugas-chart" class="inline-flex items-center gap-1 px-2.5 py-1 rounded-lg text-xs font-medium bg-white hover:bg-blue-50 text-slate-700 hover:text-blue-700 border border-slate-200 hover:border-blue-200 transition">
                                 <i data-lucide="copy" class="w-3.5 h-3.5"></i>
                                 <span>Copy Image</span>
                             </button>
@@ -451,7 +407,6 @@
                     </div>
                 </div>
 
-                <!-- Modal Footer -->
                 <div class="bg-slate-50 px-6 py-3.5 border-t border-slate-200 flex items-center justify-between">
                     <div class="flex items-center gap-2">
                         <button type="button" id="btn-prev-kab" class="inline-flex items-center gap-1 px-3 py-1.5 rounded-lg text-xs font-medium bg-white border border-slate-300 text-slate-700 hover:bg-slate-100 transition">
@@ -472,6 +427,8 @@
 
     <script>
         let appData = null;
+        let historyCatalog = []; // Daftar file dari manifest.json atau upload lokal
+        let localMemoryStore = {}; // Menyimpan isi JSON jika dibuka via file:// lokal
         let kabDataTable = null;
         let petugasDataTable = null;
         let kabChartInstance = null;
@@ -482,8 +439,8 @@
         const fmtNumber = (num) => new Intl.NumberFormat('id-ID').format(num);
         const fmtPct = (num) => Number(num || 0).toLocaleString('id-ID', { minimumFractionDigits: 2, maximumFractionDigits: 2 }) + '%';
 
-        // Plugin Chart.js agar saat canvas di-copy / di-export, background-nya putih solid (bukan transparan hitam)
-        const whiteBackgroundPlugin = {
+        // Plugin background putih saat Copy Image
+        Chart.register({
             id: 'customCanvasBackgroundColor',
             beforeDraw: (chart) => {
                 const { ctx } = chart;
@@ -493,36 +450,45 @@
                 ctx.fillRect(0, 0, chart.width, chart.height);
                 ctx.restore();
             }
-        };
-        Chart.register(whiteBackgroundPlugin);
+        });
 
-        // Fungsi Copy Image ke Clipboard (dengan fallback download PNG jika browser memblokir clipboard)
+        // Ekstrak angka timestamp dari nama file (misal data-progres-202611210730.json -> 202611210730, data-progres-20261119.json -> 202611190000)
+        function extractTimestampWeight(filename) {
+            const match = filename.match(/(\d{8,14})/);
+            if (!match) return 0;
+            return Number(match[1].padEnd(14, '0'));
+        }
+
+        // Format otomatis label tanggal dari nama file jika label di manifest kosong
+        function formatLabelFromFilename(filename) {
+            const m = filename.match(/(\d{4})(\d{2})(\d{2})(\d{2})?(\d{2})?/);
+            if (!m) return filename;
+            const bulan = ['', 'Januari', 'Februari', 'Maret', 'April', 'Mei', 'Juni', 'Juli', 'Agustus', 'September', 'Oktober', 'November', 'Desember'];
+            const tgl = `${parseInt(m[3])} ${bulan[parseInt(m[2])]} ${m[1]}`;
+            if (m[4] && m[5]) return `${tgl} — Pukul ${m[4]}.${m[5]} WIB`;
+            return tgl;
+        }
+
         async function copyChartImage(canvasId, fallbackFilename = 'grafik') {
             const canvas = document.getElementById(canvasId);
             if (!canvas) return;
-
             try {
                 const blob = await new Promise(resolve => canvas.toBlob(resolve, 'image/png'));
-                if (!blob) throw new Error('Gagal membuat blob gambar.');
-
+                if (!blob) throw new Error('Gagal membuat blob.');
                 if (navigator.clipboard && window.ClipboardItem) {
-                    await navigator.clipboard.write([
-                        new ClipboardItem({ 'image/png': blob })
-                    ]);
+                    await navigator.clipboard.write([new ClipboardItem({ 'image/png': blob })]);
                     showToast('Gambar grafik berhasil disalin! Silakan Paste (Ctrl+V).');
                 } else {
-                    throw new Error('Clipboard API tidak didukung pada konteks ini.');
+                    throw new Error('Clipboard API tidak tersedia.');
                 }
             } catch (err) {
-                // Fallback: otomatis unduh sebagai PNG jika diakses via HTTP non-HTTPS atau browser lama
-                const dataUrl = canvas.toDataURL('image/png');
                 const a = document.createElement('a');
-                a.href = dataUrl;
+                a.href = canvas.toDataURL('image/png');
                 a.download = `${fallbackFilename}.png`;
                 document.body.appendChild(a);
                 a.click();
                 document.body.removeChild(a);
-                showToast('Clipboard dibatasi browser; gambar otomatis diunduh sebagai PNG.');
+                showToast('Gambar grafik diunduh sebagai file PNG.');
             }
         }
 
@@ -531,7 +497,6 @@
             document.getElementById('toast-message').textContent = msg;
             toast.classList.remove('translate-y-16', 'opacity-0');
             toast.classList.add('translate-y-0', 'opacity-100');
-
             clearTimeout(toastTimeout);
             toastTimeout = setTimeout(() => {
                 toast.classList.remove('translate-y-0', 'opacity-100');
@@ -540,12 +505,7 @@
         }
 
         function normalizeAndCalculate(raw) {
-            let totalKab = 0;
-            let totalPetugas = 0;
-            let totalTargetSampel = 0;
-            let totalProd = 0;
-            let totalKons = 0;
-            let totalDok = 0;
+            let totalKab = 0, totalPetugas = 0, totalTargetSampel = 0, totalProd = 0, totalKons = 0, totalDok = 0;
 
             const normalizedData = (raw.data || []).map(item => {
                 const prod = Number(item.produksi) || 0;
@@ -554,21 +514,12 @@
                 const tSampel = Number(item.target_sampel) || 0;
                 const tDok = tSampel * 2;
 
-                const pctProd = tSampel > 0 ? Number(((prod / tSampel) * 100).toFixed(2)) : 0;
-                const pctKons = tSampel > 0 ? Number(((kons / tSampel) * 100).toFixed(2)) : 0;
-                const pctTot = tDok > 0 ? Number(((tot / tDok) * 100).toFixed(2)) : 0;
-
-                const petugasList = (item.petugas || []).map(p => {
-                    const pProd = Number(p.produksi) || 0;
-                    const pKons = Number(p.konsumsi) || 0;
-                    const pTot = Number(p.total) || (pProd + pKons);
-                    return {
-                        nama: String(p.nama || '').trim(),
-                        produksi: pProd,
-                        konsumsi: pKons,
-                        total: pTot
-                    };
-                }).sort((a, b) => b.total - a.total);
+                const petugasList = (item.petugas || []).map(p => ({
+                    nama: String(p.nama || '').trim(),
+                    produksi: Number(p.produksi) || 0,
+                    konsumsi: Number(p.konsumsi) || 0,
+                    total: Number(p.total) || ((Number(p.produksi) || 0) + (Number(p.konsumsi) || 0))
+                })).sort((a, b) => b.total - a.total);
 
                 totalKab += 1;
                 totalPetugas += petugasList.length;
@@ -587,9 +538,9 @@
                     produksi: prod,
                     konsumsi: kons,
                     total: tot,
-                    persen_produksi: pctProd,
-                    persen_konsumsi: pctKons,
-                    persen_total: pctTot,
+                    persen_produksi: tSampel > 0 ? Number(((prod / tSampel) * 100).toFixed(2)) : 0,
+                    persen_konsumsi: tSampel > 0 ? Number(((kons / tSampel) * 100).toFixed(2)) : 0,
+                    persen_total: tDok > 0 ? Number(((tot / tDok) * 100).toFixed(2)) : 0,
                     petugas: petugasList
                 };
             }).sort((a, b) => a.kode.localeCompare(b.kode));
@@ -616,28 +567,93 @@
             };
         }
 
-        async function loadExternalJSON() {
+        // Muat manifest.json -> urutkan dari timestamp terbaru -> muat file terbaru sebagai default
+        async function initHistoryCatalog() {
             try {
-                const response = await fetch('./data-progres.json?t=' + Date.now());
-                if (!response.ok) throw new Error('HTTP ' + response.status);
-                const rawJson = await response.json();
+                const res = await fetch('./manifest.json?t=' + Date.now());
+                if (!res.ok) throw new Error('manifest.json tidak ditemukan');
+                const manifest = await res.json();
+
+                const files = (manifest.files || []).map(item => {
+                    const fname = typeof item === 'string' ? item : item.filename;
+                    const label = (typeof item === 'object' && item.label) ? item.label : formatLabelFromFilename(fname);
+                    return {
+                        filename: fname,
+                        label: label,
+                        weight: extractTimestampWeight(fname)
+                    };
+                }).sort((a, b) => b.weight - a.weight); // Terbaru (angka terbesar) di index 0
+
+                if (files.length === 0) throw new Error('Daftar file di manifest.json kosong');
+
+                historyCatalog = files;
+                populateHistoryDropdown();
+                await loadHistoryFile(historyCatalog[0].filename, 0);
+            } catch (err) {
+                console.warn('Gagal memuat manifest.json:', err);
+                document.getElementById('subtitle-info').textContent = 'Menunggu pemilihan file JSON...';
+                document.getElementById('local-file-alert').classList.remove('hidden');
+            }
+        }
+
+        function populateHistoryDropdown() {
+            const select = document.getElementById('history-select');
+            select.innerHTML = historyCatalog.map((item, idx) => {
+                const prefix = idx === 0 ? '★ Terbaru: ' : 'Arsip: ';
+                return `<option value="${item.filename}">${prefix}${item.label}</option>`;
+            }).join('');
+        }
+
+        async function loadHistoryFile(filename, indexInCatalog) {
+            const itemMeta = historyCatalog[indexInCatalog] || { filename, label: filename };
+            const isLatest = indexInCatalog === 0;
+
+            try {
+                let rawJson;
+                if (localMemoryStore[filename]) {
+                    rawJson = localMemoryStore[filename];
+                } else {
+                    const res = await fetch('./' + filename + '?t=' + Date.now());
+                    if (!res.ok) throw new Error('HTTP ' + res.status);
+                    rawJson = await res.json();
+                }
+
                 appData = normalizeAndCalculate(rawJson);
                 document.getElementById('local-file-alert').classList.add('hidden');
+
+                // Update Badge Status Terbaru vs Arsip Histori
+                const badgeEl = document.getElementById('status-periode-badge');
+                if (isLatest) {
+                    badgeEl.className = 'inline-flex items-center gap-1.5 px-2.5 py-0.5 rounded-md text-[11px] font-semibold bg-emerald-50 text-emerald-700 border border-emerald-200';
+                    badgeEl.innerHTML = '<span class="w-1.5 h-1.5 rounded-full bg-emerald-500"></span> Kondisi Terbaru';
+                } else {
+                    badgeEl.className = 'inline-flex items-center gap-1.5 px-2.5 py-0.5 rounded-md text-[11px] font-semibold bg-amber-50 text-amber-800 border border-amber-200';
+                    badgeEl.innerHTML = '<span class="w-1.5 h-1.5 rounded-full bg-amber-500"></span> Mode Arsip Histori';
+                }
+
+                document.getElementById('subtitle-info').textContent = `Kondisi: ${itemMeta.label}`;
+                document.getElementById('footer-filename').textContent = filename;
+
                 renderDashboard();
             } catch (err) {
-                console.warn('Gagal fetch otomatis data-progres.json:', err);
-                document.getElementById('subtitle-info').textContent = 'Menunggu file data-progres.json dimuat...';
-                document.getElementById('local-file-alert').classList.remove('hidden');
+                alert(`Gagal memuat file "${filename}". Pastikan file tersebut tersedia di server.`);
+                console.error(err);
             }
         }
 
         document.addEventListener('DOMContentLoaded', () => {
             lucide.createIcons();
-            loadExternalJSON();
+            initHistoryCatalog();
+
+            document.getElementById('history-select').addEventListener('change', (e) => {
+                const selectedFile = e.target.value;
+                const idx = historyCatalog.findIndex(h => h.filename === selectedFile);
+                if (idx !== -1) loadHistoryFile(selectedFile, idx);
+            });
 
             document.getElementById('chart-metric-select').addEventListener('change', renderKabupatenChart);
             document.getElementById('chart-sort-select').addEventListener('change', renderKabupatenChart);
-            document.getElementById('json-manual-upload').addEventListener('change', handleManualJSONUpload);
+            document.getElementById('json-manual-upload').addEventListener('change', handleManualMultiJSON);
 
             document.getElementById('modal-backdrop').addEventListener('click', closeModal);
             document.addEventListener('keydown', (e) => {
@@ -647,6 +663,35 @@
             });
         });
 
+        // Handler jika pengguna memilih banyak file JSON sekaligus saat mode file:// lokal
+        async function handleManualMultiJSON(e) {
+            const files = Array.from(e.target.files || []);
+            if (files.length === 0) return;
+
+            const loadedList = [];
+            for (const f of files) {
+                if (f.name === 'manifest.json') continue;
+                try {
+                    const text = await f.text();
+                    const parsed = JSON.parse(text);
+                    localMemoryStore[f.name] = parsed;
+                    loadedList.push({
+                        filename: f.name,
+                        label: parsed.meta?.tanggal_data || formatLabelFromFilename(f.name),
+                        weight: extractTimestampWeight(f.name)
+                    });
+                } catch (err) {
+                    console.warn('Skip file invalid:', f.name);
+                }
+            }
+
+            if (loadedList.length > 0) {
+                historyCatalog = loadedList.sort((a, b) => b.weight - a.weight);
+                populateHistoryDropdown();
+                loadHistoryFile(historyCatalog[0].filename, 0);
+            }
+        }
+
         function renderDashboard() {
             if (!appData) return;
             const meta = appData.meta;
@@ -654,10 +699,7 @@
 
             document.getElementById('app-title').textContent = meta.judul;
             document.getElementById('badge-provinsi').textContent = meta.provinsi;
-            document.getElementById('subtitle-info').textContent = `Update Data: ${meta.tanggal_data}`;
-            document.getElementById('footer-updated').textContent = `Update: ${meta.tanggal_data}`;
 
-            // KPI Cards
             document.getElementById('kpi-pct-total').textContent = fmtPct(meta.persen_total);
             document.getElementById('kpi-total-ratio').textContent = `(${fmtNumber(meta.total_dokumen)} / ${fmtNumber(meta.total_target_dokumen)})`;
             document.getElementById('bar-kpi-total').style.width = `${Math.min(meta.persen_total, 100)}%`;
@@ -678,7 +720,6 @@
             document.getElementById('kpi-kabupaten').textContent = meta.total_kabupaten;
             document.getElementById('kpi-petugas').textContent = `${fmtNumber(meta.total_petugas)} orang`;
 
-            // Bottom 3 Kabupaten (% terendah)
             const sortedBottom = [...list].sort((a, b) => a.persen_total - b.persen_total).slice(0, 3);
             document.getElementById('bottom-kabupaten-list').innerHTML = sortedBottom.map(item => `
                 <div onclick="openModalByKode('${item.kode}')" class="cursor-pointer flex items-center justify-between p-2 rounded-lg hover:bg-rose-50/70 border border-slate-100 hover:border-rose-200 transition">
@@ -706,15 +747,8 @@
             if (kabDataTable) kabDataTable.destroy();
 
             const tableData = appData.data.map(item => [
-                item.kode,
-                item.nama,
-                item.jumlah_petugas,
-                item.target_sampel,
-                item,
-                item,
-                item,
-                item.persen_total,
-                item.kode
+                item.kode, item.nama, item.jumlah_petugas, item.target_sampel,
+                item, item, item, item.persen_total, item.kode
             ]);
 
             kabDataTable = $('#table-kabupaten').DataTable({
@@ -723,36 +757,34 @@
                 lengthMenu: [[10, 15, 29, -1], [10, 15, 29, "Semua"]],
                 order: [[0, 'asc']],
                 dom: '<"flex flex-col sm:flex-row sm:items-center justify-between gap-3 mb-4"Blf>rt<"flex flex-col sm:flex-row sm:items-center justify-between gap-3 mt-4"ip>',
-                buttons: [
-                    {
-                        extend: 'excelHtml5',
-                        text: 'Export Excel',
-                        title: 'Rekap_Capaian_Persentase_Kabupaten_Jateng',
-                        exportOptions: {
-                            columns: [0, 1, 2, 3, 4, 5, 6, 7],
-                            format: {
-                                body: function(data, row, column) {
-                                    const item = appData.data[row];
-                                    if (!item) return data;
-                                    if (column === 0) return '33.' + item.kode;
-                                    if (column === 1) return item.nama;
-                                    if (column === 2) return item.jumlah_petugas;
-                                    if (column === 3) return item.target_sampel;
-                                    if (column === 4) return `${item.produksi} (${item.persen_produksi}%)`;
-                                    if (column === 5) return `${item.konsumsi} (${item.persen_konsumsi}%)`;
-                                    if (column === 6) return `${item.total} / ${item.target_dokumen}`;
-                                    if (column === 7) return `${item.persen_total}%`;
-                                    return data;
-                                }
+                buttons: [{
+                    extend: 'excelHtml5',
+                    text: 'Export Excel',
+                    title: 'Rekap_Capaian_Persentase_Kabupaten_Jateng',
+                    exportOptions: {
+                        columns: [0, 1, 2, 3, 4, 5, 6, 7],
+                        format: {
+                            body: function(data, row, column) {
+                                const item = appData.data[row];
+                                if (!item) return data;
+                                if (column === 0) return '33.' + item.kode;
+                                if (column === 1) return item.nama;
+                                if (column === 2) return item.jumlah_petugas;
+                                if (column === 3) return item.target_sampel;
+                                if (column === 4) return `${item.produksi} (${item.persen_produksi}%)`;
+                                if (column === 5) return `${item.konsumsi} (${item.persen_konsumsi}%)`;
+                                if (column === 6) return `${item.total} / ${item.target_dokumen}`;
+                                if (column === 7) return `${item.persen_total}%`;
+                                return data;
                             }
                         }
                     }
-                ],
+                }],
                 language: {
                     search: "Cari Kabupaten:",
                     lengthMenu: "Tampilkan _MENU_ baris",
-                    info: "Menampilkan _START_ - _END_ dari _TOTAL_ kabupaten",
-                    zeroRecords: "Kabupaten tidak ditemukan",
+                    info: "Menampilkan _START_ - _END_ dari _TOTAL_ kabupaten/kota",
+                    zeroRecords: "Kabupaten/Kota tidak ditemukan",
                     paginate: { first: "Awal", last: "Akhir", next: "Lanjut", previous: "Kembali" }
                 },
                 columns: [
@@ -762,37 +794,21 @@
                     { className: 'text-right font-medium text-slate-700', render: d => fmtNumber(d) },
                     {
                         className: 'text-right',
-                        render: (item, type) => {
-                            if (type === 'sort' || type === 'type') return item.produksi;
-                            return `<div class="font-semibold text-indigo-600">${fmtNumber(item.produksi)}</div><div class="text-[11px] text-slate-500">${fmtPct(item.persen_produksi)}</div>`;
-                        }
+                        render: (item, type) => (type === 'sort' || type === 'type') ? item.produksi : `<div class="font-semibold text-indigo-600">${fmtNumber(item.produksi)}</div><div class="text-[11px] text-slate-500">${fmtPct(item.persen_produksi)}</div>`
                     },
                     {
                         className: 'text-right',
-                        render: (item, type) => {
-                            if (type === 'sort' || type === 'type') return item.konsumsi;
-                            return `<div class="font-semibold text-emerald-600">${fmtNumber(item.konsumsi)}</div><div class="text-[11px] text-slate-500">${fmtPct(item.persen_konsumsi)}</div>`;
-                        }
+                        render: (item, type) => (type === 'sort' || type === 'type') ? item.konsumsi : `<div class="font-semibold text-emerald-600">${fmtNumber(item.konsumsi)}</div><div class="text-[11px] text-slate-500">${fmtPct(item.persen_konsumsi)}</div>`
                     },
                     {
                         className: 'text-right',
-                        render: (item, type) => {
-                            if (type === 'sort' || type === 'type') return item.total;
-                            return `<span class="font-bold text-slate-900">${fmtNumber(item.total)}</span><span class="text-xs text-slate-400"> / ${fmtNumber(item.target_dokumen)}</span>`;
-                        }
+                        render: (item, type) => (type === 'sort' || type === 'type') ? item.total : `<span class="font-bold text-slate-900">${fmtNumber(item.total)}</span><span class="text-xs text-slate-400"> / ${fmtNumber(item.target_dokumen)}</span>`
                     },
                     {
                         render: (pct, type) => {
                             if (type === 'sort' || type === 'type') return pct;
                             const style = getProgressBadgeColor(pct);
-                            return `
-                                <div class="flex items-center gap-2">
-                                    <div class="flex-1 h-2 bg-slate-100 rounded-full overflow-hidden">
-                                        <div class="h-full ${style.bar} rounded-full" style="width: ${Math.min(pct, 100)}%"></div>
-                                    </div>
-                                    <span class="px-1.5 py-0.5 rounded border text-[11px] font-bold ${style.badge} w-16 text-right">${fmtPct(pct)}</span>
-                                </div>
-                            `;
+                            return `<div class="flex items-center gap-2"><div class="flex-1 h-2 bg-slate-100 rounded-full overflow-hidden"><div class="h-full ${style.bar} rounded-full" style="width: ${Math.min(pct, 100)}%"></div></div><span class="px-1.5 py-0.5 rounded border text-[11px] font-bold ${style.badge} w-16 text-right">${fmtPct(pct)}</span></div>`;
                         }
                     },
                     {
@@ -823,26 +839,17 @@
             if (kabChartInstance) kabChartInstance.destroy();
 
             if (metricMode === 'persen') {
-                const pctValues = sortedData.map(d => d.persen_total);
-                const bgColors = sortedData.map(d => {
-                    if (d.persen_total >= 100) return '#10b981';
-                    if (d.persen_total >= 75) return '#2563eb';
-                    if (d.persen_total >= 50) return '#f59e0b';
-                    return '#ef4444';
-                });
-
+                const bgColors = sortedData.map(d => d.persen_total >= 100 ? '#10b981' : d.persen_total >= 75 ? '#2563eb' : d.persen_total >= 50 ? '#f59e0b' : '#ef4444');
                 kabChartInstance = new Chart(ctx, {
                     type: 'bar',
                     data: {
                         labels: labels,
-                        datasets: [{ label: 'Capaian Total (%)', data: pctValues, backgroundColor: bgColors, borderRadius: 4 }]
+                        datasets: [{ label: 'Capaian Total (%)', data: sortedData.map(d => d.persen_total), backgroundColor: bgColors, borderRadius: 4 }]
                     },
                     options: {
                         responsive: true,
                         maintainAspectRatio: false,
-                        onClick: (event, elements) => {
-                            if (elements.length > 0) openModalByKode(sortedData[elements[0].index].kode);
-                        },
+                        onClick: (event, elements) => { if (elements.length > 0) openModalByKode(sortedData[elements[0].index].kode); },
                         onHover: (event, el) => { event.native.target.style.cursor = el[0] ? 'pointer' : 'default'; },
                         plugins: {
                             legend: { display: false },
@@ -878,15 +885,12 @@
                     options: {
                         responsive: true,
                         maintainAspectRatio: false,
-                        onClick: (event, elements) => {
-                            if (elements.length > 0) openModalByKode(sortedData[elements[0].index].kode);
-                        },
+                        onClick: (event, elements) => { if (elements.length > 0) openModalByKode(sortedData[elements[0].index].kode); },
                         onHover: (event, el) => { event.native.target.style.cursor = el[0] ? 'pointer' : 'default'; },
                         plugins: {
                             legend: { position: 'top', align: 'end', labels: { usePointStyle: true, boxWidth: 8, font: { size: 12 } } },
                             tooltip: {
-                                mode: 'index',
-                                intersect: false,
+                                mode: 'index', intersect: false,
                                 callbacks: {
                                     footer: (items) => {
                                         const item = sortedData[items[0].dataIndex];
@@ -921,17 +925,14 @@
                     datasets: [{
                         data: [c100, c75, c50, cLow],
                         backgroundColor: ['#10b981', '#2563eb', '#f59e0b', '#ef4444'],
-                        borderWidth: 2,
-                        borderColor: '#ffffff'
+                        borderWidth: 2, borderColor: '#ffffff'
                     }]
                 },
                 options: {
-                    responsive: true,
-                    maintainAspectRatio: false,
-                    cutout: '64%',
+                    responsive: true, maintainAspectRatio: false, cutout: '64%',
                     plugins: {
                         legend: { position: 'right', labels: { usePointStyle: true, boxWidth: 8, padding: 10, font: { family: 'Inter', size: 11 } } },
-                        tooltip: { callbacks: { label: ctx => ` ${ctx.label}: ${ctx.parsed} Kab` } }
+                        tooltip: { callbacks: { label: ctx => ` ${ctx.label}: ${ctx.parsed} Kab/Kota` } }
                     }
                 }
             });
@@ -958,7 +959,6 @@
             document.getElementById('modal-pct-total').textContent = fmtPct(kab.persen_total);
             document.getElementById('modal-total').textContent = `${fmtNumber(kab.total)} / ${fmtNumber(kab.target_dokumen)} dok`;
 
-            // Bind tombol Copy Image untuk grafik petugas kabupaten aktif
             document.getElementById('btn-copy-petugas-chart').onclick = () => {
                 copyChartImage('petugasChart', `Capaian_Petugas_${kab.nama.replace(/\s+/g, '_')}`);
             };
@@ -997,24 +997,10 @@
                     { className: 'text-right font-medium text-emerald-600', render: d => fmtNumber(d) },
                     { className: 'text-right font-bold text-slate-900', render: d => fmtNumber(d) },
                     {
-                        render: pct => `
-                            <div class="flex items-center gap-2">
-                                <div class="flex-1 h-1.5 bg-slate-100 rounded-full overflow-hidden">
-                                    <div class="h-full bg-slate-600 rounded-full" style="width: ${Math.min(pct, 100)}%"></div>
-                                </div>
-                                <span class="text-xs text-slate-600 w-11 text-right">${pct}%</span>
-                            </div>
-                        `
+                        render: pct => `<div class="flex items-center gap-2"><div class="flex-1 h-1.5 bg-slate-100 rounded-full overflow-hidden"><div class="h-full bg-slate-600 rounded-full" style="width: ${Math.min(pct, 100)}%"></div></div><span class="text-xs text-slate-600 w-11 text-right">${pct}%</span></div>`
                     },
                     {
-                        render: pct => `
-                            <div class="flex items-center gap-2">
-                                <div class="flex-1 h-1.5 bg-slate-100 rounded-full overflow-hidden">
-                                    <div class="h-full bg-blue-600 rounded-full" style="width: ${Math.min(pct, 100)}%"></div>
-                                </div>
-                                <span class="text-xs font-semibold text-blue-700 w-11 text-right">${pct}%</span>
-                            </div>
-                        `
+                        render: pct => `<div class="flex items-center gap-2"><div class="flex-1 h-1.5 bg-slate-100 rounded-full overflow-hidden"><div class="h-full bg-blue-600 rounded-full" style="width: ${Math.min(pct, 100)}%"></div></div><span class="text-xs font-semibold text-blue-700 w-11 text-right">${pct}%</span></div>`
                     }
                 ]
             });
@@ -1045,9 +1031,7 @@
                     ]
                 },
                 options: {
-                    indexAxis: 'y',
-                    responsive: true,
-                    maintainAspectRatio: false,
+                    indexAxis: 'y', responsive: true, maintainAspectRatio: false,
                     plugins: {
                         legend: { position: 'top', align: 'end', labels: { usePointStyle: true, boxWidth: 8, font: { size: 11 } } },
                         tooltip: { mode: 'index', intersect: false }
@@ -1068,23 +1052,6 @@
             panel.classList.remove('opacity-100', 'scale-100');
             panel.classList.add('opacity-0', 'scale-95');
             setTimeout(() => modal.classList.add('hidden'), 200);
-        }
-
-        function handleManualJSONUpload(e) {
-            const file = e.target.files[0];
-            if (!file) return;
-            const reader = new FileReader();
-            reader.onload = function(evt) {
-                try {
-                    const parsed = JSON.parse(evt.target.result);
-                    appData = normalizeAndCalculate(parsed);
-                    document.getElementById('local-file-alert').classList.add('hidden');
-                    renderDashboard();
-                } catch (err) {
-                    alert("Format file JSON tidak valid.");
-                }
-            };
-            reader.readAsText(file);
         }
     </script>
 </body>

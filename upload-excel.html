@@ -3,34 +3,20 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Generator JSON Progres Entri - SPDT NTP [33]</title>
+    <title>Generator JSON Histori Progres - SPDT NTP [33]</title>
 
-    <!-- Google Fonts: Inter -->
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
-
-    <!-- Tailwind CSS -->
     <script src="https://cdn.tailwindcss.com"></script>
     <script>
-        tailwind.config = {
-            theme: {
-                extend: {
-                    fontFamily: { sans: ['Inter', 'sans-serif'] }
-                }
-            }
-        }
+        tailwind.config = { theme: { extend: { fontFamily: { sans: ['Inter', 'sans-serif'] } } } }
     </script>
-
-    <!-- SheetJS (XLSX) -->
     <script src="https://cdn.sheetjs.com/xlsx-0.20.1/package/dist/xlsx.full.min.js"></script>
-
-    <!-- Lucide Icons -->
     <script src="https://unpkg.com/lucide@latest"></script>
 </head>
 <body class="bg-slate-50 text-slate-900 antialiased min-h-screen flex flex-col">
 
-    <!-- Header -->
     <header class="bg-white border-b border-slate-200">
         <div class="max-w-5xl mx-auto px-4 sm:px-6 lg:px-8 py-4 flex flex-col sm:flex-row sm:items-center sm:justify-between gap-3">
             <div class="flex items-center gap-3">
@@ -38,8 +24,8 @@
                     <i data-lucide="file-json-2" class="w-6 h-6"></i>
                 </div>
                 <div>
-                    <h1 class="text-lg sm:text-xl font-bold text-slate-900 tracking-tight">Konverter Excel ke JSON</h1>
-                    <p class="text-xs sm:text-sm text-slate-500">Alat pembaruan data <code class="font-mono bg-slate-100 px-1.5 py-0.5 rounded text-slate-700">data-progres.json</code> untuk Dashboard Monitoring</p>
+                    <h1 class="text-lg sm:text-xl font-bold text-slate-900 tracking-tight">Konverter Excel ke JSON Histori</h1>
+                    <p class="text-xs sm:text-sm text-slate-500">Buat file <code class="font-mono bg-slate-100 px-1.5 py-0.5 rounded text-slate-700">data-progres-YYYYMMDDHHmm.json</code> dan perbarui <code class="font-mono bg-slate-100 px-1.5 py-0.5 rounded text-slate-700">manifest.json</code></p>
                 </div>
             </div>
             <a href="./index.html" class="inline-flex items-center gap-1.5 px-3.5 py-2 rounded-lg text-xs font-semibold bg-slate-100 hover:bg-slate-200 text-slate-700 transition self-start sm:self-auto">
@@ -49,13 +35,10 @@
         </div>
     </header>
 
-    <!-- Main Content -->
     <main class="flex-1 max-w-5xl w-full mx-auto px-4 sm:px-6 lg:px-8 py-8 space-y-6">
 
-        <!-- Step 1 & 2 Upload Cards -->
         <div class="grid grid-cols-1 md:grid-cols-3 gap-6">
-            
-            <!-- Card Utama: Upload Excel Progres -->
+            <!-- Upload Excel Progres -->
             <div class="md:col-span-2 bg-white rounded-2xl border border-slate-200 p-6 shadow-2xs flex flex-col justify-between">
                 <div>
                     <div class="flex items-center justify-between mb-3">
@@ -63,40 +46,44 @@
                         <span id="status-progres-badge" class="text-xs font-medium text-slate-400">Belum dipilih</span>
                     </div>
                     <h2 class="text-base font-bold text-slate-900">Upload File Excel Progres Petugas</h2>
-                    <p class="text-xs text-slate-500 mt-1">Pilih file <code class="font-mono">Tabel Progres petugas_entri 33 ...xlsx</code> terbaru hasil unduhan sistem.</p>
+                    <p class="text-xs text-slate-500 mt-1">Pilih file <code class="font-mono">Tabel Progres petugas_entri 33 ...xlsx</code> terbaru.</p>
 
-                    <label for="input-excel-progres" id="dropzone-progres" class="mt-4 border-2 border-dashed border-slate-300 hover:border-blue-500 hover:bg-blue-50/40 rounded-xl p-8 flex flex-col items-center justify-center text-center cursor-pointer transition">
-                        <div class="p-3 bg-blue-50 text-blue-600 rounded-full mb-3">
+                    <label for="input-excel-progres" id="dropzone-progres" class="mt-4 border-2 border-dashed border-slate-300 hover:border-blue-500 hover:bg-blue-50/40 rounded-xl p-7 flex flex-col items-center justify-center text-center cursor-pointer transition">
+                        <div class="p-3 bg-blue-50 text-blue-600 rounded-full mb-2.5">
                             <i data-lucide="upload-cloud" class="w-7 h-7"></i>
                         </div>
                         <p class="text-sm font-semibold text-slate-800" id="progres-filename">Klik untuk memilih atau seret file Excel ke sini</p>
-                        <p class="text-xs text-slate-500 mt-1">Mendukung format <code class="font-mono">.xlsx</code> dan <code class="font-mono">.xls</code></p>
+                        <p class="text-xs text-slate-500 mt-1">Format <code class="font-mono">.xlsx</code> / <code class="font-mono">.xls</code></p>
                     </label>
                     <input type="file" id="input-excel-progres" accept=".xlsx,.xls" class="hidden" />
                 </div>
 
-                <!-- Input Tanggal/Keterangan Update -->
-                <div class="mt-5 pt-4 border-t border-slate-100">
-                    <label for="input-tanggal-label" class="block text-xs font-semibold text-slate-700 mb-1.5">Label Waktu Update (Ditampilkan di Dashboard)</label>
-                    <input type="text" id="input-tanggal-label" class="w-full border border-slate-300 rounded-lg px-3 py-2 text-sm focus:outline-none focus:border-blue-500" placeholder="Contoh: 25 November 2026 (08:00 WIB)" />
+                <!-- Pengaturan Nama File & Label Histori -->
+                <div class="mt-5 pt-4 border-t border-slate-100 grid grid-cols-1 sm:grid-cols-2 gap-3">
+                    <div>
+                        <label for="input-output-filename" class="block text-xs font-semibold text-slate-700 mb-1">Nama File Output JSON</label>
+                        <input type="text" id="input-output-filename" class="w-full border border-slate-300 rounded-lg px-3 py-2 text-xs font-mono focus:outline-none focus:border-blue-500" />
+                    </div>
+                    <div>
+                        <label for="input-tanggal-label" class="block text-xs font-semibold text-slate-700 mb-1">Label Tampilan di Dropdown Histori</label>
+                        <input type="text" id="input-tanggal-label" class="w-full border border-slate-300 rounded-lg px-3 py-2 text-xs focus:outline-none focus:border-blue-500" />
+                    </div>
                 </div>
             </div>
 
-            <!-- Card Opsional: Update Excel Target -->
+            <!-- Referensi Target -->
             <div class="bg-white rounded-2xl border border-slate-200 p-6 shadow-2xs flex flex-col justify-between">
                 <div>
-                    <div class="flex items-center justify-between mb-3">
-                        <span class="inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-semibold bg-slate-100 text-slate-700 border border-slate-200">Opsional</span>
-                    </div>
+                    <span class="inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-semibold bg-slate-100 text-slate-700 border border-slate-200 mb-3">Opsional</span>
                     <h2 class="text-base font-bold text-slate-900">Referensi Target Sampel</h2>
-                    <p class="text-xs text-slate-500 mt-1">Secara bawaan sudah menggunakan target <strong>29 Kab/Kota</strong> (total <strong>8.190 sampel</strong>). Unggah ulang hanya jika ada revisi target.</p>
+                    <p class="text-xs text-slate-500 mt-1">Menggunakan target bawaan <strong>29 Kab/Kota</strong> (<strong>8.190 sampel</strong>).</p>
 
                     <div class="mt-4 p-3.5 rounded-xl bg-emerald-50/70 border border-emerald-200 text-xs text-emerald-900 space-y-1">
                         <div class="flex items-center gap-1.5 font-semibold">
                             <i data-lucide="check-circle-2" class="w-4 h-4 text-emerald-600"></i>
                             <span id="target-source-label">Target Bawaan Aktif</span>
                         </div>
-                        <p class="text-emerald-800 pl-5" id="target-summary-text">29 Kabupaten • 8.190 Sampel (16.380 Dokumen)</p>
+                        <p class="text-emerald-800 pl-5" id="target-summary-text">29 Kabupaten • 8.190 Sampel</p>
                     </div>
                 </div>
 
@@ -110,24 +97,23 @@
             </div>
         </div>
 
-        <!-- Result & Preview Section (Muncul setelah Excel Progres diproses) -->
+        <!-- Hasil Konversi & Instruksi Update Manifest -->
         <section id="result-section" class="hidden bg-white rounded-2xl border border-slate-200 shadow-2xs overflow-hidden">
             <div class="bg-slate-900 text-white px-6 py-4 flex flex-col sm:flex-row sm:items-center justify-between gap-4">
                 <div>
                     <h3 class="text-base font-bold flex items-center gap-2">
                         <i data-lucide="check-circle" class="w-5 h-5 text-emerald-400"></i>
-                        <span>Data Siap Diunduh sebagai JSON</span>
+                        <span>File Histori JSON Siap Diunduh</span>
                     </h3>
-                    <p class="text-xs text-slate-300 mt-0.5">Periksa ringkasan hasil konversi di bawah ini sebelum mengunduh file.</p>
+                    <p class="text-xs text-slate-300 mt-0.5">Unduh file JSON di samping dan tambahkan barisnya ke <code class="font-mono text-emerald-300">manifest.json</code>.</p>
                 </div>
 
                 <button type="button" onclick="downloadGeneratedJSON()" class="inline-flex items-center justify-center gap-2 px-5 py-2.5 rounded-xl text-xs sm:text-sm font-bold bg-emerald-500 hover:bg-emerald-600 text-white shadow-sm transition cursor-pointer">
                     <i data-lucide="download" class="w-4 h-4"></i>
-                    <span>Download data-progres.json</span>
+                    <span id="btn-download-label">Download JSON</span>
                 </button>
             </div>
 
-            <!-- Ringkasan Validasi -->
             <div class="grid grid-cols-2 sm:grid-cols-4 gap-4 p-6 bg-slate-50 border-b border-slate-200">
                 <div class="bg-white p-3.5 rounded-xl border border-slate-200">
                     <p class="text-[11px] font-semibold uppercase text-slate-500">Cakupan Wilayah</p>
@@ -147,16 +133,20 @@
                 </div>
             </div>
 
-            <!-- Tabel Pratinjau Singkat + Raw JSON Preview -->
+            <!-- Potongan kode manifest.json siap salin -->
             <div class="p-6 space-y-4">
-                <div class="flex items-center justify-between">
-                    <h4 class="text-xs font-bold uppercase tracking-wider text-slate-600">Pratinjau Hasil Rekapitulasi (29 Kab/Kota)</h4>
-                    <button type="button" onclick="toggleRawJSON()" class="text-xs font-semibold text-blue-600 hover:underline">Lihat / Sembunyikan Kode JSON</button>
+                <div class="bg-amber-50 border border-amber-200 rounded-xl p-4 space-y-2">
+                    <div class="flex items-center justify-between">
+                        <p class="text-xs font-bold text-amber-900">Langkah 2: Tambahkan entri berikut ke dalam file <code class="font-mono">manifest.json</code> Anda:</p>
+                        <button type="button" onclick="copyManifestSnippet()" class="inline-flex items-center gap-1 px-2.5 py-1 rounded-md text-xs font-semibold bg-amber-600 text-white hover:bg-amber-700 transition">
+                            <i data-lucide="copy" class="w-3.5 h-3.5"></i>
+                            <span id="btn-copy-manifest-text">Salin Entri</span>
+                        </button>
+                    </div>
+                    <pre id="manifest-snippet" class="bg-slate-900 text-amber-300 text-xs p-3 rounded-lg font-mono overflow-x-auto"></pre>
                 </div>
 
-                <pre id="raw-json-preview" class="hidden bg-slate-900 text-emerald-300 text-xs p-4 rounded-xl overflow-x-auto max-h-64 font-mono"></pre>
-
-                <div class="overflow-x-auto border border-slate-200 rounded-xl max-h-80">
+                <div class="overflow-x-auto border border-slate-200 rounded-xl max-h-72">
                     <table class="w-full text-left border-collapse text-xs">
                         <thead class="bg-slate-100 text-slate-700 sticky top-0">
                             <tr>
@@ -173,18 +163,12 @@
                         <tbody id="preview-tbody" class="divide-y divide-slate-100"></tbody>
                     </table>
                 </div>
-
-                <div class="bg-blue-50 border border-blue-200 rounded-xl p-4 text-xs text-blue-900 flex items-start gap-2.5">
-                    <i data-lucide="info" class="w-4 h-4 text-blue-600 shrink-0 mt-0.5"></i>
-                    <p><strong>Cara Update Website:</strong> Setelah mengunduh <code class="font-mono font-bold">data-progres.json</code>, silakan unggah (timpa) file <code class="font-mono font-bold">data-progres.json</code> lama di folder hosting Anda yang sejajar dengan <code class="font-mono font-bold">index.html</code>.</p>
-                </div>
             </div>
         </section>
 
     </main>
 
     <script>
-        // Referensi target bawaan dari file Target by Kabkota Agregat SPDT NTP.xlsx
         let targetMap = {"3301": 348, "3302": 314, "3303": 286, "3304": 357, "3305": 315, "3306": 288, "3307": 313, "3308": 327, "3309": 312, "3310": 211, "3311": 141, "3312": 272, "3313": 249, "3314": 251, "3315": 319, "3316": 247, "3317": 269, "3318": 388, "3319": 150, "3320": 269, "3321": 305, "3322": 285, "3323": 288, "3324": 283, "3325": 260, "3326": 235, "3327": 254, "3328": 248, "3329": 406};
         let generatedPayload = null;
         let lastProgresRows = null;
@@ -195,33 +179,31 @@
         document.addEventListener('DOMContentLoaded', () => {
             lucide.createIcons();
 
-            // Isi otomatis label waktu saat ini
             const now = new Date();
+            const yyyy = now.getFullYear();
+            const mm = String(now.getMonth() + 1).padStart(2, '0');
+            const dd = String(now.getDate()).padStart(2, '0');
+            const hh = String(now.getHours()).padStart(2, '0');
+            const min = String(now.getMinutes()).padStart(2, '0');
+
+            document.getElementById('input-output-filename').value = `data-progres-${yyyy}${mm}${dd}${hh}${min}.json`;
             const formattedDate = now.toLocaleDateString('id-ID', { day: 'numeric', month: 'long', year: 'numeric' });
-            const formattedTime = now.toTimeString().slice(0, 5);
-            document.getElementById('input-tanggal-label').value = `${formattedDate} (${formattedTime} WIB)`;
+            document.getElementById('input-tanggal-label').value = `${formattedDate} — Pukul ${hh}.${min} WIB`;
 
             document.getElementById('input-excel-progres').addEventListener('change', (e) => {
                 if (e.target.files[0]) readProgresFile(e.target.files[0]);
             });
-
             document.getElementById('input-excel-target').addEventListener('change', (e) => {
                 if (e.target.files[0]) readTargetFile(e.target.files[0]);
             });
-
+            document.getElementById('input-output-filename').addEventListener('input', updateOutputs);
             document.getElementById('input-tanggal-label').addEventListener('input', () => {
                 if (lastProgresRows) buildJSONFromRows(lastProgresRows);
             });
 
-            // Drag & Drop support
             const dropzone = document.getElementById('dropzone-progres');
-            dropzone.addEventListener('dragover', (e) => {
-                e.preventDefault();
-                dropzone.classList.add('border-blue-500', 'bg-blue-50/60');
-            });
-            dropzone.addEventListener('dragleave', () => {
-                dropzone.classList.remove('border-blue-500', 'bg-blue-50/60');
-            });
+            dropzone.addEventListener('dragover', (e) => { e.preventDefault(); dropzone.classList.add('border-blue-500', 'bg-blue-50/60'); });
+            dropzone.addEventListener('dragleave', () => { dropzone.classList.remove('border-blue-500', 'bg-blue-50/60'); });
             dropzone.addEventListener('drop', (e) => {
                 e.preventDefault();
                 dropzone.classList.remove('border-blue-500', 'bg-blue-50/60');
@@ -233,14 +215,10 @@
             const reader = new FileReader();
             reader.onload = function(evt) {
                 try {
-                    const data = new Uint8Array(evt.target.result);
-                    const workbook = XLSX.read(data, { type: 'array' });
-                    const sheet = workbook.Sheets[workbook.SheetNames[0]];
-                    const rows = XLSX.utils.sheet_to_json(sheet, { header: 1 });
-
+                    const workbook = XLSX.read(new Uint8Array(evt.target.result), { type: 'array' });
+                    const rows = XLSX.utils.sheet_to_json(workbook.Sheets[workbook.SheetNames[0]], { header: 1 });
                     const newMap = {};
-                    let count = 0;
-                    let sumTarget = 0;
+                    let count = 0, sumTarget = 0;
 
                     for (let i = 0; i < rows.length; i++) {
                         const r = rows[i];
@@ -248,18 +226,13 @@
                         const kode = String(r[0]).trim();
                         const val = parseInt(r[1]);
                         if (/^\d{4}$/.test(kode) && !isNaN(val)) {
-                            newMap[kode] = val;
-                            count++;
-                            sumTarget += val;
+                            newMap[kode] = val; count++; sumTarget += val;
                         }
                     }
-
-                    if (count === 0) throw new Error("Tidak ditemukan baris Kode Kab (4 digit) dan Target.");
-
+                    if (count === 0) throw new Error("Format target tidak sesuai.");
                     targetMap = newMap;
                     document.getElementById('target-source-label').textContent = `Target Diperbarui (${file.name})`;
-                    document.getElementById('target-summary-text').textContent = `${count} Kabupaten • ${fmtNumber(sumTarget)} Sampel (${fmtNumber(sumTarget * 2)} Dokumen)`;
-
+                    document.getElementById('target-summary-text').textContent = `${count} Kabupaten • ${fmtNumber(sumTarget)} Sampel`;
                     if (lastProgresRows) buildJSONFromRows(lastProgresRows);
                 } catch (err) {
                     alert("Gagal membaca file Target: " + err.message);
@@ -269,23 +242,27 @@
         }
 
         function readProgresFile(file) {
+            // Jika nama file Excel mengandung timestamp 12 digit (misal 202611210730), otomatis pakai untuk nama JSON
+            const tsMatch = file.name.match(/(\d{12})/);
+            if (tsMatch) {
+                const ts = tsMatch[1];
+                document.getElementById('input-output-filename').value = `data-progres-${ts}.json`;
+                const bulan = ['', 'Januari', 'Februari', 'Maret', 'April', 'Mei', 'Juni', 'Juli', 'Agustus', 'September', 'Oktober', 'November', 'Desember'];
+                document.getElementById('input-tanggal-label').value = `${parseInt(ts.slice(6,8))} ${bulan[parseInt(ts.slice(4,6))]} ${ts.slice(0,4)} — Pukul ${ts.slice(8,10)}.${ts.slice(10,12)} WIB`;
+            }
+
             const reader = new FileReader();
             reader.onload = function(evt) {
                 try {
-                    const data = new Uint8Array(evt.target.result);
-                    const workbook = XLSX.read(data, { type: 'array' });
-                    const sheet = workbook.Sheets[workbook.SheetNames[0]];
-                    const rows = XLSX.utils.sheet_to_json(sheet, { header: 1 });
-
+                    const workbook = XLSX.read(new Uint8Array(evt.target.result), { type: 'array' });
+                    const rows = XLSX.utils.sheet_to_json(workbook.Sheets[workbook.SheetNames[0]], { header: 1 });
                     lastProgresRows = rows;
                     document.getElementById('progres-filename').textContent = file.name;
                     document.getElementById('status-progres-badge').textContent = 'Berhasil dimuat';
                     document.getElementById('status-progres-badge').className = 'text-xs font-semibold text-emerald-600';
-
                     buildJSONFromRows(rows);
                 } catch (err) {
-                    alert("Gagal membaca file Excel Progres. Pastikan format sesuai standar.");
-                    console.error(err);
+                    alert("Gagal membaca file Excel Progres.");
                 }
             };
             reader.readAsArrayBuffer(file);
@@ -294,10 +271,7 @@
         function buildJSONFromRows(rows) {
             let startIdx = 7;
             for (let i = 0; i < Math.min(rows.length, 15); i++) {
-                if (rows[i] && rows[i].includes('Produksi')) {
-                    startIdx = i + 1;
-                    break;
-                }
+                if (rows[i] && rows[i].includes('Produksi')) { startIdx = i + 1; break; }
             }
 
             const kabMap = new Map();
@@ -321,14 +295,9 @@
 
                 if (!kabMap.has(kodeKab)) {
                     kabMap.set(kodeKab, {
-                        kode: kodeKab,
-                        kode_full: kodeFull,
-                        nama: namaKab,
+                        kode: kodeKab, kode_full: kodeFull, nama: namaKab,
                         target_sampel: Number(targetMap[kodeFull]) || 0,
-                        produksi: 0,
-                        konsumsi: 0,
-                        total: 0,
-                        petugas: []
+                        produksi: 0, konsumsi: 0, total: 0, petugas: []
                     });
                 }
 
@@ -336,25 +305,14 @@
                 entry.produksi += prod;
                 entry.konsumsi += kons;
                 entry.total += tot;
-                entry.petugas.push({
-                    nama: namaPetugas,
-                    produksi: prod,
-                    konsumsi: kons,
-                    total: tot
-                });
+                entry.petugas.push({ nama: namaPetugas, produksi: prod, konsumsi: kons, total: tot });
             }
 
-            let totalPetugas = 0;
-            let totalTargetSampel = 0;
-            let totalProd = 0;
-            let totalKons = 0;
-            let totalDok = 0;
-
+            let totalPetugas = 0, totalTargetSampel = 0, totalProd = 0, totalKons = 0, totalDok = 0;
             const kabList = Array.from(kabMap.values()).sort((a, b) => a.kode.localeCompare(b.kode)).map(k => {
                 k.petugas.sort((a, b) => b.total - a.total);
                 const tSampel = k.target_sampel;
                 const tDok = tSampel * 2;
-
                 totalPetugas += k.petugas.length;
                 totalTargetSampel += tSampel;
                 totalProd += k.produksi;
@@ -362,15 +320,9 @@
                 totalDok += k.total;
 
                 return {
-                    kode: k.kode,
-                    kode_full: k.kode_full,
-                    nama: k.nama,
-                    jumlah_petugas: k.petugas.length,
-                    target_sampel: tSampel,
-                    target_dokumen: tDok,
-                    produksi: k.produksi,
-                    konsumsi: k.konsumsi,
-                    total: k.total,
+                    kode: k.kode, kode_full: k.kode_full, nama: k.nama,
+                    jumlah_petugas: k.petugas.length, target_sampel: tSampel, target_dokumen: tDok,
+                    produksi: k.produksi, konsumsi: k.konsumsi, total: k.total,
                     persen_produksi: tSampel > 0 ? Number(((k.produksi / tSampel) * 100).toFixed(2)) : 0,
                     persen_konsumsi: tSampel > 0 ? Number(((k.konsumsi / tSampel) * 100).toFixed(2)) : 0,
                     persen_total: tDok > 0 ? Number(((k.total / tDok) * 100).toFixed(2)) : 0,
@@ -379,7 +331,7 @@
             });
 
             const totalTargetDok = totalTargetSampel * 2;
-            const tanggalLabel = document.getElementById('input-tanggal-label').value.trim() || new Date().toLocaleDateString('id-ID');
+            const tanggalLabel = document.getElementById('input-tanggal-label').value.trim();
 
             generatedPayload = {
                 meta: {
@@ -400,23 +352,25 @@
                 data: kabList
             };
 
-            renderPreview();
+            updateOutputs();
         }
 
-        function renderPreview() {
+        function updateOutputs() {
             if (!generatedPayload) return;
             const m = generatedPayload.meta;
+            const outName = document.getElementById('input-output-filename').value.trim() || 'data-progres.json';
 
             document.getElementById('result-section').classList.remove('hidden');
+            document.getElementById('btn-download-label').textContent = `Download ${outName}`;
             document.getElementById('res-kab-petugas').textContent = `${m.total_kabupaten} Kab / ${m.total_petugas} Petugas`;
             document.getElementById('res-produksi').textContent = `${fmtNumber(m.total_produksi)} (${fmtPct(m.persen_produksi)})`;
             document.getElementById('res-konsumsi').textContent = `${fmtNumber(m.total_konsumsi)} (${fmtPct(m.persen_konsumsi)})`;
             document.getElementById('res-total').textContent = `${fmtNumber(m.total_dokumen)} (${fmtPct(m.persen_total)})`;
 
-            document.getElementById('raw-json-preview').textContent = JSON.stringify(generatedPayload, null, 2);
+            const snippetObj = { filename: outName, label: m.tanggal_data };
+            document.getElementById('manifest-snippet').textContent = JSON.stringify(snippetObj, null, 2) + ',';
 
-            const tbody = document.getElementById('preview-tbody');
-            tbody.innerHTML = generatedPayload.data.map(k => `
+            document.getElementById('preview-tbody').innerHTML = generatedPayload.data.map(k => `
                 <tr class="hover:bg-slate-50">
                     <td class="py-2 px-3 font-mono text-slate-500">33.${k.kode}</td>
                     <td class="py-2 px-3 font-semibold text-slate-900">${k.nama}</td>
@@ -430,17 +384,23 @@
             `).join('');
         }
 
-        function toggleRawJSON() {
-            document.getElementById('raw-json-preview').classList.toggle('hidden');
+        function copyManifestSnippet() {
+            const text = document.getElementById('manifest-snippet').textContent;
+            navigator.clipboard.writeText(text).then(() => {
+                const btnText = document.getElementById('btn-copy-manifest-text');
+                btnText.textContent = 'Tersalin!';
+                setTimeout(() => btnText.textContent = 'Salin Entri', 2000);
+            });
         }
 
         function downloadGeneratedJSON() {
             if (!generatedPayload) return;
+            const outName = document.getElementById('input-output-filename').value.trim() || 'data-progres.json';
             const blob = new Blob([JSON.stringify(generatedPayload, null, 2)], { type: "application/json" });
             const url = URL.createObjectURL(blob);
             const a = document.createElement("a");
             a.href = url;
-            a.download = "data-progres.json";
+            a.download = outName;
             document.body.appendChild(a);
             a.click();
             document.body.removeChild(a);
