@@ -1,16 +1,12 @@
 {
   "files": [
     {
+      "filename": "data-progres-202611210730.json",
+      "label": "21 November 2026 — Pukul 07.30 WIB"
+    },
+    {
       "filename": "data-progres-202611200730.json",
       "label": "20 November 2026 — Pukul 07.30 WIB"
-    },
-    {
-      "filename": "data-progres-202611192130.json",
-      "label": "19 November 2026 — Pukul 21.30 WIB"
-    },
-    {
-      "filename": "data-progres-20261119.json",
-      "label": "19 November 2026"
     }
   ]
 }
