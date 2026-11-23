@@ -1,0 +1,1287 @@
+{
+  "meta": {
+    "provinsi": "[33] JAWA TENGAH",
+    "judul": "Monitoring Progres Entri Dokumen SPDT NTP",
+    "tanggal_data": "23 November 2026 — Pukul 04.03 WIB",
+    "total_kabupaten": 29,
+    "total_petugas": 134,
+    "total_target_sampel": 8190,
+    "total_target_dokumen": 16380,
+    "total_produksi": 7117,
+    "total_konsumsi": 6974,
+    "total_dokumen": 14091,
+    "persen_produksi": 86.9,
+    "persen_konsumsi": 85.15,
+    "persen_total": 86.03
+  },
+  "data": [
+    {
+      "kode": "01",
+      "kode_full": "3301",
+      "nama": "CILACAP",
+      "jumlah_petugas": 7,
+      "target_sampel": 348,
+      "target_dokumen": 696,
+      "produksi": 338,
+      "konsumsi": 335,
+      "total": 673,
+      "persen_produksi": 97.13,
+      "persen_konsumsi": 96.26,
+      "persen_total": 96.7,
+      "petugas": [
+        {
+          "nama": "MOHAMAD DITO FATHI IMTIYAS",
+          "produksi": 84,
+          "konsumsi": 86,
+          "total": 170
+        },
+        {
+          "nama": "NAURAYYA AISYAH WINANTO",
+          "produksi": 85,
+          "konsumsi": 85,
+          "total": 170
+        },
+        {
+          "nama": "ZALFA DWIRAKHMA SAHARANI",
+          "produksi": 85,
+          "konsumsi": 84,
+          "total": 169
+        },
+        {
+          "nama": "TRI SETIAJI",
+          "produksi": 79,
+          "konsumsi": 75,
+          "total": 154
+        },
+        {
+          "nama": "Andi Saputro",
+          "produksi": 2,
+          "konsumsi": 3,
+          "total": 5
+        },
+        {
+          "nama": "Ngalim Kuatno",
+          "produksi": 2,
+          "konsumsi": 2,
+          "total": 4
+        },
+        {
+          "nama": "Retna Ayu",
+          "produksi": 1,
+          "konsumsi": 0,
+          "total": 1
+        }
+      ]
+    },
+    {
+      "kode": "02",
+      "kode_full": "3302",
+      "nama": "BANYUMAS",
+      "jumlah_petugas": 4,
+      "target_sampel": 314,
+      "target_dokumen": 628,
+      "produksi": 314,
+      "konsumsi": 314,
+      "total": 628,
+      "persen_produksi": 100,
+      "persen_konsumsi": 100,
+      "persen_total": 100,
+      "petugas": [
+        {
+          "nama": "MUGIARTI",
+          "produksi": 79,
+          "konsumsi": 79,
+          "total": 158
+        },
+        {
+          "nama": "NURBIYANTI ARIEF M",
+          "produksi": 79,
+          "konsumsi": 79,
+          "total": 158
+        },
+        {
+          "nama": "PRIMA RAKHMA S.P",
+          "produksi": 78,
+          "konsumsi": 78,
+          "total": 156
+        },
+        {
+          "nama": "SITI LATIFATHUL MUNAWAROH",
+          "produksi": 78,
+          "konsumsi": 78,
+          "total": 156
+        }
+      ]
+    },
+    {
+      "kode": "03",
+      "kode_full": "3303",
+      "nama": "PURBALINGGA",
+      "jumlah_petugas": 5,
+      "target_sampel": 286,
+      "target_dokumen": 572,
+      "produksi": 123,
+      "konsumsi": 115,
+      "total": 238,
+      "persen_produksi": 43.01,
+      "persen_konsumsi": 40.21,
+      "persen_total": 41.61,
+      "petugas": [
+        {
+          "nama": "BINTARI KATRUNNADA HAIDAR",
+          "produksi": 36,
+          "konsumsi": 36,
+          "total": 72
+        },
+        {
+          "nama": "Dimas Surya Pratama",
+          "produksi": 34,
+          "konsumsi": 36,
+          "total": 70
+        },
+        {
+          "nama": "Akmal Makhil Baehaqi",
+          "produksi": 30,
+          "konsumsi": 29,
+          "total": 59
+        },
+        {
+          "nama": "ISMOYO HARI PRASETYO",
+          "produksi": 22,
+          "konsumsi": 14,
+          "total": 36
+        },
+        {
+          "nama": "Lenteraning Graha Arum Puspa",
+          "produksi": 1,
+          "konsumsi": 0,
+          "total": 1
+        }
+      ]
+    },
+    {
+      "kode": "04",
+      "kode_full": "3304",
+      "nama": "BANJARNEGARA",
+      "jumlah_petugas": 5,
+      "target_sampel": 357,
+      "target_dokumen": 714,
+      "produksi": 357,
+      "konsumsi": 357,
+      "total": 714,
+      "persen_produksi": 100,
+      "persen_konsumsi": 100,
+      "persen_total": 100,
+      "petugas": [
+        {
+          "nama": "FITRIATUN NUR 'ABIDAH",
+          "produksi": 82,
+          "konsumsi": 83,
+          "total": 165
+        },
+        {
+          "nama": "Annur Aviani",
+          "produksi": 78,
+          "konsumsi": 78,
+          "total": 156
+        },
+        {
+          "nama": "Lysandra Eka Endaryati",
+          "produksi": 78,
+          "konsumsi": 78,
+          "total": 156
+        },
+        {
+          "nama": "RIDHA ULY NOVANDAYANY",
+          "produksi": 78,
+          "konsumsi": 78,
+          "total": 156
+        },
+        {
+          "nama": "DINA AMELIA CITRA KUSUMAWARDANI",
+          "produksi": 41,
+          "konsumsi": 40,
+          "total": 81
+        }
+      ]
+    },
+    {
+      "kode": "05",
+      "kode_full": "3305",
+      "nama": "KEBUMEN",
+      "jumlah_petugas": 5,
+      "target_sampel": 315,
+      "target_dokumen": 630,
+      "produksi": 228,
+      "konsumsi": 227,
+      "total": 455,
+      "persen_produksi": 72.38,
+      "persen_konsumsi": 72.06,
+      "persen_total": 72.22,
+      "petugas": [
+        {
+          "nama": "Setya Mulia Handayani",
+          "produksi": 53,
+          "konsumsi": 53,
+          "total": 106
+        },
+        {
+          "nama": "Gustin Trias Susanti",
+          "produksi": 53,
+          "konsumsi": 52,
+          "total": 105
+        },
+        {
+          "nama": "Riztanti Caesilia Putri Gumeli",
+          "produksi": 52,
+          "konsumsi": 52,
+          "total": 104
+        },
+        {
+          "nama": "Ardhy Bintoro Putro Subekhty",
+          "produksi": 43,
+          "konsumsi": 43,
+          "total": 86
+        },
+        {
+          "nama": "Muhamad Khairul Anwar",
+          "produksi": 27,
+          "konsumsi": 27,
+          "total": 54
+        }
+      ]
+    },
+    {
+      "kode": "06",
+      "kode_full": "3306",
+      "nama": "PURWOREJO",
+      "jumlah_petugas": 5,
+      "target_sampel": 288,
+      "target_dokumen": 576,
+      "produksi": 288,
+      "konsumsi": 288,
+      "total": 576,
+      "persen_produksi": 100,
+      "persen_konsumsi": 100,
+      "persen_total": 100,
+      "petugas": [
+        {
+          "nama": "Adi Nugroho",
+          "produksi": 58,
+          "konsumsi": 58,
+          "total": 116
+        },
+        {
+          "nama": "Nur Khoiril",
+          "produksi": 58,
+          "konsumsi": 58,
+          "total": 116
+        },
+        {
+          "nama": "Zakiyya",
+          "produksi": 58,
+          "konsumsi": 58,
+          "total": 116
+        },
+        {
+          "nama": "Garry Kailoso",
+          "produksi": 57,
+          "konsumsi": 57,
+          "total": 114
+        },
+        {
+          "nama": "Hendro Prabowo",
+          "produksi": 57,
+          "konsumsi": 57,
+          "total": 114
+        }
+      ]
+    },
+    {
+      "kode": "07",
+      "kode_full": "3307",
+      "nama": "WONOSOBO",
+      "jumlah_petugas": 4,
+      "target_sampel": 313,
+      "target_dokumen": 626,
+      "produksi": 236,
+      "konsumsi": 236,
+      "total": 472,
+      "persen_produksi": 75.4,
+      "persen_konsumsi": 75.4,
+      "persen_total": 75.4,
+      "petugas": [
+        {
+          "nama": "Indah Choirunnisa",
+          "produksi": 70,
+          "konsumsi": 70,
+          "total": 140
+        },
+        {
+          "nama": "Nova Aditya Putri",
+          "produksi": 64,
+          "konsumsi": 64,
+          "total": 128
+        },
+        {
+          "nama": "EMA WIDIATI",
+          "produksi": 55,
+          "konsumsi": 55,
+          "total": 110
+        },
+        {
+          "nama": "Peny Tri Listiowati",
+          "produksi": 47,
+          "konsumsi": 47,
+          "total": 94
+        }
+      ]
+    },
+    {
+      "kode": "08",
+      "kode_full": "3308",
+      "nama": "MAGELANG",
+      "jumlah_petugas": 4,
+      "target_sampel": 327,
+      "target_dokumen": 654,
+      "produksi": 282,
+      "konsumsi": 274,
+      "total": 556,
+      "persen_produksi": 86.24,
+      "persen_konsumsi": 83.79,
+      "persen_total": 85.02,
+      "petugas": [
+        {
+          "nama": "Naura Rafifah",
+          "produksi": 96,
+          "konsumsi": 88,
+          "total": 184
+        },
+        {
+          "nama": "Eryani Astuti",
+          "produksi": 68,
+          "konsumsi": 65,
+          "total": 133
+        },
+        {
+          "nama": "ULFA KHOIRUNISA",
+          "produksi": 62,
+          "konsumsi": 62,
+          "total": 124
+        },
+        {
+          "nama": "LUTFI HAMIDA",
+          "produksi": 56,
+          "konsumsi": 59,
+          "total": 115
+        }
+      ]
+    },
+    {
+      "kode": "09",
+      "kode_full": "3309",
+      "nama": "BOYOLALI",
+      "jumlah_petugas": 5,
+      "target_sampel": 312,
+      "target_dokumen": 624,
+      "produksi": 238,
+      "konsumsi": 226,
+      "total": 464,
+      "persen_produksi": 76.28,
+      "persen_konsumsi": 72.44,
+      "persen_total": 74.36,
+      "petugas": [
+        {
+          "nama": "Saras Palupining Tiyas",
+          "produksi": 61,
+          "konsumsi": 58,
+          "total": 119
+        },
+        {
+          "nama": "Asti Rahmawati",
+          "produksi": 63,
+          "konsumsi": 53,
+          "total": 116
+        },
+        {
+          "nama": "Ardiya Adha Febiyana",
+          "produksi": 53,
+          "konsumsi": 52,
+          "total": 105
+        },
+        {
+          "nama": "Sinatrya Unggul Taqqarub",
+          "produksi": 51,
+          "konsumsi": 54,
+          "total": 105
+        },
+        {
+          "nama": "Zulfa Khairunnisa",
+          "produksi": 10,
+          "konsumsi": 9,
+          "total": 19
+        }
+      ]
+    },
+    {
+      "kode": "10",
+      "kode_full": "3310",
+      "nama": "KLATEN",
+      "jumlah_petugas": 3,
+      "target_sampel": 211,
+      "target_dokumen": 422,
+      "produksi": 117,
+      "konsumsi": 117,
+      "total": 234,
+      "persen_produksi": 55.45,
+      "persen_konsumsi": 55.45,
+      "persen_total": 55.45,
+      "petugas": [
+        {
+          "nama": "maharani",
+          "produksi": 52,
+          "konsumsi": 52,
+          "total": 104
+        },
+        {
+          "nama": "Andhika",
+          "produksi": 46,
+          "konsumsi": 46,
+          "total": 92
+        },
+        {
+          "nama": "Dela Pingita",
+          "produksi": 19,
+          "konsumsi": 19,
+          "total": 38
+        }
+      ]
+    },
+    {
+      "kode": "11",
+      "kode_full": "3311",
+      "nama": "SUKOHARJO",
+      "jumlah_petugas": 4,
+      "target_sampel": 141,
+      "target_dokumen": 282,
+      "produksi": 111,
+      "konsumsi": 110,
+      "total": 221,
+      "persen_produksi": 78.72,
+      "persen_konsumsi": 78.01,
+      "persen_total": 78.37,
+      "petugas": [
+        {
+          "nama": "Azzra Rahma Chandran Noor Litasari",
+          "produksi": 28,
+          "konsumsi": 28,
+          "total": 56
+        },
+        {
+          "nama": "Nauvita Salma Agustina",
+          "produksi": 28,
+          "konsumsi": 28,
+          "total": 56
+        },
+        {
+          "nama": "Nabilah Dwi Hermawati",
+          "produksi": 28,
+          "konsumsi": 27,
+          "total": 55
+        },
+        {
+          "nama": "Mia Sofia",
+          "produksi": 27,
+          "konsumsi": 27,
+          "total": 54
+        }
+      ]
+    },
+    {
+      "kode": "12",
+      "kode_full": "3312",
+      "nama": "WONOGIRI",
+      "jumlah_petugas": 3,
+      "target_sampel": 272,
+      "target_dokumen": 544,
+      "produksi": 272,
+      "konsumsi": 272,
+      "total": 544,
+      "persen_produksi": 100,
+      "persen_konsumsi": 100,
+      "persen_total": 100,
+      "petugas": [
+        {
+          "nama": "Lina budiarti",
+          "produksi": 91,
+          "konsumsi": 91,
+          "total": 182
+        },
+        {
+          "nama": "SRI MULYANINGSIH",
+          "produksi": 91,
+          "konsumsi": 91,
+          "total": 182
+        },
+        {
+          "nama": "monika sari",
+          "produksi": 90,
+          "konsumsi": 90,
+          "total": 180
+        }
+      ]
+    },
+    {
+      "kode": "13",
+      "kode_full": "3313",
+      "nama": "KARANGANYAR",
+      "jumlah_petugas": 4,
+      "target_sampel": 249,
+      "target_dokumen": 498,
+      "produksi": 249,
+      "konsumsi": 249,
+      "total": 498,
+      "persen_produksi": 100,
+      "persen_konsumsi": 100,
+      "persen_total": 100,
+      "petugas": [
+        {
+          "nama": "firman",
+          "produksi": 64,
+          "konsumsi": 62,
+          "total": 126
+        },
+        {
+          "nama": "Daffina Pranabella Aswara",
+          "produksi": 62,
+          "konsumsi": 63,
+          "total": 125
+        },
+        {
+          "nama": "Wahyu surani",
+          "produksi": 63,
+          "konsumsi": 62,
+          "total": 125
+        },
+        {
+          "nama": "David Surya Saputra",
+          "produksi": 60,
+          "konsumsi": 62,
+          "total": 122
+        }
+      ]
+    },
+    {
+      "kode": "14",
+      "kode_full": "3314",
+      "nama": "SRAGEN",
+      "jumlah_petugas": 4,
+      "target_sampel": 251,
+      "target_dokumen": 502,
+      "produksi": 249,
+      "konsumsi": 206,
+      "total": 455,
+      "persen_produksi": 99.2,
+      "persen_konsumsi": 82.07,
+      "persen_total": 90.64,
+      "petugas": [
+        {
+          "nama": "Dwi Angruni",
+          "produksi": 98,
+          "konsumsi": 69,
+          "total": 167
+        },
+        {
+          "nama": "Nur Sholikatun",
+          "produksi": 74,
+          "konsumsi": 75,
+          "total": 149
+        },
+        {
+          "nama": "Rizka Nurul Khasanah",
+          "produksi": 77,
+          "konsumsi": 61,
+          "total": 138
+        },
+        {
+          "nama": "Sendi Irawan",
+          "produksi": 0,
+          "konsumsi": 1,
+          "total": 1
+        }
+      ]
+    },
+    {
+      "kode": "15",
+      "kode_full": "3315",
+      "nama": "GROBOGAN",
+      "jumlah_petugas": 6,
+      "target_sampel": 319,
+      "target_dokumen": 638,
+      "produksi": 319,
+      "konsumsi": 319,
+      "total": 638,
+      "persen_produksi": 100,
+      "persen_konsumsi": 100,
+      "persen_total": 100,
+      "petugas": [
+        {
+          "nama": "Indah Yanu Rohmah",
+          "produksi": 56,
+          "konsumsi": 56,
+          "total": 112
+        },
+        {
+          "nama": "ALFILIANI HESTI ORLITASARI",
+          "produksi": 54,
+          "konsumsi": 54,
+          "total": 108
+        },
+        {
+          "nama": "Sabela Riska Pratiwi",
+          "produksi": 54,
+          "konsumsi": 54,
+          "total": 108
+        },
+        {
+          "nama": "Dyah Hanifatu Anisa",
+          "produksi": 52,
+          "konsumsi": 52,
+          "total": 104
+        },
+        {
+          "nama": "Zaenal Abidin Luthfi",
+          "produksi": 52,
+          "konsumsi": 52,
+          "total": 104
+        },
+        {
+          "nama": "Amita Yuni Wastianti",
+          "produksi": 51,
+          "konsumsi": 51,
+          "total": 102
+        }
+      ]
+    },
+    {
+      "kode": "16",
+      "kode_full": "3316",
+      "nama": "BLORA",
+      "jumlah_petugas": 5,
+      "target_sampel": 247,
+      "target_dokumen": 494,
+      "produksi": 247,
+      "konsumsi": 247,
+      "total": 494,
+      "persen_produksi": 100,
+      "persen_konsumsi": 100,
+      "persen_total": 100,
+      "petugas": [
+        {
+          "nama": "ANDRIARTI",
+          "produksi": 62,
+          "konsumsi": 62,
+          "total": 124
+        },
+        {
+          "nama": "Dewi Puji Lestari",
+          "produksi": 62,
+          "konsumsi": 62,
+          "total": 124
+        },
+        {
+          "nama": "Dika Arlisya Pratiwi",
+          "produksi": 62,
+          "konsumsi": 62,
+          "total": 124
+        },
+        {
+          "nama": "Mona Widya Natalia",
+          "produksi": 60,
+          "konsumsi": 61,
+          "total": 121
+        },
+        {
+          "nama": "Yunita Rizki Intan Sari",
+          "produksi": 1,
+          "konsumsi": 0,
+          "total": 1
+        }
+      ]
+    },
+    {
+      "kode": "17",
+      "kode_full": "3317",
+      "nama": "REMBANG",
+      "jumlah_petugas": 4,
+      "target_sampel": 269,
+      "target_dokumen": 538,
+      "produksi": 241,
+      "konsumsi": 228,
+      "total": 469,
+      "persen_produksi": 89.59,
+      "persen_konsumsi": 84.76,
+      "persen_total": 87.17,
+      "petugas": [
+        {
+          "nama": "Auliya Rahma",
+          "produksi": 70,
+          "konsumsi": 69,
+          "total": 139
+        },
+        {
+          "nama": "VERA NUR YULIANTI",
+          "produksi": 60,
+          "konsumsi": 60,
+          "total": 120
+        },
+        {
+          "nama": "Yossi ananta",
+          "produksi": 59,
+          "konsumsi": 58,
+          "total": 117
+        },
+        {
+          "nama": "Anang Erdyanto",
+          "produksi": 52,
+          "konsumsi": 41,
+          "total": 93
+        }
+      ]
+    },
+    {
+      "kode": "18",
+      "kode_full": "3318",
+      "nama": "PATI",
+      "jumlah_petugas": 5,
+      "target_sampel": 388,
+      "target_dokumen": 776,
+      "produksi": 377,
+      "konsumsi": 365,
+      "total": 742,
+      "persen_produksi": 97.16,
+      "persen_konsumsi": 94.07,
+      "persen_total": 95.62,
+      "petugas": [
+        {
+          "nama": "Dheanyta Alif Shafira",
+          "produksi": 78,
+          "konsumsi": 78,
+          "total": 156
+        },
+        {
+          "nama": "Yasinta Dwi Septi",
+          "produksi": 77,
+          "konsumsi": 77,
+          "total": 154
+        },
+        {
+          "nama": "INGGRIT PRASESTY",
+          "produksi": 77,
+          "konsumsi": 74,
+          "total": 151
+        },
+        {
+          "nama": "IMANIAR KARTIKO ADHI",
+          "produksi": 78,
+          "konsumsi": 69,
+          "total": 147
+        },
+        {
+          "nama": "Natalia Ayu Ariani",
+          "produksi": 67,
+          "konsumsi": 67,
+          "total": 134
+        }
+      ]
+    },
+    {
+      "kode": "19",
+      "kode_full": "3319",
+      "nama": "KUDUS",
+      "jumlah_petugas": 4,
+      "target_sampel": 150,
+      "target_dokumen": 300,
+      "produksi": 110,
+      "konsumsi": 108,
+      "total": 218,
+      "persen_produksi": 73.33,
+      "persen_konsumsi": 72,
+      "persen_total": 72.67,
+      "petugas": [
+        {
+          "nama": "Putri Andriyani",
+          "produksi": 55,
+          "konsumsi": 54,
+          "total": 109
+        },
+        {
+          "nama": "Muhammad Ilham Khanafi",
+          "produksi": 53,
+          "konsumsi": 54,
+          "total": 107
+        },
+        {
+          "nama": "Dyah Ayu Setyaningrum",
+          "produksi": 1,
+          "konsumsi": 0,
+          "total": 1
+        },
+        {
+          "nama": "Ekta Surya Fiqriani",
+          "produksi": 1,
+          "konsumsi": 0,
+          "total": 1
+        }
+      ]
+    },
+    {
+      "kode": "20",
+      "kode_full": "3320",
+      "nama": "JEPARA",
+      "jumlah_petugas": 6,
+      "target_sampel": 269,
+      "target_dokumen": 538,
+      "produksi": 240,
+      "konsumsi": 230,
+      "total": 470,
+      "persen_produksi": 89.22,
+      "persen_konsumsi": 85.5,
+      "persen_total": 87.36,
+      "petugas": [
+        {
+          "nama": "Arnetta Raafi Nur Hanifah",
+          "produksi": 68,
+          "konsumsi": 69,
+          "total": 137
+        },
+        {
+          "nama": "Dedi Widarto",
+          "produksi": 67,
+          "konsumsi": 67,
+          "total": 134
+        },
+        {
+          "nama": "Mustika Permata Sari",
+          "produksi": 67,
+          "konsumsi": 63,
+          "total": 130
+        },
+        {
+          "nama": "Yulita Rahmawati",
+          "produksi": 28,
+          "konsumsi": 31,
+          "total": 59
+        },
+        {
+          "nama": "Tino Subekti",
+          "produksi": 9,
+          "konsumsi": 0,
+          "total": 9
+        },
+        {
+          "nama": "Rum Wikandini",
+          "produksi": 1,
+          "konsumsi": 0,
+          "total": 1
+        }
+      ]
+    },
+    {
+      "kode": "21",
+      "kode_full": "3321",
+      "nama": "DEMAK",
+      "jumlah_petugas": 5,
+      "target_sampel": 305,
+      "target_dokumen": 610,
+      "produksi": 266,
+      "konsumsi": 265,
+      "total": 531,
+      "persen_produksi": 87.21,
+      "persen_konsumsi": 86.89,
+      "persen_total": 87.05,
+      "petugas": [
+        {
+          "nama": "Nadia Ayu Arum Indrawati",
+          "produksi": 61,
+          "konsumsi": 61,
+          "total": 122
+        },
+        {
+          "nama": "Mariska Dewantari Mintono",
+          "produksi": 60,
+          "konsumsi": 60,
+          "total": 120
+        },
+        {
+          "nama": "Ulfa Sofiyana",
+          "produksi": 58,
+          "konsumsi": 58,
+          "total": 116
+        },
+        {
+          "nama": "Adhek Pramudya Mayashita",
+          "produksi": 53,
+          "konsumsi": 52,
+          "total": 105
+        },
+        {
+          "nama": "Muhammad Syamil Asy Syauqi",
+          "produksi": 34,
+          "konsumsi": 34,
+          "total": 68
+        }
+      ]
+    },
+    {
+      "kode": "22",
+      "kode_full": "3322",
+      "nama": "SEMARANG",
+      "jumlah_petugas": 4,
+      "target_sampel": 285,
+      "target_dokumen": 570,
+      "produksi": 238,
+      "konsumsi": 230,
+      "total": 468,
+      "persen_produksi": 83.51,
+      "persen_konsumsi": 80.7,
+      "persen_total": 82.11,
+      "petugas": [
+        {
+          "nama": "SITI NUR SOLEKAH",
+          "produksi": 65,
+          "konsumsi": 63,
+          "total": 128
+        },
+        {
+          "nama": "Sekar Apriliani",
+          "produksi": 59,
+          "konsumsi": 58,
+          "total": 117
+        },
+        {
+          "nama": "Sakinatuzahro",
+          "produksi": 59,
+          "konsumsi": 56,
+          "total": 115
+        },
+        {
+          "nama": "Isna Nafisatul Ma'rifah",
+          "produksi": 55,
+          "konsumsi": 53,
+          "total": 108
+        }
+      ]
+    },
+    {
+      "kode": "23",
+      "kode_full": "3323",
+      "nama": "TEMANGGUNG",
+      "jumlah_petugas": 5,
+      "target_sampel": 288,
+      "target_dokumen": 576,
+      "produksi": 283,
+      "konsumsi": 265,
+      "total": 548,
+      "persen_produksi": 98.26,
+      "persen_konsumsi": 92.01,
+      "persen_total": 95.14,
+      "petugas": [
+        {
+          "nama": "Rizqi",
+          "produksi": 92,
+          "konsumsi": 85,
+          "total": 177
+        },
+        {
+          "nama": "Annisa",
+          "produksi": 81,
+          "konsumsi": 84,
+          "total": 165
+        },
+        {
+          "nama": "Kurnia",
+          "produksi": 54,
+          "konsumsi": 55,
+          "total": 109
+        },
+        {
+          "nama": "Alfina",
+          "produksi": 36,
+          "konsumsi": 35,
+          "total": 71
+        },
+        {
+          "nama": "Nurul Hidayati",
+          "produksi": 20,
+          "konsumsi": 6,
+          "total": 26
+        }
+      ]
+    },
+    {
+      "kode": "24",
+      "kode_full": "3324",
+      "nama": "KENDAL",
+      "jumlah_petugas": 4,
+      "target_sampel": 283,
+      "target_dokumen": 566,
+      "produksi": 197,
+      "konsumsi": 196,
+      "total": 393,
+      "persen_produksi": 69.61,
+      "persen_konsumsi": 69.26,
+      "persen_total": 69.43,
+      "petugas": [
+        {
+          "nama": "Muhammad Ilham Pratama",
+          "produksi": 55,
+          "konsumsi": 55,
+          "total": 110
+        },
+        {
+          "nama": "Novi Sultonia Farida",
+          "produksi": 51,
+          "konsumsi": 50,
+          "total": 101
+        },
+        {
+          "nama": "M. Nur Fajar Ashidiqi",
+          "produksi": 49,
+          "konsumsi": 49,
+          "total": 98
+        },
+        {
+          "nama": "Naila Muhimmatul Ifadah",
+          "produksi": 42,
+          "konsumsi": 42,
+          "total": 84
+        }
+      ]
+    },
+    {
+      "kode": "25",
+      "kode_full": "3325",
+      "nama": "BATANG",
+      "jumlah_petugas": 5,
+      "target_sampel": 260,
+      "target_dokumen": 520,
+      "produksi": 201,
+      "konsumsi": 200,
+      "total": 401,
+      "persen_produksi": 77.31,
+      "persen_konsumsi": 76.92,
+      "persen_total": 77.12,
+      "petugas": [
+        {
+          "nama": "Dewi Sri Hastuti",
+          "produksi": 46,
+          "konsumsi": 44,
+          "total": 90
+        },
+        {
+          "nama": "Tri Dzul Baidah",
+          "produksi": 42,
+          "konsumsi": 42,
+          "total": 84
+        },
+        {
+          "nama": "MEILISSA CHINTYA WIJAYA",
+          "produksi": 40,
+          "konsumsi": 40,
+          "total": 80
+        },
+        {
+          "nama": "MUHAMAD HAFIZD SALMAN",
+          "produksi": 37,
+          "konsumsi": 38,
+          "total": 75
+        },
+        {
+          "nama": "Ukhti Lailun Nisa",
+          "produksi": 36,
+          "konsumsi": 36,
+          "total": 72
+        }
+      ]
+    },
+    {
+      "kode": "26",
+      "kode_full": "3326",
+      "nama": "PEKALONGAN",
+      "jumlah_petugas": 5,
+      "target_sampel": 235,
+      "target_dokumen": 470,
+      "produksi": 235,
+      "konsumsi": 235,
+      "total": 470,
+      "persen_produksi": 100,
+      "persen_konsumsi": 100,
+      "persen_total": 100,
+      "petugas": [
+        {
+          "nama": "M Faruq Najib",
+          "produksi": 60,
+          "konsumsi": 59,
+          "total": 119
+        },
+        {
+          "nama": "Nurul Fadlilah",
+          "produksi": 59,
+          "konsumsi": 59,
+          "total": 118
+        },
+        {
+          "nama": "Cahyo Dwi Kurniawan",
+          "produksi": 56,
+          "konsumsi": 57,
+          "total": 113
+        },
+        {
+          "nama": "Ulyana Safitri",
+          "produksi": 56,
+          "konsumsi": 55,
+          "total": 111
+        },
+        {
+          "nama": "Arif Muttaqin",
+          "produksi": 4,
+          "konsumsi": 5,
+          "total": 9
+        }
+      ]
+    },
+    {
+      "kode": "27",
+      "kode_full": "3327",
+      "nama": "PEMALANG",
+      "jumlah_petugas": 5,
+      "target_sampel": 254,
+      "target_dokumen": 508,
+      "produksi": 117,
+      "konsumsi": 117,
+      "total": 234,
+      "persen_produksi": 46.06,
+      "persen_konsumsi": 46.06,
+      "persen_total": 46.06,
+      "petugas": [
+        {
+          "nama": "HERSAPTOTO",
+          "produksi": 48,
+          "konsumsi": 48,
+          "total": 96
+        },
+        {
+          "nama": "Ulfatus Solikha",
+          "produksi": 36,
+          "konsumsi": 37,
+          "total": 73
+        },
+        {
+          "nama": "DESY WIDYASARI",
+          "produksi": 21,
+          "konsumsi": 23,
+          "total": 44
+        },
+        {
+          "nama": "Bayu Setiawan",
+          "produksi": 11,
+          "konsumsi": 9,
+          "total": 20
+        },
+        {
+          "nama": "Andrian Widihastanto",
+          "produksi": 1,
+          "konsumsi": 0,
+          "total": 1
+        }
+      ]
+    },
+    {
+      "kode": "28",
+      "kode_full": "3328",
+      "nama": "TEGAL",
+      "jumlah_petugas": 4,
+      "target_sampel": 248,
+      "target_dokumen": 496,
+      "produksi": 248,
+      "konsumsi": 249,
+      "total": 497,
+      "persen_produksi": 100,
+      "persen_konsumsi": 100.4,
+      "persen_total": 100.2,
+      "petugas": [
+        {
+          "nama": "FINTI PUJI ASTANTI",
+          "produksi": 101,
+          "konsumsi": 96,
+          "total": 197
+        },
+        {
+          "nama": "Zulfi Zabika Amani",
+          "produksi": 61,
+          "konsumsi": 61,
+          "total": 122
+        },
+        {
+          "nama": "Arini Alfa Hani",
+          "produksi": 59,
+          "konsumsi": 62,
+          "total": 121
+        },
+        {
+          "nama": "Abyan Lathiful Fakhri",
+          "produksi": 27,
+          "konsumsi": 30,
+          "total": 57
+        }
+      ]
+    },
+    {
+      "kode": "29",
+      "kode_full": "3329",
+      "nama": "BREBES",
+      "jumlah_petugas": 5,
+      "target_sampel": 406,
+      "target_dokumen": 812,
+      "produksi": 396,
+      "konsumsi": 394,
+      "total": 790,
+      "persen_produksi": 97.54,
+      "persen_konsumsi": 97.04,
+      "persen_total": 97.29,
+      "petugas": [
+        {
+          "nama": "Chaerunnisa Salsabila",
+          "produksi": 86,
+          "konsumsi": 87,
+          "total": 173
+        },
+        {
+          "nama": "Regita Dwi Meilita Hapsari",
+          "produksi": 81,
+          "konsumsi": 81,
+          "total": 162
+        },
+        {
+          "nama": "Vina Fitriyani",
+          "produksi": 81,
+          "konsumsi": 80,
+          "total": 161
+        },
+        {
+          "nama": "Kusumaningtyas T.H.",
+          "produksi": 76,
+          "konsumsi": 75,
+          "total": 151
+        },
+        {
+          "nama": "Sri Susmarlin",
+          "produksi": 72,
+          "konsumsi": 71,
+          "total": 143
+        }
+      ]
+    }
+  ]
+}
