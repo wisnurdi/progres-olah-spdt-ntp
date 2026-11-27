@@ -1,0 +1,660 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Generator JSON Histori Progres - SPDT NTP [33]</title>
+
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script>
+        tailwind.config = { theme: { extend: { fontFamily: { sans: ['Inter', 'sans-serif'] } } } }
+    </script>
+    <script src="https://cdn.sheetjs.com/xlsx-0.20.1/package/dist/xlsx.full.min.js"></script>
+    <script src="https://unpkg.com/lucide@latest"></script>
+</head>
+<body class="bg-slate-50 text-slate-900 antialiased min-h-screen flex flex-col">
+
+    <header class="bg-white border-b border-slate-200">
+        <div class="max-w-5xl mx-auto px-4 sm:px-6 lg:px-8 py-4 flex flex-col sm:flex-row sm:items-center sm:justify-between gap-3">
+            <div class="flex items-center gap-3">
+                <div class="bg-emerald-600 text-white p-2.5 rounded-xl shadow-xs">
+                    <i data-lucide="file-json-2" class="w-6 h-6"></i>
+                </div>
+                <div>
+                    <h1 class="text-lg sm:text-xl font-bold text-slate-900 tracking-tight">Konverter Excel ke JSON Histori</h1>
+                    <p class="text-xs sm:text-sm text-slate-500">Mendukung otomatis format baru (<code class="font-mono bg-slate-100 px-1 rounded">Clean/Error/Belum</code>) maupun format lama (rekap)</p>
+                </div>
+            </div>
+            <a href="./index.html" class="inline-flex items-center gap-1.5 px-3.5 py-2 rounded-lg text-xs font-semibold bg-slate-100 hover:bg-slate-200 text-slate-700 transition self-start sm:self-auto">
+                <i data-lucide="arrow-left" class="w-4 h-4"></i>
+                <span>Kembali ke Dashboard</span>
+            </a>
+        </div>
+    </header>
+
+    <main class="flex-1 max-w-5xl w-full mx-auto px-4 sm:px-6 lg:px-8 py-8 space-y-6">
+
+        <div class="grid grid-cols-1 md:grid-cols-3 gap-6">
+            <!-- Upload Excel Progres -->
+            <div id="upload-main-card" class="md:col-span-2 bg-white rounded-2xl border border-slate-200 p-6 shadow-2xs flex flex-col justify-between">
+                <div>
+                    <div class="flex items-center justify-between mb-3">
+                        <div class="flex items-center gap-2">
+                            <span class="inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-semibold bg-blue-50 text-blue-700 border border-blue-200">Langkah 1 (Wajib)</span>
+                            <span id="detected-format-badge" class="hidden inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-semibold bg-indigo-50 text-indigo-700 border border-indigo-200">Format Status (Clean/Error/Belum)</span>
+                        </div>
+                        <span id="status-progres-badge" class="text-xs font-medium text-slate-400">Belum dipilih</span>
+                    </div>
+                    <h2 class="text-base font-bold text-slate-900">Upload File Excel Progres / Gabungan</h2>
+                    <p class="text-xs text-slate-500 mt-1">Pilih file <code class="font-mono">... gabungan spdt-ntp progres.xlsx</code> (format baru) atau <code class="font-mono">Tabel Progres petugas_entri...xlsx</code> (format lama).</p>
+
+                    <label for="input-excel-progres" id="dropzone-progres" class="mt-4 border-2 border-dashed border-slate-300 hover:border-blue-500 hover:bg-blue-50/40 rounded-xl p-7 flex flex-col items-center justify-center text-center cursor-pointer transition">
+                        <div class="p-3 bg-blue-50 text-blue-600 rounded-full mb-2.5">
+                            <i data-lucide="upload-cloud" class="w-7 h-7"></i>
+                        </div>
+                        <p class="text-sm font-semibold text-slate-800" id="progres-filename">Klik untuk memilih atau seret file Excel ke sini</p>
+                        <p class="text-xs text-slate-500 mt-1">Format <code class="font-mono">.xlsx</code> / <code class="font-mono">.xls</code> — Otomatis mendeteksi struktur kolom</p>
+                    </label>
+                    <input type="file" id="input-excel-progres" accept=".xlsx,.xls" class="hidden" />
+                </div>
+
+                <!-- Pengaturan Nama File & Label Histori -->
+                <div class="mt-5 pt-4 border-t border-slate-100 grid grid-cols-1 sm:grid-cols-2 gap-3">
+                    <div>
+                        <label for="input-output-filename" class="block text-xs font-semibold text-slate-700 mb-1">Nama File Output JSON</label>
+                        <input type="text" id="input-output-filename" class="w-full border border-slate-300 rounded-lg px-3 py-2 text-xs font-mono focus:outline-none focus:border-blue-500" />
+                    </div>
+                    <div>
+                        <label for="input-tanggal-label" class="block text-xs font-semibold text-slate-700 mb-1">Label Tampilan di Dropdown Histori</label>
+                        <input type="text" id="input-tanggal-label" class="w-full border border-slate-300 rounded-lg px-3 py-2 text-xs focus:outline-none focus:border-blue-500" />
+                    </div>
+                </div>
+            </div>
+
+            <!-- Referensi Target (Otomatis sembunyi jika format baru Clean/Error/Belum) -->
+            <div id="target-reference-card" class="bg-white rounded-2xl border border-slate-200 p-6 shadow-2xs flex flex-col justify-between">
+                <div>
+                    <span class="inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-semibold bg-slate-100 text-slate-700 border border-slate-200 mb-3">Khusus Format Lama</span>
+                    <h2 class="text-base font-bold text-slate-900">Referensi Target Sampel</h2>
+                    <p class="text-xs text-slate-500 mt-1">Tidak diperlukan untuk format baru (Clean/Error/Belum) karena seluruh sampel sudah ada di file Excel.</p>
+
+                    <div class="mt-4 p-3.5 rounded-xl bg-emerald-50/70 border border-emerald-200 text-xs text-emerald-900 space-y-1">
+                        <div class="flex items-center gap-1.5 font-semibold">
+                            <i data-lucide="check-circle-2" class="w-4 h-4 text-emerald-600"></i>
+                            <span id="target-source-label">Target Bawaan Aktif</span>
+                        </div>
+                        <p class="text-emerald-800 pl-5" id="target-summary-text">29 Kabupaten • 8.190 Sampel</p>
+                    </div>
+                </div>
+
+                <div class="mt-5 pt-4 border-t border-slate-100">
+                    <label for="input-excel-target" class="cursor-pointer w-full inline-flex items-center justify-center gap-2 px-3.5 py-2.5 rounded-lg text-xs font-semibold bg-white border border-slate-300 text-slate-700 hover:bg-slate-50 transition">
+                        <i data-lucide="file-spreadsheet" class="w-4 h-4 text-slate-600"></i>
+                        <span>Ganti File Excel Target</span>
+                    </label>
+                    <input type="file" id="input-excel-target" accept=".xlsx,.xls" class="hidden" />
+                </div>
+            </div>
+        </div>
+
+        <!-- Hasil Konversi & Instruksi Update Manifest -->
+        <section id="result-section" class="hidden bg-white rounded-2xl border border-slate-200 shadow-2xs overflow-hidden">
+            <div class="bg-slate-900 text-white px-6 py-4 flex flex-col sm:flex-row sm:items-center justify-between gap-4">
+                <div>
+                    <h3 class="text-base font-bold flex items-center gap-2">
+                        <i data-lucide="check-circle" class="w-5 h-5 text-emerald-400"></i>
+                        <span>File Histori JSON Siap Diunduh</span>
+                    </h3>
+                    <p class="text-xs text-slate-300 mt-0.5">Unduh file JSON di samping dan tambahkan barisnya ke <code class="font-mono text-emerald-300">manifest.json</code>.</p>
+                </div>
+
+                <button type="button" onclick="downloadGeneratedJSON()" class="inline-flex items-center justify-center gap-2 px-5 py-2.5 rounded-xl text-xs sm:text-sm font-bold bg-emerald-500 hover:bg-emerald-600 text-white shadow-sm transition cursor-pointer">
+                    <i data-lucide="download" class="w-4 h-4"></i>
+                    <span id="btn-download-label">Download JSON</span>
+                </button>
+            </div>
+
+            <div id="result-kpi-grid" class="grid grid-cols-2 sm:grid-cols-4 gap-4 p-6 bg-slate-50 border-b border-slate-200"></div>
+
+            <!-- Potongan kode manifest.json siap salin -->
+            <div class="p-6 space-y-4">
+                <div class="bg-amber-50 border border-amber-200 rounded-xl p-4 space-y-2">
+                    <div class="flex items-center justify-between">
+                        <p class="text-xs font-bold text-amber-900">Langkah 2: Tambahkan entri berikut ke dalam file <code class="font-mono">manifest.json</code> Anda:</p>
+                        <button type="button" onclick="copyManifestSnippet()" class="inline-flex items-center gap-1 px-2.5 py-1 rounded-md text-xs font-semibold bg-amber-600 text-white hover:bg-amber-700 transition">
+                            <i data-lucide="copy" class="w-3.5 h-3.5"></i>
+                            <span id="btn-copy-manifest-text">Salin Entri</span>
+                        </button>
+                    </div>
+                    <pre id="manifest-snippet" class="bg-slate-900 text-amber-300 text-xs p-3 rounded-lg font-mono overflow-x-auto"></pre>
+                </div>
+
+                <div class="overflow-x-auto border border-slate-200 rounded-xl max-h-72">
+                    <table class="w-full text-left border-collapse text-xs">
+                        <thead id="preview-thead" class="bg-slate-100 text-slate-700 sticky top-0"></thead>
+                        <tbody id="preview-tbody" class="divide-y divide-slate-100"></tbody>
+                    </table>
+                </div>
+            </div>
+        </section>
+
+    </main>
+
+    <script>
+        let targetMap = {"3301": 348, "3302": 314, "3303": 286, "3304": 357, "3305": 315, "3306": 288, "3307": 313, "3308": 327, "3309": 312, "3310": 211, "3311": 141, "3312": 272, "3313": 249, "3314": 251, "3315": 319, "3316": 247, "3317": 269, "3318": 388, "3319": 150, "3320": 269, "3321": 305, "3322": 285, "3323": 288, "3324": 283, "3325": 260, "3326": 235, "3327": 254, "3328": 248, "3329": 406};
+        let generatedPayload = null;
+        let lastWorkbook = null;
+
+        const fmtNumber = (num) => new Intl.NumberFormat('id-ID').format(num || 0);
+        const fmtPct = (num) => Number(num || 0).toLocaleString('id-ID', { minimumFractionDigits: 2, maximumFractionDigits: 2 }) + '%';
+
+        document.addEventListener('DOMContentLoaded', () => {
+            lucide.createIcons();
+
+            const now = new Date();
+            const yyyy = now.getFullYear();
+            const mm = String(now.getMonth() + 1).padStart(2, '0');
+            const dd = String(now.getDate()).padStart(2, '0');
+            const hh = String(now.getHours()).padStart(2, '0');
+            const min = String(now.getMinutes()).padStart(2, '0');
+
+            document.getElementById('input-output-filename').value = `data-progres-${yyyy}${mm}${dd}${hh}${min}.json`;
+            const formattedDate = now.toLocaleDateString('id-ID', { day: 'numeric', month: 'long', year: 'numeric' });
+            document.getElementById('input-tanggal-label').value = `${formattedDate} — Pukul ${hh}.${min} WIB`;
+
+            document.getElementById('input-excel-progres').addEventListener('change', (e) => {
+                if (e.target.files[0]) readProgresFile(e.target.files[0]);
+            });
+            document.getElementById('input-excel-target').addEventListener('change', (e) => {
+                if (e.target.files[0]) readTargetFile(e.target.files[0]);
+            });
+            document.getElementById('input-output-filename').addEventListener('input', updateOutputs);
+            document.getElementById('input-tanggal-label').addEventListener('input', () => {
+                if (lastWorkbook) processWorkbook(lastWorkbook);
+            });
+
+            const dropzone = document.getElementById('dropzone-progres');
+            dropzone.addEventListener('dragover', (e) => { e.preventDefault(); dropzone.classList.add('border-blue-500', 'bg-blue-50/60'); });
+            dropzone.addEventListener('dragleave', () => { dropzone.classList.remove('border-blue-500', 'bg-blue-50/60'); });
+            dropzone.addEventListener('drop', (e) => {
+                e.preventDefault();
+                dropzone.classList.remove('border-blue-500', 'bg-blue-50/60');
+                if (e.dataTransfer.files[0]) readProgresFile(e.dataTransfer.files[0]);
+            });
+        });
+
+        function extractTimestampFromExcelName(filename) {
+            const bulan = ['', 'Januari', 'Februari', 'Maret', 'April', 'Mei', 'Juni', 'Juli', 'Agustus', 'September', 'Oktober', 'November', 'Desember'];
+            // Cek 12 digit YYYYMMDDHHmm
+            const m12 = filename.match(/(20\d{2})(\d{2})(\d{2})(\d{2})(\d{2})/);
+            if (m12) {
+                const ts = `${m12[1]}${m12[2]}${m12[3]}${m12[4]}${m12[5]}`;
+                return {
+                    jsonName: `data-progres-${ts}.json`,
+                    label: `${parseInt(m12[3])} ${bulan[parseInt(m12[2])]} ${m12[1]} — Pukul ${m12[4]}.${m12[5]} WIB`
+                };
+            }
+            // Cek 10 digit YYMMDDHHmm (contoh: 2611271700)
+            const m10 = filename.match(/(\d{2})(\d{2})(\d{2})(\d{2})(\d{2})/);
+            if (m10) {
+                const yyyy = `20${m10[1]}`;
+                const ts = `${yyyy}${m10[2]}${m10[3]}${m10[4]}${m10[5]}`;
+                return {
+                    jsonName: `data-progres-${ts}.json`,
+                    label: `${parseInt(m10[3])} ${bulan[parseInt(m10[2])]} ${yyyy} — Pukul ${m10[4]}.${m10[5]} WIB`
+                };
+            }
+            return null;
+        }
+
+        function readTargetFile(file) {
+            const reader = new FileReader();
+            reader.onload = function(evt) {
+                try {
+                    const workbook = XLSX.read(new Uint8Array(evt.target.result), { type: 'array' });
+                    const rows = XLSX.utils.sheet_to_json(workbook.Sheets[workbook.SheetNames[0]], { header: 1 });
+                    const newMap = {};
+                    let count = 0, sumTarget = 0;
+
+                    for (let i = 0; i < rows.length; i++) {
+                        const r = rows[i];
+                        if (!r || r.length < 2) continue;
+                        const kode = String(r[0]).trim();
+                        const val = parseInt(r[1]);
+                        if (/^\d{4}$/.test(kode) && !isNaN(val)) {
+                            newMap[kode] = val; count++; sumTarget += val;
+                        }
+                    }
+                    if (count === 0) throw new Error("Format target tidak sesuai.");
+                    targetMap = newMap;
+                    document.getElementById('target-source-label').textContent = `Target Diperbarui (${file.name})`;
+                    document.getElementById('target-summary-text').textContent = `${count} Kabupaten • ${fmtNumber(sumTarget)} Sampel`;
+                    if (lastWorkbook) processWorkbook(lastWorkbook);
+                } catch (err) {
+                    alert("Gagal membaca file Target: " + err.message);
+                }
+            };
+            reader.readAsArrayBuffer(file);
+        }
+
+        function readProgresFile(file) {
+            const parsedTs = extractTimestampFromExcelName(file.name);
+            if (parsedTs) {
+                document.getElementById('input-output-filename').value = parsedTs.jsonName;
+                document.getElementById('input-tanggal-label').value = parsedTs.label;
+            }
+
+            const reader = new FileReader();
+            reader.onload = function(evt) {
+                try {
+                    const workbook = XLSX.read(new Uint8Array(evt.target.result), { type: 'array' });
+                    lastWorkbook = workbook;
+                    document.getElementById('progres-filename').textContent = file.name;
+                    document.getElementById('status-progres-badge').textContent = 'Berhasil dimuat';
+                    document.getElementById('status-progres-badge').className = 'text-xs font-semibold text-emerald-600';
+                    processWorkbook(workbook);
+                } catch (err) {
+                    alert("Gagal membaca file Excel: " + err.message);
+                }
+            };
+            reader.readAsArrayBuffer(file);
+        }
+
+        function processWorkbook(workbook) {
+            const firstSheetName = workbook.SheetNames[0];
+            const rows = XLSX.utils.sheet_to_json(workbook.Sheets[firstSheetName], { header: 1 });
+            const headerRow = (rows[0] || []).map(c => String(c || '').trim());
+
+            const isStatusV2 = firstSheetName === 'Data_Hasil' || (headerRow.includes('Status Produksi') && headerRow.includes('Status Konsumsi'));
+
+            const formatBadge = document.getElementById('detected-format-badge');
+            const targetCard = document.getElementById('target-reference-card');
+            const mainCard = document.getElementById('upload-main-card');
+
+            if (isStatusV2) {
+                formatBadge.classList.remove('hidden');
+                formatBadge.textContent = 'Format Baru: Status Clean / Error / Belum';
+                targetCard.classList.add('hidden');
+                mainCard.classList.remove('md:col-span-2');
+                mainCard.classList.add('md:col-span-3');
+                buildStatusV2JSON(rows);
+            } else {
+                formatBadge.classList.remove('hidden');
+                formatBadge.textContent = 'Format Lama: Rekap Agregat Petugas';
+                targetCard.classList.remove('hidden');
+                mainCard.classList.remove('md:col-span-3');
+                mainCard.classList.add('md:col-span-2');
+                buildLegacyJSON(rows);
+            }
+        }
+
+        function buildStatusV2JSON(rows) {
+            const kabMap = new Map();
+            let provLabel = "[33] JAWA TENGAH";
+
+            for (let i = 1; i < rows.length; i++) {
+                const r = rows[i];
+                if (!r || !r[0]) continue;
+
+                const kabRaw = String(r[0] || '').trim();
+                const jenisSample = String(r[1] || '').trim().toUpperCase();
+                const stProd = String(r[3] || '').trim().toLowerCase();
+                const opProd = String(r[4] || '-').trim() || '-';
+                const stKons = String(r[5] || '').trim().toLowerCase();
+                const opKons = String(r[6] || '-').trim() || '-';
+
+                let kodeProv = '33', kodeKab = '00', kodeFull = '3300', namaKab = kabRaw;
+                const m = kabRaw.match(/^\[(\d{2})(\d{2})\]\s*(.+)$/);
+                if (m) {
+                    kodeProv = m[1]; kodeKab = m[2]; kodeFull = kodeProv + kodeKab; namaKab = m[3].trim();
+                }
+
+                if (!kabMap.has(kodeKab)) {
+                    kabMap.set(kodeKab, {
+                        kode: kodeKab, kode_full: kodeFull, nama: namaKab,
+                        total_sampel: 0, sampel_utama: 0, sampel_pengganti: 0,
+                        prod_clean: 0, prod_error: 0, prod_belum: 0,
+                        kons_clean: 0, kons_error: 0, kons_belum: 0,
+                        petugasMap: new Map()
+                    });
+                }
+
+                const k = kabMap.get(kodeKab);
+                k.total_sampel += 1;
+                if (jenisSample === 'UTAMA') k.sampel_utama += 1;
+                else k.sampel_pengganti += 1;
+
+                if (stProd === 'clean') k.prod_clean += 1;
+                else if (stProd === 'error') k.prod_error += 1;
+                else k.prod_belum += 1;
+
+                if (stKons === 'clean') k.kons_clean += 1;
+                else if (stKons === 'error') k.kons_error += 1;
+                else k.kons_belum += 1;
+
+                const addOp = (opName, dim, st) => {
+                    const isUnassigned = (opName === '-' || opName === '' || opName === 'nan');
+                    const key = isUnassigned ? 'BELUM_DIALOKASIKAN' : opName;
+                    const display = isUnassigned ? 'Belum Dialokasikan (-)' : opName;
+
+                    if (!k.petugasMap.has(key)) {
+                        k.petugasMap.set(key, {
+                            nama: display, is_unassigned: isUnassigned,
+                            prod_clean: 0, prod_error: 0, prod_belum: 0,
+                            kons_clean: 0, kons_error: 0, kons_belum: 0
+                        });
+                    }
+                    const opObj = k.petugasMap.get(key);
+                    const field = `${dim}_${st === 'clean' ? 'clean' : st === 'error' ? 'error' : 'belum'}`;
+                    opObj[field] += 1;
+                };
+
+                addOp(opProd, 'prod', stProd);
+                addOp(opKons, 'kons', stKons);
+            }
+
+            let totSampel = 0, totPetugas = 0;
+            let pC = 0, pE = 0, pB = 0, kC = 0, kE = 0, kB = 0;
+
+            const kabList = Array.from(kabMap.values()).sort((a, b) => a.kode.localeCompare(b.kode)).map(k => {
+                const tSamp = k.total_sampel;
+                const tDok = tSamp * 2;
+                const clean = k.prod_clean + k.kons_clean;
+                const error = k.prod_error + k.kons_error;
+                const belum = k.prod_belum + k.kons_belum;
+
+                let activeOps = 0;
+                const petugasList = Array.from(k.petugasMap.values()).map(p => {
+                    const opClean = p.prod_clean + p.kons_clean;
+                    const opError = p.prod_error + p.kons_error;
+                    const opBelum = p.prod_belum + p.kons_belum;
+                    const opTot = opClean + opError + opBelum;
+                    if (!p.is_unassigned) activeOps++;
+                    return {
+                        nama: p.nama,
+                        is_unassigned: p.is_unassigned,
+                        prod_clean: p.prod_clean, prod_error: p.prod_error, prod_belum: p.prod_belum,
+                        kons_clean: p.kons_clean, kons_error: p.kons_error, kons_belum: p.kons_belum,
+                        clean: opClean, error: opError, belum: opBelum, total: opTot,
+                        persen_clean: opTot > 0 ? Number(((opClean / opTot) * 100).toFixed(2)) : 0
+                    };
+                }).sort((a, b) => (a.is_unassigned === b.is_unassigned) ? (b.clean - a.clean || b.total - a.total) : (a.is_unassigned ? 1 : -1));
+
+                totSampel += tSamp;
+                totPetugas += activeOps;
+                pC += k.prod_clean; pE += k.prod_error; pB += k.prod_belum;
+                kC += k.kons_clean; kE += k.kons_error; kB += k.kons_belum;
+
+                return {
+                    kode: k.kode, kode_full: k.kode_full, nama: k.nama,
+                    jumlah_petugas: activeOps,
+                    total_sampel: tSamp, sampel_utama: k.sampel_utama, sampel_pengganti: k.sampel_pengganti,
+                    total_dokumen: tDok,
+                    prod_clean: k.prod_clean, prod_error: k.prod_error, prod_belum: k.prod_belum,
+                    kons_clean: k.kons_clean, kons_error: k.kons_error, kons_belum: k.kons_belum,
+                    clean, error, belum,
+                    persen_clean: tDok > 0 ? Number(((clean / tDok) * 100).toFixed(2)) : 0,
+                    persen_error: tDok > 0 ? Number(((error / tDok) * 100).toFixed(2)) : 0,
+                    persen_belum: tDok > 0 ? Number(((belum / tDok) * 100).toFixed(2)) : 0,
+                    persen_prod_clean: tSamp > 0 ? Number(((k.prod_clean / tSamp) * 100).toFixed(2)) : 0,
+                    persen_kons_clean: tSamp > 0 ? Number(((k.kons_clean / tSamp) * 100).toFixed(2)) : 0,
+                    petugas: petugasList
+                };
+            });
+
+            const totDok = totSampel * 2;
+            const totClean = pC + kC;
+            const totError = pE + kE;
+            const totBelum = pB + kB;
+            const tanggalLabel = document.getElementById('input-tanggal-label').value.trim();
+
+            generatedPayload = {
+                schema_type: "status_v2",
+                meta: {
+                    provinsi: provLabel,
+                    judul: "Monitoring Status & Progres Entri SPDT NTP",
+                    tanggal_data: tanggalLabel,
+                    total_kabupaten: kabList.length,
+                    total_petugas: totPetugas,
+                    total_sampel: totSampel,
+                    total_dokumen: totDok,
+                    prod_clean: pC, prod_error: pE, prod_belum: pB,
+                    kons_clean: kC, kons_error: kE, kons_belum: kB,
+                    clean: totClean, error: totError, belum: totBelum,
+                    persen_clean: totDok > 0 ? Number(((totClean / totDok) * 100).toFixed(2)) : 0,
+                    persen_error: totDok > 0 ? Number(((totError / totDok) * 100).toFixed(2)) : 0,
+                    persen_belum: totDok > 0 ? Number(((totBelum / totDok) * 100).toFixed(2)) : 0,
+                    persen_prod_clean: totSampel > 0 ? Number(((pC / totSampel) * 100).toFixed(2)) : 0,
+                    persen_kons_clean: totSampel > 0 ? Number(((kC / totSampel) * 100).toFixed(2)) : 0
+                },
+                data: kabList
+            };
+
+            updateOutputs();
+        }
+
+        function buildLegacyJSON(rows) {
+            let startIdx = 7;
+            for (let i = 0; i < Math.min(rows.length, 15); i++) {
+                if (rows[i] && rows[i].includes('Produksi')) { startIdx = i + 1; break; }
+            }
+
+            const kabMap = new Map();
+            let provLabel = "[33] JAWA TENGAH";
+
+            for (let i = startIdx; i < rows.length; i++) {
+                const r = rows[i];
+                if (!r || !r[4]) continue;
+
+                const kodeProv = String(r[0] || '33').padStart(2, '0');
+                const namaProv = String(r[1] || 'JAWA TENGAH').trim();
+                provLabel = `[${kodeProv}] ${namaProv}`;
+
+                const kodeKab = String(r[2] || '').padStart(2, '0');
+                const kodeFull = kodeProv + kodeKab;
+                const namaKab = String(r[3] || '').trim();
+                const namaPetugas = String(r[4] || '').trim();
+                const prod = parseInt(r[5]) || 0;
+                const kons = parseInt(r[6]) || 0;
+                const tot = parseInt(r[7]) || (prod + kons);
+
+                if (!kabMap.has(kodeKab)) {
+                    kabMap.set(kodeKab, {
+                        kode: kodeKab, kode_full: kodeFull, nama: namaKab,
+                        target_sampel: Number(targetMap[kodeFull]) || 0,
+                        produksi: 0, konsumsi: 0, total: 0, petugas: []
+                    });
+                }
+
+                const entry = kabMap.get(kodeKab);
+                entry.produksi += prod;
+                entry.konsumsi += kons;
+                entry.total += tot;
+                entry.petugas.push({ nama: namaPetugas, produksi: prod, konsumsi: kons, total: tot });
+            }
+
+            let totalPetugas = 0, totalTargetSampel = 0, totalProd = 0, totalKons = 0, totalDok = 0;
+            const kabList = Array.from(kabMap.values()).sort((a, b) => a.kode.localeCompare(b.kode)).map(k => {
+                k.petugas.sort((a, b) => b.total - a.total);
+                const tSampel = k.target_sampel;
+                const tDok = tSampel * 2;
+                totalPetugas += k.petugas.length;
+                totalTargetSampel += tSampel;
+                totalProd += k.produksi;
+                totalKons += k.konsumsi;
+                totalDok += k.total;
+
+                return {
+                    kode: k.kode, kode_full: k.kode_full, nama: k.nama,
+                    jumlah_petugas: k.petugas.length, target_sampel: tSampel, target_dokumen: tDok,
+                    produksi: k.produksi, konsumsi: k.konsumsi, total: k.total,
+                    persen_produksi: tSampel > 0 ? Number(((k.produksi / tSampel) * 100).toFixed(2)) : 0,
+                    persen_konsumsi: tSampel > 0 ? Number(((k.konsumsi / tSampel) * 100).toFixed(2)) : 0,
+                    persen_total: tDok > 0 ? Number(((k.total / tDok) * 100).toFixed(2)) : 0,
+                    petugas: k.petugas
+                };
+            });
+
+            const totalTargetDok = totalTargetSampel * 2;
+            const tanggalLabel = document.getElementById('input-tanggal-label').value.trim();
+
+            generatedPayload = {
+                schema_type: "legacy",
+                meta: {
+                    provinsi: provLabel,
+                    judul: "Monitoring Progres Entri Dokumen SPDT NTP",
+                    tanggal_data: tanggalLabel,
+                    total_kabupaten: kabList.length,
+                    total_petugas: totalPetugas,
+                    total_target_sampel: totalTargetSampel,
+                    total_target_dokumen: totalTargetDok,
+                    total_produksi: totalProd,
+                    total_konsumsi: totalKons,
+                    total_dokumen: totalDok,
+                    persen_produksi: totalTargetSampel > 0 ? Number(((totalProd / totalTargetSampel) * 100).toFixed(2)) : 0,
+                    persen_konsumsi: totalTargetSampel > 0 ? Number(((totalKons / totalTargetSampel) * 100).toFixed(2)) : 0,
+                    persen_total: totalTargetDok > 0 ? Number(((totalDok / totalTargetDok) * 100).toFixed(2)) : 0
+                },
+                data: kabList
+            };
+
+            updateOutputs();
+        }
+
+        function updateOutputs() {
+            if (!generatedPayload) return;
+            const m = generatedPayload.meta;
+            const isV2 = generatedPayload.schema_type === 'status_v2';
+            const outName = document.getElementById('input-output-filename').value.trim() || 'data-progres.json';
+
+            document.getElementById('result-section').classList.remove('hidden');
+            document.getElementById('btn-download-label').textContent = `Download ${outName}`;
+
+            const resKpi = document.getElementById('result-kpi-grid');
+            const pHead = document.getElementById('preview-thead');
+            const pBody = document.getElementById('preview-tbody');
+
+            if (isV2) {
+                resKpi.innerHTML = `
+                    <div class="bg-white p-3.5 rounded-xl border border-slate-200">
+                        <p class="text-[11px] font-semibold uppercase text-slate-500">Total Sampel / Dokumen</p>
+                        <p class="text-lg font-bold text-slate-900 mt-0.5">${fmtNumber(m.total_sampel)} <span class="text-xs font-normal text-slate-500">(${fmtNumber(m.total_dokumen)} dok)</span></p>
+                    </div>
+                    <div class="bg-white p-3.5 rounded-xl border border-slate-200">
+                        <p class="text-[11px] font-semibold uppercase text-slate-500">Clean</p>
+                        <p class="text-lg font-bold text-emerald-600 mt-0.5">${fmtNumber(m.clean)} (${fmtPct(m.persen_clean)})</p>
+                    </div>
+                    <div class="bg-white p-3.5 rounded-xl border border-slate-200">
+                        <p class="text-[11px] font-semibold uppercase text-slate-500">Error</p>
+                        <p class="text-lg font-bold text-rose-600 mt-0.5">${fmtNumber(m.error)} (${fmtPct(m.persen_error)})</p>
+                    </div>
+                    <div class="bg-white p-3.5 rounded-xl border border-slate-200">
+                        <p class="text-[11px] font-semibold uppercase text-slate-500">Belum Entri</p>
+                        <p class="text-lg font-bold text-slate-700 mt-0.5">${fmtNumber(m.belum)} (${fmtPct(m.persen_belum)})</p>
+                    </div>
+                `;
+
+                pHead.innerHTML = `
+                    <tr>
+                        <th class="py-2.5 px-3 font-semibold">Kode</th>
+                        <th class="py-2.5 px-3 font-semibold">Kabupaten/Kota</th>
+                        <th class="py-2.5 px-3 text-center font-semibold">Petugas</th>
+                        <th class="py-2.5 px-3 text-right font-semibold">Sampel</th>
+                        <th class="py-2.5 px-3 text-right font-semibold">Clean</th>
+                        <th class="py-2.5 px-3 text-right font-semibold">Error</th>
+                        <th class="py-2.5 px-3 text-right font-semibold">Belum</th>
+                        <th class="py-2.5 px-3 text-right font-semibold">% Clean</th>
+                    </tr>
+                `;
+
+                pBody.innerHTML = generatedPayload.data.map(k => `
+                    <tr class="hover:bg-slate-50">
+                        <td class="py-2 px-3 font-mono text-slate-500">33.${k.kode}</td>
+                        <td class="py-2 px-3 font-semibold text-slate-900">${k.nama}</td>
+                        <td class="py-2 px-3 text-center">${k.jumlah_petugas}</td>
+                        <td class="py-2 px-3 text-right">${fmtNumber(k.total_sampel)}</td>
+                        <td class="py-2 px-3 text-right font-semibold text-emerald-600">${fmtNumber(k.clean)}</td>
+                        <td class="py-2 px-3 text-right font-semibold text-rose-600">${fmtNumber(k.error)}</td>
+                        <td class="py-2 px-3 text-right text-slate-600">${fmtNumber(k.belum)}</td>
+                        <td class="py-2 px-3 text-right font-bold text-emerald-700">${fmtPct(k.persen_clean)}</td>
+                    </tr>
+                `).join('');
+            } else {
+                resKpi.innerHTML = `
+                    <div class="bg-white p-3.5 rounded-xl border border-slate-200">
+                        <p class="text-[11px] font-semibold uppercase text-slate-500">Cakupan Wilayah</p>
+                        <p class="text-lg font-bold text-slate-900 mt-0.5">${m.total_kabupaten} Kab / ${m.total_petugas} Petugas</p>
+                    </div>
+                    <div class="bg-white p-3.5 rounded-xl border border-slate-200">
+                        <p class="text-[11px] font-semibold uppercase text-slate-500">Produksi</p>
+                        <p class="text-lg font-bold text-indigo-600 mt-0.5">${fmtNumber(m.total_produksi)} (${fmtPct(m.persen_produksi)})</p>
+                    </div>
+                    <div class="bg-white p-3.5 rounded-xl border border-slate-200">
+                        <p class="text-[11px] font-semibold uppercase text-slate-500">Konsumsi</p>
+                        <p class="text-lg font-bold text-emerald-600 mt-0.5">${fmtNumber(m.total_konsumsi)} (${fmtPct(m.persen_konsumsi)})</p>
+                    </div>
+                    <div class="bg-white p-3.5 rounded-xl border border-slate-200">
+                        <p class="text-[11px] font-semibold uppercase text-slate-500">Total Capaian</p>
+                        <p class="text-lg font-bold text-blue-600 mt-0.5">${fmtNumber(m.total_dokumen)} (${fmtPct(m.persen_total)})</p>
+                    </div>
+                `;
+
+                pHead.innerHTML = `
+                    <tr>
+                        <th class="py-2.5 px-3 font-semibold">Kode</th>
+                        <th class="py-2.5 px-3 font-semibold">Kabupaten/Kota</th>
+                        <th class="py-2.5 px-3 text-center font-semibold">Petugas</th>
+                        <th class="py-2.5 px-3 text-right font-semibold">Target</th>
+                        <th class="py-2.5 px-3 text-right font-semibold">Produksi</th>
+                        <th class="py-2.5 px-3 text-right font-semibold">Konsumsi</th>
+                        <th class="py-2.5 px-3 text-right font-semibold">Total</th>
+                        <th class="py-2.5 px-3 text-right font-semibold">Capaian (%)</th>
+                    </tr>
+                `;
+
+                pBody.innerHTML = generatedPayload.data.map(k => `
+                    <tr class="hover:bg-slate-50">
+                        <td class="py-2 px-3 font-mono text-slate-500">33.${k.kode}</td>
+                        <td class="py-2 px-3 font-semibold text-slate-900">${k.nama}</td>
+                        <td class="py-2 px-3 text-center">${k.jumlah_petugas}</td>
+                        <td class="py-2 px-3 text-right">${fmtNumber(k.target_sampel)}</td>
+                        <td class="py-2 px-3 text-right text-indigo-600">${fmtNumber(k.produksi)}</td>
+                        <td class="py-2 px-3 text-right text-emerald-600">${fmtNumber(k.konsumsi)}</td>
+                        <td class="py-2 px-3 text-right font-bold">${fmtNumber(k.total)} / ${fmtNumber(k.target_dokumen)}</td>
+                        <td class="py-2 px-3 text-right font-bold ${k.persen_total >= 100 ? 'text-emerald-600' : 'text-blue-600'}">${fmtPct(k.persen_total)}</td>
+                    </tr>
+                `).join('');
+            }
+
+            const snippetObj = { filename: outName, label: m.tanggal_data };
+            document.getElementById('manifest-snippet').textContent = JSON.stringify(snippetObj, null, 2) + ',';
+        }
+
+        function copyManifestSnippet() {
+            const text = document.getElementById('manifest-snippet').textContent;
+            navigator.clipboard.writeText(text).then(() => {
+                const btnText = document.getElementById('btn-copy-manifest-text');
+                btnText.textContent = 'Tersalin!';
+                setTimeout(() => btnText.textContent = 'Salin Entri', 2000);
+            });
+        }
+
+        function downloadGeneratedJSON() {
+            if (!generatedPayload) return;
+            const outName = document.getElementById('input-output-filename').value.trim() || 'data-progres.json';
+            const blob = new Blob([JSON.stringify(generatedPayload, null, 2)], { type: "application/json" });
+            const url = URL.createObjectURL(blob);
+            const a = document.createElement("a");
+            a.href = url;
+            a.download = outName;
+            document.body.appendChild(a);
+            a.click();
+            document.body.removeChild(a);
+            URL.revokeObjectURL(url);
+        }
+    </script>
+</body>
+</html>

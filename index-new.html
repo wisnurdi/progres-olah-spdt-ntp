@@ -1,0 +1,1619 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Dashboard Progres & Histori Entri SPDT NTP - Jawa Tengah [33]</title>
+    
+    <!-- Google Fonts: Inter -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+    
+    <!-- Tailwind CSS -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    fontFamily: { sans: ['Inter', 'sans-serif'] }
+                }
+            }
+        }
+    </script>
+
+    <!-- DataTables CSS -->
+    <link rel="stylesheet" href="https://cdn.datatables.net/1.13.7/css/jquery.dataTables.min.css">
+    <link rel="stylesheet" href="https://cdn.datatables.net/buttons/2.4.2/css/buttons.dataTables.min.css">
+
+    <!-- jQuery & DataTables JS -->
+    <script src="https://code.jquery.com/jquery-3.7.1.min.js"></script>
+    <script src="https://cdn.datatables.net/1.13.7/js/jquery.dataTables.min.js"></script>
+    <script src="https://cdn.datatables.net/buttons/2.4.2/js/dataTables.buttons.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jszip/3.10.1/jszip.min.js"></script>
+    <script src="https://cdn.datatables.net/buttons/2.4.2/js/buttons.html5.min.js"></script>
+
+    <!-- Chart.js -->
+    <script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.1/dist/chart.umd.min.js"></script>
+
+    <!-- Lucide Icons -->
+    <script src="https://unpkg.com/lucide@latest"></script>
+
+    <style>
+        body { background-color: #f8fafc; color: #0f172a; }
+        .dataTables_wrapper .dataTables_filter input {
+            border: 1px solid #cbd5e1; border-radius: 0.5rem; padding: 0.4rem 0.75rem;
+            font-size: 0.875rem; outline: none; transition: all 0.2s; margin-left: 0.5rem; background-color: #ffffff;
+        }
+        .dataTables_wrapper .dataTables_filter input:focus {
+            border-color: #2563eb; box-shadow: 0 0 0 3px rgba(37, 99, 235, 0.15);
+        }
+        .dataTables_wrapper .dataTables_length select {
+            border: 1px solid #cbd5e1; border-radius: 0.5rem; padding: 0.35rem 1.75rem 0.35rem 0.65rem;
+            font-size: 0.875rem; background-color: #ffffff; outline: none;
+        }
+        .dataTables_wrapper .dataTables_info,
+        .dataTables_wrapper .dataTables_paginate { font-size: 0.875rem; color: #475569; margin-top: 1rem; }
+        .dataTables_wrapper .dataTables_paginate .paginate_button {
+            border-radius: 0.375rem !important; padding: 0.3rem 0.7rem !important; border: 1px solid transparent !important;
+        }
+        .dataTables_wrapper .dataTables_paginate .paginate_button.current {
+            background: #2563eb !important; color: #ffffff !important; border-color: #2563eb !important;
+        }
+        .dataTables_wrapper .dataTables_paginate .paginate_button:hover:not(.current) {
+            background: #e2e8f0 !important; color: #0f172a !important;
+        }
+        table.dataTable thead th {
+            border-bottom: 1px solid #e2e8f0 !important; background-color: #f1f5f9; color: #334155;
+            font-weight: 600; font-size: 0.75rem; text-transform: uppercase; letter-spacing: 0.04em;
+            padding: 0.85rem 0.85rem !important; white-space: nowrap;
+        }
+        table.dataTable tbody td {
+            border-bottom: 1px solid #f1f5f9 !important; padding: 0.8rem 0.85rem !important; font-size: 0.875rem;
+        }
+        table.dataTable tbody tr.kab-row { cursor: pointer; transition: background-color 0.15s ease; }
+        table.dataTable tbody tr.kab-row:hover { background-color: #eff6ff !important; }
+        .dt-buttons .dt-button {
+            background: #ffffff !important; border: 1px solid #cbd5e1 !important; color: #334155 !important;
+            border-radius: 0.5rem !important; padding: 0.4rem 0.85rem !important; font-size: 0.8125rem !important;
+            font-weight: 500 !important; transition: all 0.15s; margin-bottom: 0.5rem;
+        }
+        .dt-buttons .dt-button:hover { background: #f1f5f9 !important; border-color: #94a3b8 !important; }
+        .modal-backdrop { transition: opacity 0.2s ease; }
+        .modal-panel { transition: transform 0.25s cubic-bezier(0.16, 1, 0.3, 1), opacity 0.2s ease; }
+    </style>
+</head>
+<body class="antialiased min-h-screen flex flex-col">
+
+    <!-- Toast Notification untuk Copy Image -->
+    <div id="toast-notify" class="fixed bottom-5 right-5 z-50 transform translate-y-16 opacity-0 transition-all duration-300 pointer-events-none">
+        <div class="bg-slate-900 text-white px-4 py-3 rounded-xl shadow-lg flex items-center gap-2.5 text-xs sm:text-sm font-medium border border-slate-700">
+            <i data-lucide="check-circle-2" class="w-4 h-4 text-emerald-400 shrink-0"></i>
+            <span id="toast-message">Gambar grafik berhasil disalin ke clipboard!</span>
+        </div>
+    </div>
+
+    <!-- Navbar / Header dengan Pemilih Histori -->
+    <header class="bg-white border-b border-slate-200 sticky top-0 z-30">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-4 flex flex-col lg:flex-row lg:items-center lg:justify-between gap-4">
+            <div class="flex items-center gap-3">
+                <div class="bg-blue-600 text-white p-2.5 rounded-xl shadow-sm">
+                    <i data-lucide="bar-chart-3" class="w-6 h-6"></i>
+                </div>
+                <div>
+                    <div class="flex flex-wrap items-center gap-2">
+                        <h1 class="text-lg sm:text-xl font-bold text-slate-900 tracking-tight" id="app-title">Monitoring Progres Entri SPDT NTP</h1>
+                        <span class="inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-semibold bg-blue-50 text-blue-700 border border-blue-200" id="badge-provinsi">[33] JAWA TENGAH</span>
+                    </div>
+                    <div class="flex flex-wrap items-center gap-2 mt-1">
+                        <span id="status-periode-badge" class="inline-flex items-center gap-1 px-2 py-0.5 rounded-md text-[11px] font-semibold bg-emerald-50 text-emerald-700 border border-emerald-200">
+                            <span class="w-1.5 h-1.5 rounded-full bg-emerald-500"></span>
+                            Kondisi Terbaru
+                        </span>
+                        <span id="schema-mode-badge" class="inline-flex items-center px-2 py-0.5 rounded-md text-[11px] font-semibold bg-slate-100 text-slate-700 border border-slate-200">
+                            Mode Status (Clean/Error/Belum)
+                        </span>
+                        <p class="text-xs sm:text-sm text-slate-500" id="subtitle-info">Memuat daftar histori progres...</p>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Dropdown Histori Progres -->
+            <div class="flex flex-col sm:flex-row sm:items-center gap-2 bg-slate-50 p-2.5 rounded-xl border border-slate-200">
+                <div class="flex items-center gap-1.5 text-xs font-semibold text-slate-600 px-1">
+                    <i data-lucide="history" class="w-4 h-4 text-blue-600"></i>
+                    <span>Histori Progres:</span>
+                </div>
+                <select id="history-select" class="text-xs sm:text-sm border border-slate-300 rounded-lg px-3 py-1.5 bg-white text-slate-800 font-semibold focus:outline-none focus:border-blue-500 min-w-[260px]">
+                    <option value="">Memuat daftar periode...</option>
+                </select>
+            </div>
+        </div>
+    </header>
+
+    <!-- Banner Peringatan jika dibuka via file:// tanpa web server -->
+    <div id="local-file-alert" class="hidden max-w-7xl w-full mx-auto px-4 sm:px-6 lg:px-8 pt-5">
+        <div class="bg-amber-50 border border-amber-300 rounded-xl p-4 flex flex-col sm:flex-row sm:items-center justify-between gap-4">
+            <div class="flex items-start gap-3">
+                <i data-lucide="alert-triangle" class="w-5 h-5 text-amber-600 shrink-0 mt-0.5"></i>
+                <div class="text-xs sm:text-sm text-amber-900">
+                    <p class="font-semibold">Mode File Lokal Terdeteksi (Bukan Web Server)</p>
+                    <p class="mt-0.5 text-amber-800">Saat diakses melalui web server (<code class="font-mono">http/https</code>), file <code class="font-mono">manifest.json</code> dan file histori terbaru akan dimuat otomatis. Untuk pengujian lokal, pilih beberapa file JSON histori sekaligus di tombol samping.</p>
+                </div>
+            </div>
+            <label for="json-manual-upload" class="cursor-pointer shrink-0 inline-flex items-center gap-2 px-4 py-2 rounded-lg text-xs font-semibold bg-amber-600 text-white hover:bg-amber-700 transition">
+                <i data-lucide="folder-open" class="w-4 h-4"></i>
+                <span>Pilih File JSON Histori</span>
+            </label>
+            <input type="file" id="json-manual-upload" accept=".json" multiple class="hidden" />
+        </div>
+    </div>
+
+    <!-- Main Content -->
+    <main class="flex-1 max-w-7xl w-full mx-auto px-4 sm:px-6 lg:px-8 py-6 space-y-6">
+
+        <!-- KPI Summary Cards (Dinamis sesuai schema status_v2 vs legacy) -->
+        <section id="kpi-section" class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4">
+            <!-- Diisi otomatis via JS -->
+        </section>
+
+        <!-- Charts Section -->
+        <section class="grid grid-cols-1 lg:grid-cols-3 gap-6">
+            <!-- Bar Chart: Capaian per Kabupaten -->
+            <div class="lg:col-span-2 bg-white rounded-xl border border-slate-200 p-5 shadow-2xs flex flex-col">
+                <div class="flex flex-col sm:flex-row sm:items-center justify-between gap-3 mb-4">
+                    <div>
+                        <h2 class="text-base font-bold text-slate-900" id="main-chart-title">Status & Capaian per Kabupaten/Kota</h2>
+                        <p class="text-xs text-slate-500">Klik batang grafik untuk membuka rincian per petugas</p>
+                    </div>
+                    <div class="flex flex-wrap items-center gap-2">
+                        <select id="chart-metric-select" class="text-xs border border-slate-300 rounded-lg px-2.5 py-1.5 bg-white text-slate-700 font-medium focus:outline-none focus:border-blue-500">
+                            <!-- Diisi otomatis via JS -->
+                        </select>
+                        <select id="chart-sort-select" class="text-xs border border-slate-300 rounded-lg px-2.5 py-1.5 bg-white text-slate-700 font-medium focus:outline-none focus:border-blue-500">
+                            <!-- Diisi otomatis via JS -->
+                        </select>
+                        <button type="button" onclick="copyChartImage('kabupatenChart', 'Grafik_Progres_Kabupaten_Jateng')" class="inline-flex items-center gap-1.5 px-2.5 py-1.5 rounded-lg text-xs font-medium bg-slate-100 hover:bg-blue-50 text-slate-700 hover:text-blue-700 border border-slate-200 hover:border-blue-200 transition" title="Salin gambar grafik ke clipboard">
+                            <i data-lucide="copy" class="w-3.5 h-3.5"></i>
+                            <span>Copy Image</span>
+                        </button>
+                    </div>
+                </div>
+                <div class="relative flex-1 min-h-[340px] w-full">
+                    <canvas id="kabupatenChart"></canvas>
+                </div>
+            </div>
+
+            <!-- Status Doughnut & Priority Highlight -->
+            <div class="bg-white rounded-xl border border-slate-200 p-5 shadow-2xs flex flex-col justify-between space-y-5">
+                <div>
+                    <div class="flex items-start justify-between gap-2 mb-3">
+                        <div>
+                            <h2 class="text-base font-bold text-slate-900" id="side-chart-title">Komposisi Status Dokumen</h2>
+                            <p class="text-xs text-slate-500" id="side-chart-sub">Proporsi Clean, Error, dan Belum</p>
+                        </div>
+                        <button type="button" onclick="copyChartImage('statusChart', 'Komposisi_Status_Dokumen')" class="inline-flex items-center gap-1 px-2.5 py-1.5 rounded-lg text-xs font-medium bg-slate-100 hover:bg-blue-50 text-slate-700 hover:text-blue-700 border border-slate-200 hover:border-blue-200 transition shrink-0" title="Salin gambar grafik ke clipboard">
+                            <i data-lucide="copy" class="w-3.5 h-3.5"></i>
+                            <span>Copy Image</span>
+                        </button>
+                    </div>
+                    <div class="relative h-[185px] w-full flex items-center justify-center">
+                        <canvas id="statusChart"></canvas>
+                    </div>
+                </div>
+                
+                <div class="pt-4 border-t border-slate-100">
+                    <h3 class="text-xs font-semibold uppercase tracking-wider text-slate-500 mb-2" id="highlight-list-title">Prioritas Tindak Lanjut</h3>
+                    <div id="bottom-kabupaten-list" class="space-y-1.5"></div>
+                </div>
+            </div>
+        </section>
+
+        <!-- DataTable Rekap Kabupaten -->
+        <section class="bg-white rounded-xl border border-slate-200 shadow-2xs overflow-hidden">
+            <div class="p-5 border-b border-slate-200 flex flex-col sm:flex-row sm:items-center justify-between gap-3">
+                <div>
+                    <h2 class="text-base font-bold text-slate-900" id="table-section-title">Rekapitulasi Status Entri per Kabupaten/Kota</h2>
+                    <p class="text-xs text-slate-500 mt-0.5">Klik pada baris kabupaten untuk melihat rincian capaian per petugas</p>
+                </div>
+                <div class="inline-flex items-center gap-1.5 text-xs text-blue-700 bg-blue-50 px-3 py-1.5 rounded-lg border border-blue-100">
+                    <i data-lucide="mouse-pointer-click" class="w-4 h-4"></i>
+                    <span>Klik baris untuk detail petugas</span>
+                </div>
+            </div>
+            
+            <div class="p-5 overflow-x-auto">
+                <table id="table-kabupaten" class="w-full text-left border-collapse">
+                    <thead id="table-kabupaten-head"></thead>
+                    <tbody></tbody>
+                </table>
+            </div>
+        </section>
+
+    </main>
+
+    <!-- Footer -->
+    <footer class="bg-white border-t border-slate-200 mt-10 py-4">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 flex flex-col sm:flex-row items-center justify-between text-xs text-slate-500 gap-2">
+            <p>Sumber File Aktif: <code id="footer-filename" class="font-mono text-slate-700">-</code></p>
+            <p id="footer-note">SPDT NTP: 1 Dokumen Produksi + 1 Dokumen Konsumsi per Sampel</p>
+        </div>
+    </footer>
+
+    <!-- MODAL DETAIL PETUGAS PER KABUPATEN -->
+    <div id="modal-petugas" class="fixed inset-0 z-50 hidden overflow-y-auto" aria-labelledby="modal-title" role="dialog" aria-modal="true">
+        <div id="modal-backdrop" class="fixed inset-0 bg-slate-900/60 backdrop-blur-xs modal-backdrop opacity-0"></div>
+
+        <div class="flex min-h-full items-center justify-center p-4 text-center sm:p-6">
+            <div id="modal-panel" class="relative transform overflow-hidden rounded-2xl bg-white text-left shadow-2xl border border-slate-200 w-full max-w-4xl modal-panel opacity-0 scale-95">
+                
+                <div class="bg-slate-900 text-white px-6 py-4 flex items-center justify-between">
+                    <div class="flex items-center gap-3">
+                        <span id="modal-kode-badge" class="px-2.5 py-1 rounded-md bg-blue-600 text-white font-mono text-xs font-bold">33.01</span>
+                        <div>
+                            <h3 class="text-lg font-bold leading-tight" id="modal-kab-nama">CILACAP</h3>
+                            <p class="text-xs text-slate-300" id="modal-kab-sub">Rincian Capaian per Petugas</p>
+                        </div>
+                    </div>
+                    <button type="button" onclick="closeModal()" class="rounded-lg p-1.5 text-slate-400 hover:text-white hover:bg-slate-800 transition">
+                        <i data-lucide="x" class="w-5 h-5"></i>
+                    </button>
+                </div>
+
+                <!-- Modal Mini KPIs -->
+                <div id="modal-kpi-grid" class="grid grid-cols-2 sm:grid-cols-4 gap-3 px-6 py-4 bg-slate-50 border-b border-slate-200"></div>
+
+                <!-- Modal Body: Chart Petugas + Tabel Petugas -->
+                <div class="p-6 space-y-6 max-h-[72vh] overflow-y-auto">
+                    <div class="bg-slate-50/70 rounded-xl border border-slate-200 p-4">
+                        <div class="flex items-center justify-between mb-3">
+                            <h4 class="text-xs font-bold uppercase tracking-wider text-slate-600">Visualisasi Capaian per Petugas</h4>
+                            <button type="button" id="btn-copy-petugas-chart" class="inline-flex items-center gap-1 px-2.5 py-1 rounded-lg text-xs font-medium bg-white hover:bg-blue-50 text-slate-700 hover:text-blue-700 border border-slate-200 hover:border-blue-200 transition">
+                                <i data-lucide="copy" class="w-3.5 h-3.5"></i>
+                                <span>Copy Image</span>
+                            </button>
+                        </div>
+                        <div class="relative h-[200px] w-full">
+                            <canvas id="petugasChart"></canvas>
+                        </div>
+                    </div>
+
+                    <div class="overflow-x-auto">
+                        <table id="table-petugas" class="w-full text-left border-collapse">
+                            <thead id="table-petugas-head"></thead>
+                            <tbody></tbody>
+                        </table>
+                    </div>
+                </div>
+
+                <div class="bg-slate-50 px-6 py-3.5 border-t border-slate-200 flex items-center justify-between">
+                    <div class="flex items-center gap-2">
+                        <button type="button" id="btn-prev-kab" class="inline-flex items-center gap-1 px-3 py-1.5 rounded-lg text-xs font-medium bg-white border border-slate-300 text-slate-700 hover:bg-slate-100 transition">
+                            <i data-lucide="chevron-left" class="w-4 h-4"></i> Sebelumnya
+                        </button>
+                        <button type="button" id="btn-next-kab" class="inline-flex items-center gap-1 px-3 py-1.5 rounded-lg text-xs font-medium bg-white border border-slate-300 text-slate-700 hover:bg-slate-100 transition">
+                            Berikutnya <i data-lucide="chevron-right" class="w-4 h-4"></i>
+                        </button>
+                    </div>
+                    <button type="button" onclick="closeModal()" class="px-4 py-1.5 rounded-lg text-xs font-semibold bg-slate-900 text-white hover:bg-slate-800 transition">
+                        Tutup
+                    </button>
+                </div>
+
+            </div>
+        </div>
+    </div>
+
+    <script>
+        let appData = null;
+        let historyCatalog = [];
+        let localMemoryStore = {};
+        let kabDataTable = null;
+        let petugasDataTable = null;
+        let kabChartInstance = null;
+        let statusChartInstance = null;
+        let petugasChartInstance = null;
+        let toastTimeout = null;
+
+        const fmtNumber = (num) => new Intl.NumberFormat('id-ID').format(num || 0);
+        const fmtPct = (num) => Number(num || 0).toLocaleString('id-ID', { minimumFractionDigits: 2, maximumFractionDigits: 2 }) + '%';
+
+        // Plugin background putih saat Copy Image
+        Chart.register({
+            id: 'customCanvasBackgroundColor',
+            beforeDraw: (chart) => {
+                const { ctx } = chart;
+                ctx.save();
+                ctx.globalCompositeOperation = 'destination-over';
+                ctx.fillStyle = '#ffffff';
+                ctx.fillRect(0, 0, chart.width, chart.height);
+                ctx.restore();
+            }
+        });
+
+        function extractTimestampWeight(filename) {
+            const match = filename.match(/(\d{8,14})/);
+            if (!match) return 0;
+            return Number(match[1].padEnd(14, '0'));
+        }
+
+        function formatLabelFromFilename(filename) {
+            const m = filename.match(/(\d{4})(\d{2})(\d{2})(\d{2})?(\d{2})?/);
+            if (!m) return filename;
+            const bulan = ['', 'Januari', 'Februari', 'Maret', 'April', 'Mei', 'Juni', 'Juli', 'Agustus', 'September', 'Oktober', 'November', 'Desember'];
+            const tgl = `${parseInt(m[3])} ${bulan[parseInt(m[2])]} ${m[1]}`;
+            if (m[4] && m[5]) return `${tgl} — Pukul ${m[4]}.${m[5]} WIB`;
+            return tgl;
+        }
+
+        async function copyChartImage(canvasId, fallbackFilename = 'grafik') {
+            const canvas = document.getElementById(canvasId);
+            if (!canvas) return;
+            try {
+                const blob = await new Promise(resolve => canvas.toBlob(resolve, 'image/png'));
+                if (!blob) throw new Error('Gagal membuat blob.');
+                if (navigator.clipboard && window.ClipboardItem) {
+                    await navigator.clipboard.write([new ClipboardItem({ 'image/png': blob })]);
+                    showToast('Gambar grafik berhasil disalin! Silakan Paste (Ctrl+V).');
+                } else {
+                    throw new Error('Clipboard API tidak tersedia.');
+                }
+            } catch (err) {
+                const a = document.createElement('a');
+                a.href = canvas.toDataURL('image/png');
+                a.download = `${fallbackFilename}.png`;
+                document.body.appendChild(a);
+                a.click();
+                document.body.removeChild(a);
+                showToast('Gambar grafik diunduh sebagai file PNG.');
+            }
+        }
+
+        function showToast(msg) {
+            const toast = document.getElementById('toast-notify');
+            document.getElementById('toast-message').textContent = msg;
+            toast.classList.remove('translate-y-16', 'opacity-0');
+            toast.classList.add('translate-y-0', 'opacity-100');
+            clearTimeout(toastTimeout);
+            toastTimeout = setTimeout(() => {
+                toast.classList.remove('translate-y-0', 'opacity-100');
+                toast.classList.add('translate-y-16', 'opacity-0');
+            }, 3200);
+        }
+
+        // Normalizer adaptif untuk 2 format: status_v2 (Clean/Error/Belum) dan legacy (Target/Realisasi)
+        function normalizeData(raw) {
+            const isStatusV2 = raw.schema_type === 'status_v2' || (raw.data && raw.data[0] && 'clean' in raw.data[0]);
+
+            if (isStatusV2) {
+                let totSampel = 0, totPetugas = 0;
+                let pC = 0, pE = 0, pB = 0, kC = 0, kE = 0, kB = 0;
+
+                const normalized = (raw.data || []).map(item => {
+                    const tSamp = Number(item.total_sampel) || 0;
+                    const tDok = Number(item.total_dokumen) || (tSamp * 2);
+                    const pc = Number(item.prod_clean) || 0;
+                    const pe = Number(item.prod_error) || 0;
+                    const pb = Number(item.prod_belum) || 0;
+                    const kc = Number(item.kons_clean) || 0;
+                    const ke = Number(item.kons_error) || 0;
+                    const kb = Number(item.kons_belum) || 0;
+
+                    const clean = Number(item.clean) || (pc + kc);
+                    const error = Number(item.error) || (pe + ke);
+                    const belum = Number(item.belum) || (pb + kb);
+
+                    const petugasList = (item.petugas || []).map(p => {
+                        const opClean = Number(p.clean) || ((Number(p.prod_clean) || 0) + (Number(p.kons_clean) || 0));
+                        const opError = Number(p.error) || ((Number(p.prod_error) || 0) + (Number(p.kons_error) || 0));
+                        const opBelum = Number(p.belum) || ((Number(p.prod_belum) || 0) + (Number(p.kons_belum) || 0));
+                        const opTot = Number(p.total) || (opClean + opError + opBelum);
+                        return {
+                            nama: String(p.nama || '').trim(),
+                            is_unassigned: Boolean(p.is_unassigned || p.nama === '-' || p.nama.startsWith('Belum Dialokasikan')),
+                            prod_clean: Number(p.prod_clean) || 0,
+                            prod_error: Number(p.prod_error) || 0,
+                            prod_belum: Number(p.prod_belum) || 0,
+                            kons_clean: Number(p.kons_clean) || 0,
+                            kons_error: Number(p.kons_error) || 0,
+                            kons_belum: Number(p.kons_belum) || 0,
+                            clean: opClean,
+                            error: opError,
+                            belum: opBelum,
+                            total: opTot,
+                            persen_clean: opTot > 0 ? Number(((opClean / opTot) * 100).toFixed(2)) : 0
+                        };
+                    }).sort((a, b) => (a.is_unassigned === b.is_unassigned) ? (b.clean - a.clean || b.total - a.total) : (a.is_unassigned ? 1 : -1));
+
+                    const activeOpCount = petugasList.filter(p => !p.is_unassigned).length;
+                    totSampel += tSamp;
+                    totPetugas += activeOpCount;
+                    pC += pc; pE += pe; pB += pb;
+                    kC += kc; kE += ke; kB += kb;
+
+                    return {
+                        kode: String(item.kode).padStart(2, '0'),
+                        kode_full: item.kode_full || ('33' + String(item.kode).padStart(2, '0')),
+                        nama: String(item.nama || '').trim(),
+                        jumlah_petugas: activeOpCount,
+                        total_sampel: tSamp,
+                        total_dokumen: tDok,
+                        prod_clean: pc, prod_error: pe, prod_belum: pb,
+                        kons_clean: kc, kons_error: ke, kons_belum: kb,
+                        clean, error, belum,
+                        persen_clean: tDok > 0 ? Number(((clean / tDok) * 100).toFixed(2)) : 0,
+                        persen_error: tDok > 0 ? Number(((error / tDok) * 100).toFixed(2)) : 0,
+                        persen_belum: tDok > 0 ? Number(((belum / tDok) * 100).toFixed(2)) : 0,
+                        persen_prod_clean: tSamp > 0 ? Number(((pc / tSamp) * 100).toFixed(2)) : 0,
+                        persen_kons_clean: tSamp > 0 ? Number(((kc / tSamp) * 100).toFixed(2)) : 0,
+                        petugas: petugasList
+                    };
+                }).sort((a, b) => a.kode.localeCompare(b.kode));
+
+                const totDok = totSampel * 2;
+                const cleanAll = pC + kC;
+                const errorAll = pE + kE;
+                const belumAll = pB + kB;
+
+                return {
+                    schema_type: 'status_v2',
+                    meta: {
+                        provinsi: raw.meta?.provinsi || "[33] JAWA TENGAH",
+                        judul: raw.meta?.judul || "Monitoring Status & Progres Entri SPDT NTP",
+                        tanggal_data: raw.meta?.tanggal_data || "-",
+                        total_kabupaten: normalized.length,
+                        total_petugas: totPetugas,
+                        total_sampel: totSampel,
+                        total_dokumen: totDok,
+                        prod_clean: pC, prod_error: pE, prod_belum: pB,
+                        kons_clean: kC, kons_error: kE, kons_belum: kB,
+                        clean: cleanAll, error: errorAll, belum: belumAll,
+                        persen_clean: totDok > 0 ? Number(((cleanAll / totDok) * 100).toFixed(2)) : 0,
+                        persen_error: totDok > 0 ? Number(((errorAll / totDok) * 100).toFixed(2)) : 0,
+                        persen_belum: totDok > 0 ? Number(((belumAll / totDok) * 100).toFixed(2)) : 0,
+                        persen_prod_clean: totSampel > 0 ? Number(((pC / totSampel) * 100).toFixed(2)) : 0,
+                        persen_kons_clean: totSampel > 0 ? Number(((kC / totSampel) * 100).toFixed(2)) : 0
+                    },
+                    data: normalized
+                };
+            } else {
+                // Legacy Format
+                let totalKab = 0, totalPetugas = 0, totalTargetSampel = 0, totalProd = 0, totalKons = 0, totalDok = 0;
+                const normalizedData = (raw.data || []).map(item => {
+                    const prod = Number(item.produksi) || 0;
+                    const kons = Number(item.konsumsi) || 0;
+                    const tot = Number(item.total) || (prod + kons);
+                    const tSampel = Number(item.target_sampel) || 0;
+                    const tDok = tSampel * 2;
+
+                    const petugasList = (item.petugas || []).map(p => ({
+                        nama: String(p.nama || '').trim(),
+                        produksi: Number(p.produksi) || 0,
+                        konsumsi: Number(p.konsumsi) || 0,
+                        total: Number(p.total) || ((Number(p.produksi) || 0) + (Number(p.konsumsi) || 0))
+                    })).sort((a, b) => b.total - a.total);
+
+                    totalKab += 1;
+                    totalPetugas += petugasList.length;
+                    totalTargetSampel += tSampel;
+                    totalProd += prod;
+                    totalKons += kons;
+                    totalDok += tot;
+
+                    return {
+                        kode: String(item.kode).padStart(2, '0'),
+                        kode_full: item.kode_full || ('33' + String(item.kode).padStart(2, '0')),
+                        nama: String(item.nama || '').trim(),
+                        jumlah_petugas: petugasList.length,
+                        target_sampel: tSampel,
+                        target_dokumen: tDok,
+                        produksi: prod,
+                        konsumsi: kons,
+                        total: tot,
+                        persen_produksi: tSampel > 0 ? Number(((prod / tSampel) * 100).toFixed(2)) : 0,
+                        persen_konsumsi: tSampel > 0 ? Number(((kons / tSampel) * 100).toFixed(2)) : 0,
+                        persen_total: tDok > 0 ? Number(((tot / tDok) * 100).toFixed(2)) : 0,
+                        petugas: petugasList
+                    };
+                }).sort((a, b) => a.kode.localeCompare(b.kode));
+
+                const totalTargetDok = totalTargetSampel * 2;
+                return {
+                    schema_type: 'legacy',
+                    meta: {
+                        provinsi: raw.meta?.provinsi || "[33] JAWA TENGAH",
+                        judul: raw.meta?.judul || "Monitoring Progres Entri Dokumen SPDT NTP",
+                        tanggal_data: raw.meta?.tanggal_data || "-",
+                        total_kabupaten: totalKab,
+                        total_petugas: totalPetugas,
+                        total_target_sampel: totalTargetSampel,
+                        total_target_dokumen: totalTargetDok,
+                        total_produksi: totalProd,
+                        total_konsumsi: totalKons,
+                        total_dokumen: totalDok,
+                        persen_produksi: totalTargetSampel > 0 ? Number(((totalProd / totalTargetSampel) * 100).toFixed(2)) : 0,
+                        persen_konsumsi: totalTargetSampel > 0 ? Number(((totalKons / totalTargetSampel) * 100).toFixed(2)) : 0,
+                        persen_total: totalTargetDok > 0 ? Number(((totalDok / totalTargetDok) * 100).toFixed(2)) : 0
+                    },
+                    data: normalizedData
+                };
+            }
+        }
+
+        async function initHistoryCatalog() {
+            try {
+                const res = await fetch('./manifest.json?t=' + Date.now());
+                if (!res.ok) throw new Error('manifest.json tidak ditemukan');
+                const manifest = await res.json();
+
+                const files = (manifest.files || []).map(item => {
+                    const fname = typeof item === 'string' ? item : item.filename;
+                    const label = (typeof item === 'object' && item.label) ? item.label : formatLabelFromFilename(fname);
+                    return { filename: fname, label: label, weight: extractTimestampWeight(fname) };
+                }).sort((a, b) => b.weight - a.weight);
+
+                if (files.length === 0) throw new Error('Daftar file kosong');
+                historyCatalog = files;
+                populateHistoryDropdown();
+                await loadHistoryFile(historyCatalog[0].filename, 0);
+            } catch (err) {
+                console.warn('Gagal memuat manifest.json:', err);
+                document.getElementById('subtitle-info').textContent = 'Menunggu pemilihan file JSON...';
+                document.getElementById('local-file-alert').classList.remove('hidden');
+            }
+        }
+
+        function populateHistoryDropdown() {
+            const select = document.getElementById('history-select');
+            select.innerHTML = historyCatalog.map((item, idx) => {
+                const prefix = idx === 0 ? '★ Terbaru: ' : 'Arsip: ';
+                return `<option value="${item.filename}">${prefix}${item.label}</option>`;
+            }).join('');
+        }
+
+        async function loadHistoryFile(filename, indexInCatalog) {
+            const itemMeta = historyCatalog[indexInCatalog] || { filename, label: filename };
+            const isLatest = indexInCatalog === 0;
+
+            try {
+                let rawJson;
+                if (localMemoryStore[filename]) {
+                    rawJson = localMemoryStore[filename];
+                } else {
+                    const res = await fetch('./' + filename + '?t=' + Date.now());
+                    if (!res.ok) throw new Error('HTTP ' + res.status);
+                    rawJson = await res.json();
+                }
+
+                appData = normalizeData(rawJson);
+                document.getElementById('local-file-alert').classList.add('hidden');
+
+                const badgeEl = document.getElementById('status-periode-badge');
+                if (isLatest) {
+                    badgeEl.className = 'inline-flex items-center gap-1.5 px-2.5 py-0.5 rounded-md text-[11px] font-semibold bg-emerald-50 text-emerald-700 border border-emerald-200';
+                    badgeEl.innerHTML = '<span class="w-1.5 h-1.5 rounded-full bg-emerald-500"></span> Kondisi Terbaru';
+                } else {
+                    badgeEl.className = 'inline-flex items-center gap-1.5 px-2.5 py-0.5 rounded-md text-[11px] font-semibold bg-amber-50 text-amber-800 border border-amber-200';
+                    badgeEl.innerHTML = '<span class="w-1.5 h-1.5 rounded-full bg-amber-500"></span> Mode Arsip Histori';
+                }
+
+                const modeBadge = document.getElementById('schema-mode-badge');
+                if (appData.schema_type === 'status_v2') {
+                    modeBadge.className = 'inline-flex items-center px-2 py-0.5 rounded-md text-[11px] font-semibold bg-indigo-50 text-indigo-700 border border-indigo-200';
+                    modeBadge.textContent = 'Rincian Clean / Error / Belum';
+                } else {
+                    modeBadge.className = 'inline-flex items-center px-2 py-0.5 rounded-md text-[11px] font-semibold bg-slate-100 text-slate-700 border border-slate-200';
+                    modeBadge.textContent = 'Rekap Capaian Target';
+                }
+
+                document.getElementById('subtitle-info').textContent = `Kondisi: ${itemMeta.label}`;
+                document.getElementById('footer-filename').textContent = filename;
+
+                renderDashboard();
+            } catch (err) {
+                alert(`Gagal memuat file "${filename}". Pastikan file tersedia di server.`);
+                console.error(err);
+            }
+        }
+
+        document.addEventListener('DOMContentLoaded', () => {
+            lucide.createIcons();
+            initHistoryCatalog();
+
+            document.getElementById('history-select').addEventListener('change', (e) => {
+                const selectedFile = e.target.value;
+                const idx = historyCatalog.findIndex(h => h.filename === selectedFile);
+                if (idx !== -1) loadHistoryFile(selectedFile, idx);
+            });
+
+            document.getElementById('chart-metric-select').addEventListener('change', renderKabupatenChart);
+            document.getElementById('chart-sort-select').addEventListener('change', renderKabupatenChart);
+            document.getElementById('json-manual-upload').addEventListener('change', handleManualMultiJSON);
+
+            document.getElementById('modal-backdrop').addEventListener('click', closeModal);
+            document.addEventListener('keydown', (e) => {
+                if (e.key === 'Escape' && !document.getElementById('modal-petugas').classList.contains('hidden')) {
+                    closeModal();
+                }
+            });
+        });
+
+        async function handleManualMultiJSON(e) {
+            const files = Array.from(e.target.files || []);
+            if (files.length === 0) return;
+
+            const loadedList = [];
+            for (const f of files) {
+                if (f.name === 'manifest.json') continue;
+                try {
+                    const text = await f.text();
+                    const parsed = JSON.parse(text);
+                    localMemoryStore[f.name] = parsed;
+                    loadedList.push({
+                        filename: f.name,
+                        label: parsed.meta?.tanggal_data || formatLabelFromFilename(f.name),
+                        weight: extractTimestampWeight(f.name)
+                    });
+                } catch (err) {
+                    console.warn('Skip file invalid:', f.name);
+                }
+            }
+
+            if (loadedList.length > 0) {
+                historyCatalog = loadedList.sort((a, b) => b.weight - a.weight);
+                populateHistoryDropdown();
+                loadHistoryFile(historyCatalog[0].filename, 0);
+            }
+        }
+
+        function renderDashboard() {
+            if (!appData) return;
+            const meta = appData.meta;
+            const list = appData.data;
+            const isV2 = appData.schema_type === 'status_v2';
+
+            document.getElementById('app-title').textContent = meta.judul;
+            document.getElementById('badge-provinsi').textContent = meta.provinsi;
+
+            // Render KPI Cards & Controls sesuai schema
+            const kpiGrid = document.getElementById('kpi-section');
+            const metricSelect = document.getElementById('chart-metric-select');
+            const sortSelect = document.getElementById('chart-sort-select');
+
+            if (isV2) {
+                kpiGrid.innerHTML = `
+                    <!-- Card 1: Total Clean -->
+                    <div class="bg-white rounded-xl border border-slate-200 p-5 shadow-2xs flex flex-col justify-between">
+                        <div class="flex items-start justify-between">
+                            <div>
+                                <p class="text-xs font-semibold uppercase tracking-wider text-slate-500">Total Dokumen Clean</p>
+                                <div class="flex items-baseline gap-2 mt-1">
+                                    <p class="text-2xl sm:text-3xl font-bold text-emerald-600">${fmtPct(meta.persen_clean)}</p>
+                                    <span class="text-xs font-medium text-slate-500">(${fmtNumber(meta.clean)} / ${fmtNumber(meta.total_dokumen)})</span>
+                                </div>
+                            </div>
+                            <div class="p-2.5 bg-emerald-50 text-emerald-600 rounded-lg">
+                                <i data-lucide="check-circle-2" class="w-5 h-5"></i>
+                            </div>
+                        </div>
+                        <div class="mt-3">
+                            <div class="w-full h-2.5 bg-slate-200 rounded-full overflow-hidden flex">
+                                <div class="h-full bg-emerald-500" style="width: ${meta.persen_clean}%" title="Clean: ${fmtPct(meta.persen_clean)}"></div>
+                                <div class="h-full bg-rose-500" style="width: ${meta.persen_error}%" title="Error: ${fmtPct(meta.persen_error)}"></div>
+                                <div class="h-full bg-slate-400" style="width: ${meta.persen_belum}%" title="Belum: ${fmtPct(meta.persen_belum)}"></div>
+                            </div>
+                            <div class="flex items-center justify-between text-[11px] mt-1.5 font-medium">
+                                <span class="text-emerald-700">Clean: ${fmtNumber(meta.clean)}</span>
+                                <span class="text-rose-600">Error: ${fmtNumber(meta.error)}</span>
+                                <span class="text-slate-500">Belum: ${fmtNumber(meta.belum)}</span>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Card 2: Produksi -->
+                    <div class="bg-white rounded-xl border border-slate-200 p-5 shadow-2xs flex flex-col justify-between">
+                        <div class="flex items-start justify-between">
+                            <div>
+                                <p class="text-xs font-semibold uppercase tracking-wider text-slate-500">Produksi Clean</p>
+                                <div class="flex items-baseline gap-2 mt-1">
+                                    <p class="text-2xl sm:text-3xl font-bold text-indigo-600">${fmtPct(meta.persen_prod_clean)}</p>
+                                    <span class="text-xs font-medium text-slate-500">(${fmtNumber(meta.prod_clean)} / ${fmtNumber(meta.total_sampel)})</span>
+                                </div>
+                            </div>
+                            <div class="p-2.5 bg-indigo-50 text-indigo-600 rounded-lg">
+                                <i data-lucide="factory" class="w-5 h-5"></i>
+                            </div>
+                        </div>
+                        <div class="mt-3">
+                            <div class="w-full h-2.5 bg-slate-200 rounded-full overflow-hidden flex">
+                                <div class="h-full bg-emerald-500" style="width: ${(meta.prod_clean / meta.total_sampel) * 100}%"></div>
+                                <div class="h-full bg-rose-500" style="width: ${(meta.prod_error / meta.total_sampel) * 100}%"></div>
+                                <div class="h-full bg-slate-400" style="width: ${(meta.prod_belum / meta.total_sampel) * 100}%"></div>
+                            </div>
+                            <div class="flex items-center justify-between text-[11px] mt-1.5 font-medium">
+                                <span class="text-emerald-700">Clean: ${fmtNumber(meta.prod_clean)}</span>
+                                <span class="text-rose-600">Error: ${fmtNumber(meta.prod_error)}</span>
+                                <span class="text-slate-500">Belum: ${fmtNumber(meta.prod_belum)}</span>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Card 3: Konsumsi -->
+                    <div class="bg-white rounded-xl border border-slate-200 p-5 shadow-2xs flex flex-col justify-between">
+                        <div class="flex items-start justify-between">
+                            <div>
+                                <p class="text-xs font-semibold uppercase tracking-wider text-slate-500">Konsumsi Clean</p>
+                                <div class="flex items-baseline gap-2 mt-1">
+                                    <p class="text-2xl sm:text-3xl font-bold text-teal-600">${fmtPct(meta.persen_kons_clean)}</p>
+                                    <span class="text-xs font-medium text-slate-500">(${fmtNumber(meta.kons_clean)} / ${fmtNumber(meta.total_sampel)})</span>
+                                </div>
+                            </div>
+                            <div class="p-2.5 bg-teal-50 text-teal-600 rounded-lg">
+                                <i data-lucide="shopping-cart" class="w-5 h-5"></i>
+                            </div>
+                        </div>
+                        <div class="mt-3">
+                            <div class="w-full h-2.5 bg-slate-200 rounded-full overflow-hidden flex">
+                                <div class="h-full bg-emerald-500" style="width: ${(meta.kons_clean / meta.total_sampel) * 100}%"></div>
+                                <div class="h-full bg-rose-500" style="width: ${(meta.kons_error / meta.total_sampel) * 100}%"></div>
+                                <div class="h-full bg-slate-400" style="width: ${(meta.kons_belum / meta.total_sampel) * 100}%"></div>
+                            </div>
+                            <div class="flex items-center justify-between text-[11px] mt-1.5 font-medium">
+                                <span class="text-emerald-700">Clean: ${fmtNumber(meta.kons_clean)}</span>
+                                <span class="text-rose-600">Error: ${fmtNumber(meta.kons_error)}</span>
+                                <span class="text-slate-500">Belum: ${fmtNumber(meta.kons_belum)}</span>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Card 4: Ringkasan Wilayah & Perlu Perbaikan -->
+                    <div class="bg-white rounded-xl border border-slate-200 p-5 shadow-2xs flex flex-col justify-between">
+                        <div class="flex items-start justify-between">
+                            <div>
+                                <p class="text-xs font-semibold uppercase tracking-wider text-slate-500">Kab/Kota 100% Clean</p>
+                                <div class="flex items-baseline gap-2 mt-1">
+                                    <p class="text-2xl sm:text-3xl font-bold text-slate-900">${list.filter(k => k.persen_clean >= 100).length} <span class="text-base font-medium text-slate-500">/ ${meta.total_kabupaten}</span></p>
+                                </div>
+                            </div>
+                            <div class="p-2.5 bg-amber-50 text-amber-600 rounded-lg">
+                                <i data-lucide="award" class="w-5 h-5"></i>
+                            </div>
+                        </div>
+                        <div class="mt-3 pt-2 border-t border-slate-100 space-y-1 text-xs">
+                            <div class="flex justify-between text-rose-600 font-semibold">
+                                <span>Total Dokumen Error:</span>
+                                <span>${fmtNumber(meta.error)} (${fmtPct(meta.persen_error)})</span>
+                            </div>
+                            <div class="flex justify-between text-slate-600">
+                                <span>Total Sampel / Petugas:</span>
+                                <span class="font-bold text-slate-900">${fmtNumber(meta.total_sampel)} / ${fmtNumber(meta.total_petugas)} org</span>
+                            </div>
+                        </div>
+                    </div>
+                `;
+
+                metricSelect.innerHTML = `
+                    <option value="persen_status">Tampilan: Persentase Status (%)</option>
+                    <option value="absolut_status">Tampilan: Jumlah Dokumen (Clean/Error/Belum)</option>
+                `;
+                sortSelect.innerHTML = `
+                    <option value="clean_desc">Urut: % Clean Tertinggi</option>
+                    <option value="clean_asc">Urut: % Clean Terendah</option>
+                    <option value="error_desc">Urut: Dokumen Error Terbanyak</option>
+                    <option value="belum_desc">Urut: Dokumen Belum Terbanyak</option>
+                    <option value="kode_asc">Urut: Kode Wilayah (01–29)</option>
+                `;
+
+                document.getElementById('main-chart-title').textContent = 'Komposisi Status (Clean, Error, Belum) per Kab/Kota';
+                document.getElementById('side-chart-title').textContent = 'Komposisi Status Provinsi';
+                document.getElementById('side-chart-sub').textContent = `Dari total ${fmtNumber(meta.total_dokumen)} dokumen (${fmtNumber(meta.total_sampel)} sampel)`;
+                document.getElementById('highlight-list-title').textContent = 'Perlu Tindak Lanjut (Error Terbanyak)';
+                document.getElementById('table-section-title').textContent = 'Rekapitulasi Status Clean, Error & Belum per Kabupaten/Kota';
+                document.getElementById('footer-note').textContent = 'Status Entri: CLEAN (Valid), ERROR (Perlu Perbaikan), BELUM (Belum Dientri)';
+
+                // Top 3 Error tertinggi
+                const topError = [...list].sort((a, b) => b.error - a.error).slice(0, 3);
+                document.getElementById('bottom-kabupaten-list').innerHTML = topError.map(item => `
+                    <div onclick="openModalByKode('${item.kode}')" class="cursor-pointer flex items-center justify-between p-2 rounded-lg hover:bg-rose-50/70 border border-slate-100 hover:border-rose-200 transition">
+                        <div>
+                            <p class="text-xs font-semibold text-slate-800">${item.nama}</p>
+                            <p class="text-[11px] text-slate-500">Clean: ${fmtPct(item.persen_clean)} • Belum: ${fmtNumber(item.belum)}</p>
+                        </div>
+                        <span class="px-2 py-0.5 rounded-md text-xs font-bold bg-rose-100 text-rose-700">${fmtNumber(item.error)} Error</span>
+                    </div>
+                `).join('');
+
+            } else {
+                // Legacy Format UI
+                const tuntasCount = list.filter(k => k.persen_total >= 100).length;
+                kpiGrid.innerHTML = `
+                    <div class="bg-white rounded-xl border border-slate-200 p-5 shadow-2xs flex flex-col justify-between">
+                        <div class="flex items-start justify-between">
+                            <div>
+                                <p class="text-xs font-semibold uppercase tracking-wider text-slate-500">Total Capaian Dokumen</p>
+                                <div class="flex items-baseline gap-2 mt-1">
+                                    <p class="text-2xl sm:text-3xl font-bold text-blue-600">${fmtPct(meta.persen_total)}</p>
+                                    <span class="text-xs font-medium text-slate-500">(${fmtNumber(meta.total_dokumen)} / ${fmtNumber(meta.total_target_dokumen)})</span>
+                                </div>
+                            </div>
+                            <div class="p-2.5 bg-blue-50 text-blue-600 rounded-lg"><i data-lucide="pie-chart" class="w-5 h-5"></i></div>
+                        </div>
+                        <div class="mt-3">
+                            <div class="w-full h-2 bg-slate-100 rounded-full overflow-hidden">
+                                <div class="h-full bg-blue-600 rounded-full" style="width: ${Math.min(meta.persen_total, 100)}%"></div>
+                            </div>
+                            <p class="text-[11px] text-slate-500 mt-1.5">Target total = <span class="font-semibold text-slate-700">${fmtNumber(meta.total_target_dokumen)}</span> dokumen</p>
+                        </div>
+                    </div>
+
+                    <div class="bg-white rounded-xl border border-slate-200 p-5 shadow-2xs flex flex-col justify-between">
+                        <div class="flex items-start justify-between">
+                            <div>
+                                <p class="text-xs font-semibold uppercase tracking-wider text-slate-500">Capaian Produksi</p>
+                                <div class="flex items-baseline gap-2 mt-1">
+                                    <p class="text-2xl sm:text-3xl font-bold text-indigo-600">${fmtPct(meta.persen_produksi)}</p>
+                                    <span class="text-xs font-medium text-slate-500">(${fmtNumber(meta.total_produksi)} / ${fmtNumber(meta.total_target_sampel)})</span>
+                                </div>
+                            </div>
+                            <div class="p-2.5 bg-indigo-50 text-indigo-600 rounded-lg"><i data-lucide="factory" class="w-5 h-5"></i></div>
+                        </div>
+                        <div class="mt-3">
+                            <div class="w-full h-2 bg-slate-100 rounded-full overflow-hidden">
+                                <div class="h-full bg-indigo-600 rounded-full" style="width: ${Math.min(meta.persen_produksi, 100)}%"></div>
+                            </div>
+                            <p class="text-[11px] text-slate-500 mt-1.5">Target Produksi = <span class="font-semibold text-slate-700">${fmtNumber(meta.total_target_sampel)}</span> sampel</p>
+                        </div>
+                    </div>
+
+                    <div class="bg-white rounded-xl border border-slate-200 p-5 shadow-2xs flex flex-col justify-between">
+                        <div class="flex items-start justify-between">
+                            <div>
+                                <p class="text-xs font-semibold uppercase tracking-wider text-slate-500">Capaian Konsumsi</p>
+                                <div class="flex items-baseline gap-2 mt-1">
+                                    <p class="text-2xl sm:text-3xl font-bold text-emerald-600">${fmtPct(meta.persen_konsumsi)}</p>
+                                    <span class="text-xs font-medium text-slate-500">(${fmtNumber(meta.total_konsumsi)} / ${fmtNumber(meta.total_target_sampel)})</span>
+                                </div>
+                            </div>
+                            <div class="p-2.5 bg-emerald-50 text-emerald-600 rounded-lg"><i data-lucide="shopping-cart" class="w-5 h-5"></i></div>
+                        </div>
+                        <div class="mt-3">
+                            <div class="w-full h-2 bg-slate-100 rounded-full overflow-hidden">
+                                <div class="h-full bg-emerald-600 rounded-full" style="width: ${Math.min(meta.persen_konsumsi, 100)}%"></div>
+                            </div>
+                            <p class="text-[11px] text-slate-500 mt-1.5">Target Konsumsi = <span class="font-semibold text-slate-700">${fmtNumber(meta.total_target_sampel)}</span> sampel</p>
+                        </div>
+                    </div>
+
+                    <div class="bg-white rounded-xl border border-slate-200 p-5 shadow-2xs flex flex-col justify-between">
+                        <div class="flex items-start justify-between">
+                            <div>
+                                <p class="text-xs font-semibold uppercase tracking-wider text-slate-500">Kab/Kota Tuntas (≥100%)</p>
+                                <div class="flex items-baseline gap-2 mt-1">
+                                    <p class="text-2xl sm:text-3xl font-bold text-slate-900">${tuntasCount} <span class="text-base font-medium text-slate-500">/ ${meta.total_kabupaten}</span></p>
+                                </div>
+                            </div>
+                            <div class="p-2.5 bg-amber-50 text-amber-600 rounded-lg"><i data-lucide="award" class="w-5 h-5"></i></div>
+                        </div>
+                        <div class="mt-3 pt-2 border-t border-slate-100 flex items-center justify-between text-xs text-slate-600">
+                            <span>Total Petugas Entri:</span>
+                            <span class="font-bold text-slate-900">${fmtNumber(meta.total_petugas)} orang</span>
+                        </div>
+                    </div>
+                `;
+
+                metricSelect.innerHTML = `
+                    <option value="persen">Tampilan: Persentase (%)</option>
+                    <option value="absolut">Tampilan: Jumlah Dokumen</option>
+                `;
+                sortSelect.innerHTML = `
+                    <option value="pct_desc">Urut: % Tertinggi</option>
+                    <option value="pct_asc">Urut: % Terendah</option>
+                    <option value="total_desc">Urut: Dokumen Terbanyak</option>
+                    <option value="kode_asc">Urut: Kode Wilayah (01–29)</option>
+                `;
+
+                document.getElementById('main-chart-title').textContent = 'Capaian per Kabupaten/Kota';
+                document.getElementById('side-chart-title').textContent = 'Distribusi Status Capaian';
+                document.getElementById('side-chart-sub').textContent = 'Berdasarkan % target Kab/Kota';
+                document.getElementById('highlight-list-title').textContent = 'Perlu Perhatian (% Terendah)';
+                document.getElementById('table-section-title').textContent = 'Rekapitulasi Target, Realisasi & Persentase per Kabupaten/Kota';
+                document.getElementById('footer-note').textContent = 'Target SPDT NTP: 1 Dokumen Produksi + 1 Dokumen Konsumsi per Sampel';
+
+                const sortedBottom = [...list].sort((a, b) => a.persen_total - b.persen_total).slice(0, 3);
+                document.getElementById('bottom-kabupaten-list').innerHTML = sortedBottom.map(item => `
+                    <div onclick="openModalByKode('${item.kode}')" class="cursor-pointer flex items-center justify-between p-2 rounded-lg hover:bg-rose-50/70 border border-slate-100 hover:border-rose-200 transition">
+                        <div>
+                            <p class="text-xs font-semibold text-slate-800">${item.nama}</p>
+                            <p class="text-[11px] text-slate-500">${fmtNumber(item.total)} / ${fmtNumber(item.target_dokumen)} dok</p>
+                        </div>
+                        <span class="px-2 py-0.5 rounded-md text-xs font-bold bg-rose-100 text-rose-700">${fmtPct(item.persen_total)}</span>
+                    </div>
+                `).join('');
+            }
+
+            lucide.createIcons();
+            renderKabupatenTable();
+            renderKabupatenChart();
+            renderStatusChart();
+        }
+
+        function getProgressBadgeColor(pct) {
+            if (pct >= 100) return { bar: 'bg-emerald-500', badge: 'bg-emerald-50 text-emerald-700 border-emerald-200' };
+            if (pct >= 75) return { bar: 'bg-blue-600', badge: 'bg-blue-50 text-blue-700 border-blue-200' };
+            if (pct >= 50) return { bar: 'bg-amber-500', badge: 'bg-amber-50 text-amber-700 border-amber-200' };
+            return { bar: 'bg-rose-500', badge: 'bg-rose-50 text-rose-700 border-rose-200' };
+        }
+
+        function renderKabupatenTable() {
+            if (kabDataTable) {
+                kabDataTable.destroy();
+                $('#table-kabupaten tbody').empty();
+            }
+
+            const isV2 = appData.schema_type === 'status_v2';
+            const thead = document.getElementById('table-kabupaten-head');
+
+            if (isV2) {
+                thead.innerHTML = `
+                    <tr>
+                        <th>Kode</th>
+                        <th>Kabupaten/Kota</th>
+                        <th class="text-center">Petugas</th>
+                        <th class="text-right">Total Sampel</th>
+                        <th class="text-right">Clean</th>
+                        <th class="text-right">Error</th>
+                        <th class="text-right">Belum</th>
+                        <th class="w-48">Komposisi (% Clean)</th>
+                        <th class="text-center">Aksi</th>
+                    </tr>
+                `;
+
+                const tableData = appData.data.map(item => [
+                    item.kode, item.nama, item.jumlah_petugas, item,
+                    item, item, item, item, item.kode
+                ]);
+
+                kabDataTable = $('#table-kabupaten').DataTable({
+                    data: tableData,
+                    pageLength: 10,
+                    lengthMenu: [[10, 15, 29, -1], [10, 15, 29, "Semua"]],
+                    order: [[0, 'asc']],
+                    dom: '<"flex flex-col sm:flex-row sm:items-center justify-between gap-3 mb-4"Blf>rt<"flex flex-col sm:flex-row sm:items-center justify-between gap-3 mt-4"ip>',
+                    buttons: [{
+                        extend: 'excelHtml5',
+                        text: 'Export Excel',
+                        title: 'Rekap_Status_Clean_Error_Belum_Jateng',
+                        exportOptions: {
+                            columns: [0, 1, 2, 3, 4, 5, 6, 7],
+                            format: {
+                                body: function(data, row, column) {
+                                    const item = appData.data[row];
+                                    if (!item) return data;
+                                    if (column === 0) return '33.' + item.kode;
+                                    if (column === 1) return item.nama;
+                                    if (column === 2) return item.jumlah_petugas;
+                                    if (column === 3) return `${item.total_sampel} sampel (${item.total_dokumen} dok)`;
+                                    if (column === 4) return `${item.clean} (${item.persen_clean}%)`;
+                                    if (column === 5) return `${item.error} (${item.persen_error}%)`;
+                                    if (column === 6) return `${item.belum} (${item.persen_belum}%)`;
+                                    if (column === 7) return `${item.persen_clean}% Clean`;
+                                    return data;
+                                }
+                            }
+                        }
+                    }],
+                    language: {
+                        search: "Cari Kabupaten:", lengthMenu: "Tampilkan _MENU_ baris",
+                        info: "Menampilkan _START_ - _END_ dari _TOTAL_ kabupaten/kota",
+                        zeroRecords: "Kabupaten/Kota tidak ditemukan",
+                        paginate: { first: "Awal", last: "Akhir", next: "Lanjut", previous: "Kembali" }
+                    },
+                    columns: [
+                        { className: 'font-mono text-xs text-slate-500 font-semibold', render: d => `33.${d}` },
+                        { className: 'font-semibold text-slate-900', render: d => `<span class="hover:text-blue-600 transition">${d}</span>` },
+                        { className: 'text-center', render: d => `<span class="inline-flex items-center px-2 py-0.5 rounded-full text-xs font-medium bg-slate-100 text-slate-700">${d}</span>` },
+                        {
+                            className: 'text-right',
+                            render: (item, type) => (type === 'sort' || type === 'type') ? item.total_sampel : `<div class="font-semibold text-slate-800">${fmtNumber(item.total_sampel)}</div><div class="text-[11px] text-slate-400">${fmtNumber(item.total_dokumen)} dok</div>`
+                        },
+                        {
+                            className: 'text-right',
+                            render: (item, type) => (type === 'sort' || type === 'type') ? item.clean : `<div class="font-bold text-emerald-600">${fmtNumber(item.clean)}</div><div class="text-[11px] text-slate-500">P:${item.prod_clean} | K:${item.kons_clean}</div>`
+                        },
+                        {
+                            className: 'text-right',
+                            render: (item, type) => (type === 'sort' || type === 'type') ? item.error : `<div class="font-bold ${item.error > 0 ? 'text-rose-600' : 'text-slate-400'}">${fmtNumber(item.error)}</div><div class="text-[11px] text-slate-500">P:${item.prod_error} | K:${item.kons_error}</div>`
+                        },
+                        {
+                            className: 'text-right',
+                            render: (item, type) => (type === 'sort' || type === 'type') ? item.belum : `<div class="font-semibold ${item.belum > 0 ? 'text-slate-700' : 'text-slate-400'}">${fmtNumber(item.belum)}</div><div class="text-[11px] text-slate-400">P:${item.prod_belum} | K:${item.kons_belum}</div>`
+                        },
+                        {
+                            render: (item, type) => {
+                                if (type === 'sort' || type === 'type') return item.persen_clean;
+                                const badgeClass = item.persen_clean >= 100 ? 'bg-emerald-50 text-emerald-700 border-emerald-200' : item.persen_clean >= 75 ? 'bg-blue-50 text-blue-700 border-blue-200' : 'bg-amber-50 text-amber-700 border-amber-200';
+                                return `
+                                    <div class="flex items-center gap-2">
+                                        <div class="flex-1 h-2 bg-slate-200 rounded-full overflow-hidden flex">
+                                            <div class="h-full bg-emerald-500" style="width: ${item.persen_clean}%" title="Clean: ${fmtPct(item.persen_clean)}"></div>
+                                            <div class="h-full bg-rose-500" style="width: ${item.persen_error}%" title="Error: ${fmtPct(item.persen_error)}"></div>
+                                            <div class="h-full bg-slate-400" style="width: ${item.persen_belum}%" title="Belum: ${fmtPct(item.persen_belum)}"></div>
+                                        </div>
+                                        <span class="px-1.5 py-0.5 rounded border text-[11px] font-bold ${badgeClass} w-16 text-right">${fmtPct(item.persen_clean)}</span>
+                                    </div>
+                                `;
+                            }
+                        },
+                        {
+                            className: 'text-center',
+                            orderable: false,
+                            render: kode => `<button onclick="event.stopPropagation(); openModalByKode('${kode}')" class="inline-flex items-center gap-1 px-2.5 py-1 rounded-lg text-xs font-semibold bg-blue-50 text-blue-700 hover:bg-blue-600 hover:text-white transition">Petugas</button>`
+                        }
+                    ],
+                    createdRow: function(row, data) {
+                        $(row).addClass('kab-row');
+                        $(row).on('click', () => openModalByKode(data[0]));
+                    }
+                });
+            } else {
+                // Legacy Table
+                thead.innerHTML = `
+                    <tr>
+                        <th>Kode</th>
+                        <th>Kabupaten/Kota</th>
+                        <th class="text-center">Petugas</th>
+                        <th class="text-right">Target Sampel</th>
+                        <th class="text-right">Produksi (%)</th>
+                        <th class="text-right">Konsumsi (%)</th>
+                        <th class="text-right">Total / Target</th>
+                        <th class="w-44">Capaian (%)</th>
+                        <th class="text-center">Aksi</th>
+                    </tr>
+                `;
+
+                const tableData = appData.data.map(item => [
+                    item.kode, item.nama, item.jumlah_petugas, item.target_sampel,
+                    item, item, item, item.persen_total, item.kode
+                ]);
+
+                kabDataTable = $('#table-kabupaten').DataTable({
+                    data: tableData,
+                    pageLength: 10,
+                    lengthMenu: [[10, 15, 29, -1], [10, 15, 29, "Semua"]],
+                    order: [[0, 'asc']],
+                    dom: '<"flex flex-col sm:flex-row sm:items-center justify-between gap-3 mb-4"Blf>rt<"flex flex-col sm:flex-row sm:items-center justify-between gap-3 mt-4"ip>',
+                    buttons: [{
+                        extend: 'excelHtml5',
+                        text: 'Export Excel',
+                        title: 'Rekap_Capaian_Persentase_Kabupaten_Jateng',
+                        exportOptions: {
+                            columns: [0, 1, 2, 3, 4, 5, 6, 7],
+                            format: {
+                                body: function(data, row, column) {
+                                    const item = appData.data[row];
+                                    if (!item) return data;
+                                    if (column === 0) return '33.' + item.kode;
+                                    if (column === 1) return item.nama;
+                                    if (column === 2) return item.jumlah_petugas;
+                                    if (column === 3) return item.target_sampel;
+                                    if (column === 4) return `${item.produksi} (${item.persen_produksi}%)`;
+                                    if (column === 5) return `${item.konsumsi} (${item.persen_konsumsi}%)`;
+                                    if (column === 6) return `${item.total} / ${item.target_dokumen}`;
+                                    if (column === 7) return `${item.persen_total}%`;
+                                    return data;
+                                }
+                            }
+                        }
+                    }],
+                    language: {
+                        search: "Cari Kabupaten:", lengthMenu: "Tampilkan _MENU_ baris",
+                        info: "Menampilkan _START_ - _END_ dari _TOTAL_ kabupaten/kota",
+                        zeroRecords: "Kabupaten/Kota tidak ditemukan",
+                        paginate: { first: "Awal", last: "Akhir", next: "Lanjut", previous: "Kembali" }
+                    },
+                    columns: [
+                        { className: 'font-mono text-xs text-slate-500 font-semibold', render: d => `33.${d}` },
+                        { className: 'font-semibold text-slate-900', render: d => `<span class="hover:text-blue-600 transition">${d}</span>` },
+                        { className: 'text-center', render: d => `<span class="inline-flex items-center px-2 py-0.5 rounded-full text-xs font-medium bg-slate-100 text-slate-700">${d}</span>` },
+                        { className: 'text-right font-medium text-slate-700', render: d => fmtNumber(d) },
+                        {
+                            className: 'text-right',
+                            render: (item, type) => (type === 'sort' || type === 'type') ? item.produksi : `<div class="font-semibold text-indigo-600">${fmtNumber(item.produksi)}</div><div class="text-[11px] text-slate-500">${fmtPct(item.persen_produksi)}</div>`
+                        },
+                        {
+                            className: 'text-right',
+                            render: (item, type) => (type === 'sort' || type === 'type') ? item.konsumsi : `<div class="font-semibold text-emerald-600">${fmtNumber(item.konsumsi)}</div><div class="text-[11px] text-slate-500">${fmtPct(item.persen_konsumsi)}</div>`
+                        },
+                        {
+                            className: 'text-right',
+                            render: (item, type) => (type === 'sort' || type === 'type') ? item.total : `<span class="font-bold text-slate-900">${fmtNumber(item.total)}</span><span class="text-xs text-slate-400"> / ${fmtNumber(item.target_dokumen)}</span>`
+                        },
+                        {
+                            render: (pct, type) => {
+                                if (type === 'sort' || type === 'type') return pct;
+                                const style = getProgressBadgeColor(pct);
+                                return `<div class="flex items-center gap-2"><div class="flex-1 h-2 bg-slate-100 rounded-full overflow-hidden"><div class="h-full ${style.bar} rounded-full" style="width: ${Math.min(pct, 100)}%"></div></div><span class="px-1.5 py-0.5 rounded border text-[11px] font-bold ${style.badge} w-16 text-right">${fmtPct(pct)}</span></div>`;
+                            }
+                        },
+                        {
+                            className: 'text-center',
+                            orderable: false,
+                            render: kode => `<button onclick="event.stopPropagation(); openModalByKode('${kode}')" class="inline-flex items-center gap-1 px-2.5 py-1 rounded-lg text-xs font-semibold bg-blue-50 text-blue-700 hover:bg-blue-600 hover:text-white transition">Petugas</button>`
+                        }
+                    ],
+                    createdRow: function(row, data) {
+                        $(row).addClass('kab-row');
+                        $(row).on('click', () => openModalByKode(data[0]));
+                    }
+                });
+            }
+        }
+
+        function renderKabupatenChart() {
+            const isV2 = appData.schema_type === 'status_v2';
+            const metricMode = document.getElementById('chart-metric-select').value;
+            const sortMode = document.getElementById('chart-sort-select').value;
+            let sortedData = [...appData.data];
+
+            if (isV2) {
+                if (sortMode === 'clean_desc') sortedData.sort((a, b) => b.persen_clean - a.persen_clean);
+                else if (sortMode === 'clean_asc') sortedData.sort((a, b) => a.persen_clean - b.persen_clean);
+                else if (sortMode === 'error_desc') sortedData.sort((a, b) => b.error - a.error);
+                else if (sortMode === 'belum_desc') sortedData.sort((a, b) => b.belum - a.belum);
+                else sortedData.sort((a, b) => a.kode.localeCompare(b.kode));
+
+                const labels = sortedData.map(d => d.nama);
+                const ctx = document.getElementById('kabupatenChart').getContext('2d');
+                if (kabChartInstance) kabChartInstance.destroy();
+
+                const isPct = metricMode === 'persen_status';
+                kabChartInstance = new Chart(ctx, {
+                    type: 'bar',
+                    data: {
+                        labels: labels,
+                        datasets: [
+                            {
+                                label: 'Clean',
+                                data: sortedData.map(d => isPct ? d.persen_clean : d.clean),
+                                backgroundColor: '#10b981',
+                                borderRadius: 3
+                            },
+                            {
+                                label: 'Error',
+                                data: sortedData.map(d => isPct ? d.persen_error : d.error),
+                                backgroundColor: '#ef4444',
+                                borderRadius: 3
+                            },
+                            {
+                                label: 'Belum',
+                                data: sortedData.map(d => isPct ? d.persen_belum : d.belum),
+                                backgroundColor: '#94a3b8',
+                                borderRadius: 3
+                            }
+                        ]
+                    },
+                    options: {
+                        responsive: true,
+                        maintainAspectRatio: false,
+                        onClick: (event, elements) => { if (elements.length > 0) openModalByKode(sortedData[elements[0].index].kode); },
+                        onHover: (event, el) => { event.native.target.style.cursor = el[0] ? 'pointer' : 'default'; },
+                        plugins: {
+                            legend: { position: 'top', align: 'end', labels: { usePointStyle: true, boxWidth: 8, font: { family: 'Inter', size: 12 } } },
+                            tooltip: {
+                                mode: 'index',
+                                intersect: false,
+                                callbacks: {
+                                    footer: (items) => {
+                                        const item = sortedData[items[0].dataIndex];
+                                        return `Clean: ${fmtNumber(item.clean)} (${fmtPct(item.persen_clean)}) | Error: ${fmtNumber(item.error)} | Belum: ${fmtNumber(item.belum)}`;
+                                    }
+                                }
+                            }
+                        },
+                        scales: {
+                            x: { stacked: true, grid: { display: false }, ticks: { font: { family: 'Inter', size: 10 }, maxRotation: 65, minRotation: 45 } },
+                            y: {
+                                stacked: true,
+                                beginAtZero: true,
+                                max: isPct ? 100 : undefined,
+                                grid: { color: '#f1f5f9' },
+                                ticks: { font: { family: 'Inter', size: 11 }, callback: val => isPct ? val + '%' : fmtNumber(val) }
+                            }
+                        }
+                    }
+                });
+            } else {
+                // Legacy chart
+                if (sortMode === 'pct_desc') sortedData.sort((a, b) => b.persen_total - a.persen_total);
+                else if (sortMode === 'pct_asc') sortedData.sort((a, b) => a.persen_total - b.persen_total);
+                else if (sortMode === 'total_desc') sortedData.sort((a, b) => b.total - a.total);
+                else sortedData.sort((a, b) => a.kode.localeCompare(b.kode));
+
+                const labels = sortedData.map(d => d.nama);
+                const ctx = document.getElementById('kabupatenChart').getContext('2d');
+                if (kabChartInstance) kabChartInstance.destroy();
+
+                if (metricMode === 'persen') {
+                    const bgColors = sortedData.map(d => d.persen_total >= 100 ? '#10b981' : d.persen_total >= 75 ? '#2563eb' : d.persen_total >= 50 ? '#f59e0b' : '#ef4444');
+                    kabChartInstance = new Chart(ctx, {
+                        type: 'bar',
+                        data: {
+                            labels: labels,
+                            datasets: [{ label: 'Capaian Total (%)', data: sortedData.map(d => d.persen_total), backgroundColor: bgColors, borderRadius: 4 }]
+                        },
+                        options: {
+                            responsive: true, maintainAspectRatio: false,
+                            onClick: (event, elements) => { if (elements.length > 0) openModalByKode(sortedData[elements[0].index].kode); },
+                            onHover: (event, el) => { event.native.target.style.cursor = el[0] ? 'pointer' : 'default'; },
+                            plugins: {
+                                legend: { display: false },
+                                tooltip: {
+                                    callbacks: {
+                                        label: (ctx) => {
+                                            const item = sortedData[ctx.dataIndex];
+                                            return [
+                                                ` Total Capaian: ${fmtPct(item.persen_total)} (${fmtNumber(item.total)} / ${fmtNumber(item.target_dokumen)})`,
+                                                ` Produksi: ${fmtPct(item.persen_produksi)} (${fmtNumber(item.produksi)} / ${fmtNumber(item.target_sampel)})`,
+                                                ` Konsumsi: ${fmtPct(item.persen_konsumsi)} (${fmtNumber(item.konsumsi)} / ${fmtNumber(item.target_sampel)})`
+                                            ];
+                                        }
+                                    }
+                                }
+                            },
+                            scales: {
+                                x: { grid: { display: false }, ticks: { font: { family: 'Inter', size: 10 }, maxRotation: 65, minRotation: 45 } },
+                                y: { beginAtZero: true, suggestedMax: 105, grid: { color: '#f1f5f9' }, ticks: { font: { family: 'Inter', size: 11 }, callback: val => val + '%' } }
+                            }
+                        }
+                    });
+                } else {
+                    kabChartInstance = new Chart(ctx, {
+                        type: 'bar',
+                        data: {
+                            labels: labels,
+                            datasets: [
+                                { label: 'Produksi', data: sortedData.map(d => d.produksi), backgroundColor: '#4f46e5', borderRadius: 4 },
+                                { label: 'Konsumsi', data: sortedData.map(d => d.konsumsi), backgroundColor: '#10b981', borderRadius: 4 }
+                            ]
+                        },
+                        options: {
+                            responsive: true, maintainAspectRatio: false,
+                            onClick: (event, elements) => { if (elements.length > 0) openModalByKode(sortedData[elements[0].index].kode); },
+                            onHover: (event, el) => { event.native.target.style.cursor = el[0] ? 'pointer' : 'default'; },
+                            plugins: {
+                                legend: { position: 'top', align: 'end', labels: { usePointStyle: true, boxWidth: 8, font: { size: 12 } } },
+                                tooltip: {
+                                    mode: 'index', intersect: false,
+                                    callbacks: {
+                                        footer: (items) => {
+                                            const item = sortedData[items[0].dataIndex];
+                                            return `Total: ${fmtNumber(item.total)} / ${fmtNumber(item.target_dokumen)} (${fmtPct(item.persen_total)})`;
+                                        }
+                                    }
+                                }
+                            },
+                            scales: {
+                                x: { stacked: true, grid: { display: false }, ticks: { font: { size: 10 }, maxRotation: 65, minRotation: 45 } },
+                                y: { stacked: true, beginAtZero: true, grid: { color: '#f1f5f9' } }
+                            }
+                        }
+                    });
+                }
+            }
+        }
+
+        function renderStatusChart() {
+            const ctx = document.getElementById('statusChart').getContext('2d');
+            if (statusChartInstance) statusChartInstance.destroy();
+
+            if (appData.schema_type === 'status_v2') {
+                const m = appData.meta;
+                statusChartInstance = new Chart(ctx, {
+                    type: 'doughnut',
+                    data: {
+                        labels: [
+                            `Clean (${fmtPct(m.persen_clean)})`,
+                            `Error (${fmtPct(m.persen_error)})`,
+                            `Belum (${fmtPct(m.persen_belum)})`
+                        ],
+                        datasets: [{
+                            data: [m.clean, m.error, m.belum],
+                            backgroundColor: ['#10b981', '#ef4444', '#94a3b8'],
+                            borderWidth: 2, borderColor: '#ffffff'
+                        }]
+                    },
+                    options: {
+                        responsive: true, maintainAspectRatio: false, cutout: '64%',
+                        plugins: {
+                            legend: { position: 'right', labels: { usePointStyle: true, boxWidth: 8, padding: 12, font: { family: 'Inter', size: 11 } } },
+                            tooltip: { callbacks: { label: ctx => ` ${ctx.label}: ${fmtNumber(ctx.parsed)} dok` } }
+                        }
+                    }
+                });
+            } else {
+                const list = appData.data;
+                const c100 = list.filter(k => k.persen_total >= 100).length;
+                const c75 = list.filter(k => k.persen_total >= 75 && k.persen_total < 100).length;
+                const c50 = list.filter(k => k.persen_total >= 50 && k.persen_total < 75).length;
+                const cLow = list.filter(k => k.persen_total < 50).length;
+
+                statusChartInstance = new Chart(ctx, {
+                    type: 'doughnut',
+                    data: {
+                        labels: ['Tuntas (≥100%)', 'Tinggi (75–99%)', 'Sedang (50–74%)', 'Rendah (<50%)'],
+                        datasets: [{
+                            data: [c100, c75, c50, cLow],
+                            backgroundColor: ['#10b981', '#2563eb', '#f59e0b', '#ef4444'],
+                            borderWidth: 2, borderColor: '#ffffff'
+                        }]
+                    },
+                    options: {
+                        responsive: true, maintainAspectRatio: false, cutout: '64%',
+                        plugins: {
+                            legend: { position: 'right', labels: { usePointStyle: true, boxWidth: 8, padding: 10, font: { family: 'Inter', size: 11 } } },
+                            tooltip: { callbacks: { label: ctx => ` ${ctx.label}: ${ctx.parsed} Kab/Kota` } }
+                        }
+                    }
+                });
+            }
+        }
+
+        function openModalByKode(kode) {
+            const idx = appData.data.findIndex(k => k.kode === kode);
+            if (idx !== -1) openModalByIndex(idx);
+        }
+
+        function openModalByIndex(idx) {
+            const kab = appData.data[idx];
+            const isV2 = appData.schema_type === 'status_v2';
+
+            document.getElementById('modal-kode-badge').textContent = `33.${kab.kode}`;
+            document.getElementById('modal-kab-nama').textContent = kab.nama;
+            document.getElementById('modal-kab-sub').textContent = `Rincian Entri per Petugas (${kab.jumlah_petugas} Petugas Aktif)`;
+
+            const modalKpiGrid = document.getElementById('modal-kpi-grid');
+            if (isV2) {
+                modalKpiGrid.innerHTML = `
+                    <div class="bg-white p-3 rounded-xl border border-slate-200">
+                        <p class="text-[11px] font-semibold uppercase text-slate-500">Total Sampel</p>
+                        <p class="text-lg font-bold text-slate-900 mt-0.5">${fmtNumber(kab.total_sampel)} Sampel</p>
+                        <p class="text-[11px] text-slate-500">${fmtNumber(kab.total_dokumen)} total dok</p>
+                    </div>
+                    <div class="bg-white p-3 rounded-xl border border-slate-200">
+                        <p class="text-[11px] font-semibold uppercase text-slate-500">Clean</p>
+                        <p class="text-lg font-bold text-emerald-600 mt-0.5">${fmtNumber(kab.clean)} <span class="text-xs font-semibold">(${fmtPct(kab.persen_clean)})</span></p>
+                        <p class="text-[11px] text-slate-500">Prod: ${kab.prod_clean} | Kons: ${kab.kons_clean}</p>
+                    </div>
+                    <div class="bg-white p-3 rounded-xl border border-slate-200">
+                        <p class="text-[11px] font-semibold uppercase text-slate-500">Error</p>
+                        <p class="text-lg font-bold text-rose-600 mt-0.5">${fmtNumber(kab.error)} <span class="text-xs font-semibold">(${fmtPct(kab.persen_error)})</span></p>
+                        <p class="text-[11px] text-slate-500">Prod: ${kab.prod_error} | Kons: ${kab.kons_error}</p>
+                    </div>
+                    <div class="bg-white p-3 rounded-xl border border-slate-200">
+                        <p class="text-[11px] font-semibold uppercase text-slate-500">Belum Entri</p>
+                        <p class="text-lg font-bold text-slate-700 mt-0.5">${fmtNumber(kab.belum)} <span class="text-xs font-semibold">(${fmtPct(kab.persen_belum)})</span></p>
+                        <p class="text-[11px] text-slate-500">Prod: ${kab.prod_belum} | Kons: ${kab.kons_belum}</p>
+                    </div>
+                `;
+            } else {
+                modalKpiGrid.innerHTML = `
+                    <div class="bg-white p-3 rounded-xl border border-slate-200">
+                        <p class="text-[11px] font-semibold uppercase text-slate-500">Target Sampel</p>
+                        <p class="text-lg font-bold text-slate-900 mt-0.5">${fmtNumber(kab.target_sampel)} Sampel</p>
+                        <p class="text-[11px] text-slate-500">${fmtNumber(kab.target_dokumen)} total dok</p>
+                    </div>
+                    <div class="bg-white p-3 rounded-xl border border-slate-200">
+                        <p class="text-[11px] font-semibold uppercase text-slate-500">Produksi</p>
+                        <p class="text-lg font-bold text-indigo-600 mt-0.5">${fmtNumber(kab.produksi)}</p>
+                        <p class="text-[11px] font-semibold text-indigo-500">${fmtPct(kab.persen_produksi)} dari target</p>
+                    </div>
+                    <div class="bg-white p-3 rounded-xl border border-slate-200">
+                        <p class="text-[11px] font-semibold uppercase text-slate-500">Konsumsi</p>
+                        <p class="text-lg font-bold text-emerald-600 mt-0.5">${fmtNumber(kab.konsumsi)}</p>
+                        <p class="text-[11px] font-semibold text-emerald-500">${fmtPct(kab.persen_konsumsi)} dari target</p>
+                    </div>
+                    <div class="bg-white p-3 rounded-xl border border-slate-200">
+                        <p class="text-[11px] font-semibold uppercase text-slate-500">Total Capaian</p>
+                        <p class="text-lg font-bold text-blue-600 mt-0.5">${fmtPct(kab.persen_total)}</p>
+                        <p class="text-[11px] text-slate-500">${fmtNumber(kab.total)} / ${fmtNumber(kab.target_dokumen)} dok</p>
+                    </div>
+                `;
+            }
+
+            document.getElementById('btn-copy-petugas-chart').onclick = () => {
+                copyChartImage('petugasChart', `Capaian_Petugas_${kab.nama.replace(/\s+/g, '_')}`);
+            };
+
+            const prevBtn = document.getElementById('btn-prev-kab');
+            const nextBtn = document.getElementById('btn-next-kab');
+            prevBtn.disabled = idx === 0;
+            nextBtn.disabled = idx === appData.data.length - 1;
+            prevBtn.classList.toggle('opacity-40', idx === 0);
+            nextBtn.classList.toggle('opacity-40', idx === appData.data.length - 1);
+            prevBtn.onclick = () => { if (idx > 0) openModalByIndex(idx - 1); };
+            nextBtn.onclick = () => { if (idx < appData.data.length - 1) openModalByIndex(idx + 1); };
+
+            renderPetugasChart(kab);
+
+            if (petugasDataTable) {
+                petugasDataTable.destroy();
+                $('#table-petugas tbody').empty();
+            }
+
+            const pHead = document.getElementById('table-petugas-head');
+            if (isV2) {
+                pHead.innerHTML = `
+                    <tr>
+                        <th class="w-10 text-center">No</th>
+                        <th>Nama Petugas</th>
+                        <th class="text-right">Clean (P|K)</th>
+                        <th class="text-right">Error (P|K)</th>
+                        <th class="text-right">Belum (P|K)</th>
+                        <th class="text-right">Total</th>
+                        <th class="w-36">Tingkat Clean</th>
+                    </tr>
+                `;
+
+                const petugasRows = kab.petugas.map((p, i) => [
+                    i + 1, p, p, p, p, p.total, p.persen_clean
+                ]);
+
+                petugasDataTable = $('#table-petugas').DataTable({
+                    data: petugasRows,
+                    paging: kab.petugas.length > 10,
+                    pageLength: 10,
+                    searching: true,
+                    info: false,
+                    order: [[0, 'asc']],
+                    language: { search: "Cari Petugas:", zeroRecords: "Petugas tidak ditemukan" },
+                    columns: [
+                        { className: 'text-center text-slate-500 text-xs font-medium' },
+                        {
+                            render: (p, type) => {
+                                if (type === 'sort' || type === 'type') return p.nama;
+                                if (p.is_unassigned) return `<span class="inline-flex items-center px-2 py-0.5 rounded bg-slate-100 text-slate-600 text-xs font-medium italic">${p.nama}</span>`;
+                                return `<span class="font-semibold text-slate-900">${p.nama}</span>`;
+                            }
+                        },
+                        {
+                            className: 'text-right',
+                            render: (p, type) => (type === 'sort' || type === 'type') ? p.clean : `<div class="font-bold text-emerald-600">${fmtNumber(p.clean)}</div><div class="text-[11px] text-slate-400">P:${p.prod_clean} | K:${p.kons_clean}</div>`
+                        },
+                        {
+                            className: 'text-right',
+                            render: (p, type) => (type === 'sort' || type === 'type') ? p.error : `<div class="font-bold ${p.error > 0 ? 'text-rose-600' : 'text-slate-400'}">${fmtNumber(p.error)}</div><div class="text-[11px] text-slate-400">P:${p.prod_error} | K:${p.kons_error}</div>`
+                        },
+                        {
+                            className: 'text-right',
+                            render: (p, type) => (type === 'sort' || type === 'type') ? p.belum : `<div class="font-semibold ${p.belum > 0 ? 'text-slate-700' : 'text-slate-400'}">${fmtNumber(p.belum)}</div><div class="text-[11px] text-slate-400">P:${p.prod_belum} | K:${p.kons_belum}</div>`
+                        },
+                        { className: 'text-right font-bold text-slate-900', render: d => fmtNumber(d) },
+                        {
+                            render: (pct, type) => {
+                                if (type === 'sort' || type === 'type') return pct;
+                                return `<div class="flex items-center gap-2"><div class="flex-1 h-1.5 bg-slate-100 rounded-full overflow-hidden"><div class="h-full bg-emerald-500 rounded-full" style="width: ${Math.min(pct, 100)}%"></div></div><span class="text-xs font-semibold text-emerald-700 w-12 text-right">${pct}%</span></div>`;
+                            }
+                        }
+                    ]
+                });
+            } else {
+                // Legacy Petugas Table
+                pHead.innerHTML = `
+                    <tr>
+                        <th class="w-10 text-center">No</th>
+                        <th>Nama Petugas</th>
+                        <th class="text-right">Produksi</th>
+                        <th class="text-right">Konsumsi</th>
+                        <th class="text-right">Total</th>
+                        <th class="w-36">Kontribusi Kab</th>
+                        <th class="w-36">% thd Target Kab</th>
+                    </tr>
+                `;
+
+                const petugasRows = kab.petugas.map((p, i) => {
+                    const pctRealisasi = kab.total > 0 ? Number(((p.total / kab.total) * 100).toFixed(1)) : 0;
+                    const pctTarget = kab.target_dokumen > 0 ? Number(((p.total / kab.target_dokumen) * 100).toFixed(1)) : 0;
+                    return [i + 1, p.nama, p.produksi, p.konsumsi, p.total, pctRealisasi, pctTarget];
+                });
+
+                petugasDataTable = $('#table-petugas').DataTable({
+                    data: petugasRows,
+                    paging: kab.petugas.length > 10,
+                    pageLength: 10,
+                    searching: true,
+                    info: false,
+                    order: [[4, 'desc']],
+                    language: { search: "Cari Petugas:", zeroRecords: "Petugas tidak ditemukan" },
+                    columns: [
+                        { className: 'text-center text-slate-500 text-xs font-medium' },
+                        { className: 'font-semibold text-slate-900' },
+                        { className: 'text-right font-medium text-indigo-600', render: d => fmtNumber(d) },
+                        { className: 'text-right font-medium text-emerald-600', render: d => fmtNumber(d) },
+                        { className: 'text-right font-bold text-slate-900', render: d => fmtNumber(d) },
+                        {
+                            render: pct => `<div class="flex items-center gap-2"><div class="flex-1 h-1.5 bg-slate-100 rounded-full overflow-hidden"><div class="h-full bg-slate-600 rounded-full" style="width: ${Math.min(pct, 100)}%"></div></div><span class="text-xs text-slate-600 w-11 text-right">${pct}%</span></div>`
+                        },
+                        {
+                            render: pct => `<div class="flex items-center gap-2"><div class="flex-1 h-1.5 bg-slate-100 rounded-full overflow-hidden"><div class="h-full bg-blue-600 rounded-full" style="width: ${Math.min(pct, 100)}%"></div></div><span class="text-xs font-semibold text-blue-700 w-11 text-right">${pct}%</span></div>`
+                        }
+                    ]
+                });
+            }
+
+            const modal = document.getElementById('modal-petugas');
+            const backdrop = document.getElementById('modal-backdrop');
+            const panel = document.getElementById('modal-panel');
+            modal.classList.remove('hidden');
+            requestAnimationFrame(() => {
+                backdrop.classList.remove('opacity-0');
+                panel.classList.remove('opacity-0', 'scale-95');
+                panel.classList.add('opacity-100', 'scale-100');
+            });
+        }
+
+        function renderPetugasChart(kab) {
+            const ctx = document.getElementById('petugasChart').getContext('2d');
+            if (petugasChartInstance) petugasChartInstance.destroy();
+
+            if (appData.schema_type === 'status_v2') {
+                const list = [...kab.petugas];
+                petugasChartInstance = new Chart(ctx, {
+                    type: 'bar',
+                    data: {
+                        labels: list.map(p => p.nama),
+                        datasets: [
+                            { label: 'Clean', data: list.map(p => p.clean), backgroundColor: '#10b981', borderRadius: 3 },
+                            { label: 'Error', data: list.map(p => p.error), backgroundColor: '#ef4444', borderRadius: 3 },
+                            { label: 'Belum', data: list.map(p => p.belum), backgroundColor: '#94a3b8', borderRadius: 3 }
+                        ]
+                    },
+                    options: {
+                        indexAxis: 'y', responsive: true, maintainAspectRatio: false,
+                        plugins: {
+                            legend: { position: 'top', align: 'end', labels: { usePointStyle: true, boxWidth: 8, font: { size: 11 } } },
+                            tooltip: { mode: 'index', intersect: false }
+                        },
+                        scales: {
+                            x: { stacked: true, beginAtZero: true, grid: { color: '#e2e8f0' } },
+                            y: { stacked: true, grid: { display: false }, ticks: { font: { size: 11, weight: '500' } } }
+                        }
+                    }
+                });
+            } else {
+                const sortedPetugas = [...kab.petugas].sort((a, b) => b.total - a.total);
+                petugasChartInstance = new Chart(ctx, {
+                    type: 'bar',
+                    data: {
+                        labels: sortedPetugas.map(p => p.nama),
+                        datasets: [
+                            { label: 'Produksi', data: sortedPetugas.map(p => p.produksi), backgroundColor: '#4f46e5', borderRadius: 4 },
+                            { label: 'Konsumsi', data: sortedPetugas.map(p => p.konsumsi), backgroundColor: '#10b981', borderRadius: 4 }
+                        ]
+                    },
+                    options: {
+                        indexAxis: 'y', responsive: true, maintainAspectRatio: false,
+                        plugins: {
+                            legend: { position: 'top', align: 'end', labels: { usePointStyle: true, boxWidth: 8, font: { size: 11 } } },
+                            tooltip: { mode: 'index', intersect: false }
+                        },
+                        scales: {
+                            x: { stacked: true, beginAtZero: true, grid: { color: '#e2e8f0' } },
+                            y: { stacked: true, grid: { display: false }, ticks: { font: { size: 11, weight: '500' } } }
+                        }
+                    }
+                });
+            }
+        }
+
+        function closeModal() {
+            const modal = document.getElementById('modal-petugas');
+            const backdrop = document.getElementById('modal-backdrop');
+            const panel = document.getElementById('modal-panel');
+            backdrop.classList.add('opacity-0');
+            panel.classList.remove('opacity-100', 'scale-100');
+            panel.classList.add('opacity-0', 'scale-95');
+            setTimeout(() => modal.classList.add('hidden'), 200);
+        }
+    </script>
+</body>
+</html>
